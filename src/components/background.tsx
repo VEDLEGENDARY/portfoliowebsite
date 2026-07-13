@@ -220,9 +220,9 @@ export function Background() {
                 </div>
 
                 <ul className="space-y-3">
-                  {entry.bullets.map((bullet) => (
+                  {entry.bullets.map((bullet, index) => (
                     <li
-                      key={bullet}
+                      key={index}
                       className="flex gap-3 text-sm leading-relaxed"
                       style={{ color: "var(--color-muted)" }}
                     >
