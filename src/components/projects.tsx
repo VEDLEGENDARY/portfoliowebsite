@@ -161,8 +161,8 @@ export function Projects() {
                     NexDrop
                   </h3>
                   <p
-                    className="mt-1 text-sm"
-                    style={{ color: "var(--color-muted)" }}
+                    className="mt-1 text-sm font-medium"
+                    style={{ color: "var(--color-foreground-secondary)" }}
                   >
                     MLH-winning hackathon · AI/ML
                   </p>

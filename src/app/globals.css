@@ -27,8 +27,8 @@
   --color-accent-glow: rgba(185, 255, 102, 0.2);
   --color-accent-text: #080808;
 
-  /* ghost: just visible enough for large decorative numbers */
-  --color-ghost: rgba(255, 255, 255, 0.07);
+  /* ghost: slightly visible for large decorative numbers */
+  --color-ghost: rgba(255, 255, 255, 0.22);
 }
 
 /* ── Light mode overrides ── */
@@ -52,7 +52,7 @@ html[data-theme="light"] {
   --color-accent-glow: rgba(78, 140, 0, 0.15);
   --color-accent-text: #ffffff;
 
-  --color-ghost: rgba(0, 0, 0, 0.05);
+  --color-ghost: rgba(0, 0, 0, 0.18);
 }
 
 @layer base {
