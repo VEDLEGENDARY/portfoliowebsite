@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Syne } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 const inter = Inter({
@@ -32,10 +33,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${syne.variable} bg-[#080808] antialiased scroll-smooth`}
+      className={`${inter.variable} ${syne.variable} antialiased scroll-smooth`}
+      style={{ backgroundColor: "var(--color-background)", color: "var(--color-foreground)" }}
+      suppressHydrationWarning
     >
-      <body className="min-h-full bg-[#080808] text-[#f0f0f0] font-sans">
-        {children}
+      <body className="min-h-full font-sans bg-[var(--color-background)] text-[var(--color-foreground)]">
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

@@ -5,7 +5,18 @@ import { Contact } from "@/components/contact";
 
 export default function Home() {
   return (
-    <main className="relative overflow-x-hidden bg-[#080808]">
+    <main className="relative overflow-x-hidden">
+      {/* Inline script prevents flash of wrong theme before hydration */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            try {
+              var t = localStorage.getItem('vp-theme') || 'dark';
+              document.documentElement.setAttribute('data-theme', t);
+            } catch(e) {}
+          `,
+        }}
+      />
       <Hero />
       <Projects />
       <Background />
