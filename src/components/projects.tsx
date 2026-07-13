@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { Chip } from "@/components/chip";
 
 const projects = [
   {
@@ -190,17 +191,7 @@ export function Projects() {
 
               <div className="mt-6 flex flex-wrap gap-2">
                 {["OpenCV", "TensorFlow", "Scikit-learn", "CI/CD"].map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full px-3 py-1 text-xs"
-                    style={{
-                      border: "1px solid var(--color-border)",
-                      backgroundColor: "var(--color-surface-raised)",
-                      color: "var(--color-subtle)",
-                    }}
-                  >
-                    {tag}
-                  </span>
+                  <Chip key={tag}>{tag}</Chip>
                 ))}
               </div>
             </div>
@@ -288,16 +279,16 @@ export function Projects() {
                   {project.name}
                 </h3>
                 <span
-                  className="font-display text-xs"
-                  style={{ color: "var(--color-faint)" }}
+                  className="font-display text-2xl font-black tabular-nums"
+                  style={{ color: "var(--color-border-hover)" }}
                 >
                   {project.index}
                 </span>
               </div>
 
               <p
-                className="mb-3 text-xs"
-                style={{ color: "var(--color-subtle)" }}
+                className="mb-3 text-xs font-medium"
+                style={{ color: "var(--color-foreground-secondary)" }}
               >
                 {project.category}
               </p>
@@ -311,17 +302,7 @@ export function Projects() {
 
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full px-2.5 py-0.5 text-[11px]"
-                    style={{
-                      border: "1px solid var(--color-border)",
-                      backgroundColor: "var(--color-surface-raised)",
-                      color: "var(--color-subtle)",
-                    }}
-                  >
-                    {tag}
-                  </span>
+                  <Chip key={tag}>{tag}</Chip>
                 ))}
               </div>
 

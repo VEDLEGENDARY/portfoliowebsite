@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { GraduationCap, Briefcase, Trophy, ExternalLink } from "lucide-react";
+import { Chip } from "@/components/chip";
 
 const skills = [
   "Python",
@@ -151,8 +152,8 @@ export function Background() {
             >
               {/* Large ghost index */}
               <span
-                className="font-display pointer-events-none absolute right-6 top-4 select-none text-6xl font-black"
-                style={{ color: "var(--color-surface-raised)" }}
+                className="font-display pointer-events-none absolute right-6 top-4 select-none text-7xl font-black"
+                style={{ color: "var(--color-ghost)" }}
               >
                 0{i + 1}
               </span>
@@ -170,14 +171,8 @@ export function Background() {
                     <Briefcase className="h-4 w-4" />
                   </div>
                   <div>
-                    <p
-                      className="text-xs uppercase tracking-[0.3em]"
-                      style={{ color: "var(--color-subtle)" }}
-                    >
-                      Experience
-                    </p>
                     <h3
-                      className="font-display mt-1 text-xl font-black"
+                      className="font-display text-xl font-black"
                       style={{ color: "var(--color-foreground)" }}
                     >
                       {entry.role}
@@ -192,26 +187,8 @@ export function Background() {
                 </div>
 
                 <div className="mb-5 flex flex-wrap gap-2">
-                  <span
-                    className="rounded-full px-3 py-1 text-xs"
-                    style={{
-                      border: "1px solid var(--color-border)",
-                      backgroundColor: "var(--color-surface-raised)",
-                      color: "var(--color-muted)",
-                    }}
-                  >
-                    {entry.period}
-                  </span>
-                  <span
-                    className="rounded-full px-3 py-1 text-xs"
-                    style={{
-                      border: "1px solid var(--color-border)",
-                      backgroundColor: "var(--color-surface-raised)",
-                      color: "var(--color-muted)",
-                    }}
-                  >
-                    {entry.location}
-                  </span>
+                  <Chip>{entry.period}</Chip>
+                  <Chip>{entry.location}</Chip>
                 </div>
 
                 <ul className="space-y-3">
@@ -260,14 +237,8 @@ export function Background() {
                 <GraduationCap className="h-4 w-4" />
               </div>
               <div>
-                <p
-                  className="text-xs uppercase tracking-[0.3em]"
-                  style={{ color: "var(--color-subtle)" }}
-                >
-                  Education
-                </p>
                 <h3
-                  className="font-display mt-1 text-xl font-black leading-tight"
+                  className="font-display text-xl font-black leading-tight"
                   style={{ color: "var(--color-foreground)" }}
                 >
                   {education.school}
@@ -282,26 +253,8 @@ export function Background() {
             </div>
 
             <div className="mb-6 flex flex-wrap gap-2">
-              <span
-                className="rounded-full px-3 py-1 text-xs"
-                style={{
-                  border: "1px solid var(--color-border)",
-                  backgroundColor: "var(--color-surface-raised)",
-                  color: "var(--color-muted)",
-                }}
-              >
-                {education.period}
-              </span>
-              <span
-                className="rounded-full px-3 py-1 text-xs"
-                style={{
-                  border: "1px solid var(--color-border)",
-                  backgroundColor: "var(--color-surface-raised)",
-                  color: "var(--color-muted)",
-                }}
-              >
-                {education.location}
-              </span>
+              <Chip>{education.period}</Chip>
+              <Chip>{education.location}</Chip>
             </div>
 
             <div className="space-y-2.5">
@@ -352,7 +305,7 @@ export function Background() {
             </p>
             <div className="flex flex-wrap gap-2">
               {skills.map((skill, i) => (
-                <motion.span
+                <motion.div
                   key={skill}
                   initial={{ opacity: 0, scale: 0.85 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -362,24 +315,9 @@ export function Background() {
                     delay: 0.02 * i,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  className="cursor-default rounded-full px-3 py-1.5 text-sm transition-colors duration-200"
-                  style={{
-                    border: "1px solid var(--color-border)",
-                    backgroundColor: "var(--color-surface-raised)",
-                    color: "var(--color-muted)",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor =
-                      "var(--color-accent-dim)";
-                    e.currentTarget.style.color = "var(--color-accent)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "var(--color-border)";
-                    e.currentTarget.style.color = "var(--color-muted)";
-                  }}
                 >
-                  {skill}
-                </motion.span>
+                  <Chip>{skill}</Chip>
+                </motion.div>
               ))}
             </div>
           </motion.div>

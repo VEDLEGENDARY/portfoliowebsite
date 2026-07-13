@@ -3,8 +3,9 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { ArrowUpRight, Download, Mail, MapPin, Moon, Sun } from "lucide-react";
+import { ArrowUpRight, Download, Mail, Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
+import { Chip } from "@/components/chip";
 
 const stats = [
   { value: "500+", label: "accounts supported" },
@@ -179,28 +180,22 @@ export function Hero() {
         style={{ y: heroY, opacity: heroOpacity }}
         className="relative z-10 mx-auto max-w-screen-xl px-5 pb-20 pt-8 sm:px-10 lg:px-16"
       >
-        {/* Eyebrow */}
+        {/* Eyebrow chips row */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2"
-          style={{
-            border: "1px solid var(--color-border)",
-            backgroundColor: "var(--color-surface)",
-          }}
+          className="mb-8 flex flex-wrap items-center gap-2"
         >
           <span
-            className="h-1.5 w-1.5 animate-pulse rounded-full"
+            className="h-1.5 w-1.5 animate-pulse shrink-0 rounded-full"
             style={{ backgroundColor: "var(--color-accent)" }}
           />
-          <span
-            className="text-xs font-medium"
-            style={{ color: "var(--color-muted)" }}
-          >
-            CS sophomore at UT Dallas · Irving, TX
-          </span>
-          <MapPin className="h-3 w-3" style={{ color: "var(--color-subtle)" }} />
+          <Chip>CS sophomore · UT Dallas · Irving, TX</Chip>
+          <Chip>MLH-winning hackathon · AI/ML</Chip>
+          <Chip>Fine-tuned LLM · Chrome Extension</Chip>
+          <Chip>TSA National #1 · Web Dev</Chip>
+          <Chip>Production fintech app</Chip>
         </motion.div>
 
         {/* Headline */}
