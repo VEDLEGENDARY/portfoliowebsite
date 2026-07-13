@@ -133,7 +133,7 @@ export function Background() {
             className="font-display text-5xl font-black leading-[0.9] tracking-[-0.04em] sm:text-6xl"
             style={{ color: "var(--color-foreground)" }}
           >
-            Experience &amp; Education
+            Experiences
           </h2>
         </div>
         <a

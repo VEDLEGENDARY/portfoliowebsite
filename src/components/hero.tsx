@@ -8,13 +8,6 @@ import { useTheme } from "@/components/theme-provider";
 import { Chip } from "@/components/chip";
 import { Highlight } from "@/components/highlight";
 
-const stats = [
-  { value: "500+", label: "fintech accounts supported" },
-  { value: "9,000+", label: "transactions processed by APIs" },
-  { value: "6,000+", label: "fund entries auto-synced daily" },
-  { value: "20+ hrs", label: "manual work eliminated weekly" },
-];
-
 const navLinks = [
   { label: "Work", href: "#projects" },
   { label: "Background", href: "#background" },
@@ -181,24 +174,6 @@ export function Hero() {
         style={{ y: heroY, opacity: heroOpacity }}
         className="relative z-10 mx-auto max-w-screen-xl px-5 pb-20 pt-8 sm:px-10 lg:px-16"
       >
-        {/* Eyebrow chips row */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8 flex flex-wrap items-center gap-2"
-        >
-          <span
-            className="h-1.5 w-1.5 animate-pulse shrink-0 rounded-full"
-            style={{ backgroundColor: "var(--color-accent)" }}
-          />
-          <Chip>CS sophomore · UT Dallas · Irving, TX</Chip>
-          <Chip>MLH-winning hackathon · AI/ML</Chip>
-          <Chip>Fine-tuned LLM · Chrome Extension</Chip>
-          <Chip>TSA National #1 · Web Dev</Chip>
-          <Chip>Production fintech app</Chip>
-        </motion.div>
-
         {/* Headline */}
         <div className="overflow-hidden">
           <motion.h1
@@ -210,7 +185,7 @@ export function Hero() {
           >
             I build{" "}
             <em className="not-italic" style={{ color: "var(--color-accent)" }}>
-              AI-powered
+              AI - powered
             </em>
           </motion.h1>
         </div>
@@ -263,7 +238,7 @@ export function Hero() {
                   e.currentTarget.style.color = "var(--color-background)";
                 }}
               >
-                See my work
+                See My Work
                 <ArrowUpRight className="h-4 w-4" />
               </a>
               <a
@@ -272,56 +247,20 @@ export function Hero() {
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors duration-200"
                 style={{
-                  border: "1px solid var(--color-border)",
-                  color: "var(--color-muted)",
+                  border: "2px solid var(--color-border)",
+                  color: "var(--color-white)",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor =
                     "var(--color-border-hover)";
-                  e.currentTarget.style.color = "var(--color-foreground)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = "var(--color-border)";
-                  e.currentTarget.style.color = "var(--color-muted)";
                 }}
               >
-                <Download className="h-4 w-4" />
                 Resume PDF
+                <ArrowUpRight className="h-4 w-4" />
               </a>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {stats.map((s, i) => (
-                <motion.div
-                  key={s.label}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.52 + i * 0.07,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  className="rounded-2xl p-4"
-                  style={{
-                    border: "1px solid var(--color-border)",
-                    backgroundColor: "var(--color-surface)",
-                  }}
-                >
-                  <div
-                    className="font-display text-2xl font-black"
-                    style={{ color: "var(--color-foreground)" }}
-                  >
-                    {s.value}
-                  </div>
-                  <div
-                    className="mt-1 text-xs leading-snug"
-                    style={{ color: "var(--color-subtle)" }}
-                  >
-                    {s.label}
-                  </div>
-                </motion.div>
-              ))}
             </div>
           </motion.div>
 
