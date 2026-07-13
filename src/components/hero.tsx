@@ -6,12 +6,13 @@ import { useRef } from "react";
 import { ArrowUpRight, Download, Mail, Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { Chip } from "@/components/chip";
+import { Highlight } from "@/components/highlight";
 
 const stats = [
-  { value: "500+", label: "accounts supported" },
-  { value: "9,000+", label: "transactions processed" },
-  { value: "6,000+", label: "fund entries automated" },
-  { value: "30–40%", label: "traffic lift" },
+  { value: "500+", label: "fintech accounts supported" },
+  { value: "9,000+", label: "transactions processed by APIs" },
+  { value: "6,000+", label: "fund entries auto-synced daily" },
+  { value: "20+ hrs", label: "manual work eliminated weekly" },
 ];
 
 const navLinks = [
@@ -208,11 +209,8 @@ export function Hero() {
             style={{ color: "var(--color-foreground)" }}
           >
             I build{" "}
-            <em
-              className="not-italic"
-              style={{ color: "var(--color-accent)" }}
-            >
-              software
+            <em className="not-italic" style={{ color: "var(--color-accent)" }}>
+              AI-powered
             </em>
           </motion.h1>
         </div>
@@ -224,7 +222,7 @@ export function Hero() {
             className="font-display font-black leading-[0.86] tracking-[-0.04em] text-[clamp(2.8rem,8.5vw,8rem)]"
             style={{ color: "var(--color-subtle)" }}
           >
-            that ships.
+            software.
           </motion.h1>
         </div>
 
@@ -241,9 +239,10 @@ export function Hero() {
               className="max-w-[520px] text-lg leading-relaxed"
               style={{ color: "var(--color-muted)" }}
             >
-              Fintech APIs, computer vision pipelines, and full-stack products
-              with measurable impact. Award-winning at competitions, shipped to
-              production.
+              From <Highlight>fine-tuned language models</Highlight> and{" "}
+              <Highlight>computer vision pipelines</Highlight> to production
+              fintech APIs — I build systems that automate real workflows and
+              ship to real users.
             </p>
 
             <div className="flex flex-wrap gap-3">
@@ -368,7 +367,7 @@ export function Hero() {
                   Open to opportunities
                 </p>
                 <p className="mt-0.5 text-sm" style={{ color: "#bbb" }}>
-                  Fintech · AI/ML · Full-stack
+                  AI/ML · Automation · Fintech · Full-stack
                 </p>
               </div>
             </div>

@@ -1,17 +1,39 @@
 "use client";
 
 import Image from "next/image";
+import { type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { Chip } from "@/components/chip";
+import { Highlight } from "@/components/highlight";
 
-const projects = [
+type Project = {
+  index: string;
+  name: string;
+  category: string;
+  description: ReactNode;
+  tags: string[];
+  image: string;
+  link: string;
+  linkLabel: string;
+  badge: string;
+  accent: string;
+  extraLink?: string;
+  extraLabel?: string;
+};
+
+const projects: Project[] = [
   {
     index: "01",
     name: "NexDrop",
     category: "MLH-winning hackathon · AI/ML",
-    description:
-      "Computer vision pipeline that extracts roof areas from satellite imagery and scores ROI for water-harvesting lead generation. Built with OpenCV, TensorFlow, and Scikit-learn.",
+    description: (
+      <>
+        <Highlight>Computer vision</Highlight> pipeline extracting roof areas
+        from satellite imagery and scoring ROI for water-harvesting lead
+        generation. Built with OpenCV, TensorFlow, and Scikit-learn.
+      </>
+    ),
     tags: ["OpenCV", "TensorFlow", "Scikit-learn", "CI/CD"],
     image: "/nexdrop.png",
     link: "https://github.com/nshah2006/NexDrop/",
@@ -23,8 +45,14 @@ const projects = [
     index: "02",
     name: "TruScope",
     category: "Fine-tuned LLM · Chrome Extension",
-    description:
-      "Bias and clickbait detection stack spanning a web app and Chrome extension, powered by a fine-tuned language model. Shipped to the Chrome Web Store with a 5.0 rating.",
+    description: (
+      <>
+        Bias and clickbait detection powered by a{" "}
+        <Highlight>fine-tuned language model</Highlight>. Ships as both a web
+        app and <Highlight>Chrome extension</Highlight> — live on the Chrome
+        Web Store with a 5.0 rating.
+      </>
+    ),
     tags: ["AI", "Text Classification", "Browser Extension"],
     image: "/truscope.png",
     link: "https://truscope.app/",
@@ -39,8 +67,14 @@ const projects = [
     index: "03",
     name: "NaviEats",
     category: "TSA National #1 · Web Dev",
-    description:
-      "Backend web project ranked #1 nationally at TSA. A polished, performance-focused solution with production-ready architecture and thoughtful UX flows.",
+    description: (
+      <>
+        Full-stack web project ranked{" "}
+        <Highlight>#1 nationally at TSA</Highlight>. Production-ready
+        architecture, smart <Highlight>backend automation</Highlight>, and
+        polished UX — built and judged against the best in the country.
+      </>
+    ),
     tags: ["Web Dev", "Backend", "National #1"],
     image: "/navieats.png",
     link: "https://navieats.netlify.app/",
@@ -52,8 +86,15 @@ const projects = [
     index: "04",
     name: "VFIN",
     category: "Production fintech app",
-    description:
-      "API layer supporting a live fintech product handling legal and transactional data for 500+ accounts. Scalable Node.js & Python endpoints, daily automation, and 12 investment calculators.",
+    description: (
+      <>
+        API layer for a live fintech app handling legal and transactional data
+        for 500+ accounts.{" "}
+        <Highlight>Daily automation pipelines</Highlight> in Python sync 6,000+
+        fund entries and power 12{" "}
+        <Highlight>investment calculators</Highlight> on iOS and Android.
+      </>
+    ),
     tags: ["Node.js", "Python", "PostgreSQL", "Mobile APIs"],
     image: "/vfin.png",
     link: "https://play.google.com/store/search?q=vfin&c=apps",
@@ -109,8 +150,9 @@ export function Projects() {
           className="max-w-sm text-sm leading-relaxed"
           style={{ color: "var(--color-subtle)" }}
         >
-          From hackathon wins to fintech production — ML, backend, and
-          full-stack work that solves real problems.
+          Hackathon-winning <Highlight>ML pipelines</Highlight>, live{" "}
+          <Highlight>LLM-powered</Highlight> apps, and production fintech
+          backends — built to solve real problems.
         </p>
       </motion.div>
 
@@ -183,10 +225,12 @@ export function Projects() {
                 className="text-base leading-relaxed"
                 style={{ color: "var(--color-muted)" }}
               >
-                Computer vision pipeline extracting roof areas from satellite
-                imagery and scoring ROI for water-harvesting lead generation.
-                Built with OpenCV, TensorFlow, and Scikit-learn, with automated
-                CI/CD around precipitation history and surface area analysis.
+                <Highlight>Computer vision pipeline</Highlight> that extracts
+                roof areas from satellite imagery and scores ROI for
+                water-harvesting lead generation. Built with{" "}
+                <Highlight>TensorFlow</Highlight> and{" "}
+                <Highlight>Scikit-learn</Highlight>, with fully automated CI/CD
+                around precipitation history and surface area analysis.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-2">

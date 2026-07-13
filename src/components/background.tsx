@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { GraduationCap, Briefcase, Trophy, ExternalLink } from "lucide-react";
 import { Chip } from "@/components/chip";
+import { Highlight } from "@/components/highlight";
+import { type ReactNode } from "react";
 
 const skills = [
   "Python",
@@ -23,16 +25,35 @@ const skills = [
   "Git",
 ];
 
-const experience = [
+type ExperienceEntry = {
+  role: string;
+  org: string;
+  period: string;
+  location: string;
+  bullets: ReactNode[];
+};
+
+const experience: ExperienceEntry[] = [
   {
     role: "Junior Full Stack Developer Intern",
     org: "VisorFin Tech Services (VFIN)",
     period: "Jun 2025 – Feb 2026",
     location: "Gurugram, Delhi NCR",
     bullets: [
-      "Architected ~10 RESTful APIs in Node.js and Python to securely process legal and transactional data for 500+ accounts and 9,000+ transactions.",
-      "Automated 6,000+ mutual fund data entries updated daily via cloud hosting with Python and PostgreSQL, removing 20+ hours of manual work each week.",
-      "Integrated 12 investment-plan calculators into Kotlin Android and Swift iOS apps, delivered one day ahead of schedule.",
+      <>
+        Architected ~10 <Highlight>RESTful APIs</Highlight> in Node.js and
+        Python to securely process legal and transactional data for 500+
+        accounts and 9,000+ transactions.
+      </>,
+      <>
+        Built a <Highlight>daily automation pipeline</Highlight> syncing 6,000+
+        mutual fund entries via cloud-hosted Python and PostgreSQL — eliminating
+        20+ hours of manual work per week.
+      </>,
+      <>
+        Integrated 12 <Highlight>investment-plan calculators</Highlight> into
+        Kotlin Android and Swift iOS apps, delivered one day ahead of schedule.
+      </>,
     ],
   },
   {
@@ -41,9 +62,16 @@ const experience = [
     period: "2023 – 2024",
     location: "Remote",
     bullets: [
-      "Developed and taught curriculum for SAT Math, VEX Robotics, and CS — average score increase of 50 points.",
-      "Designed interactive coding workshops with Python projects that improved confidence and class participation.",
-      "Maintained ~90% student retention across sessions through structured, practical lessons.",
+      <>
+        Developed and taught curriculum for SAT Math,{" "}
+        <Highlight>VEX Robotics</Highlight>, and CS — average student score
+        increase of 50 points.
+      </>,
+      <>
+        Designed interactive <Highlight>Python coding workshops</Highlight> that
+        increased confidence and class participation across all sessions.
+      </>,
+      "Maintained ~90% student retention through structured, practical lessons built around real project outcomes.",
     ],
   },
 ];
@@ -105,7 +133,7 @@ export function Background() {
             className="font-display text-5xl font-black leading-[0.9] tracking-[-0.04em] sm:text-6xl"
             style={{ color: "var(--color-foreground)" }}
           >
-            Experience
+            Experience &amp; Education
           </h2>
         </div>
         <a

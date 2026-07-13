@@ -2,11 +2,14 @@
 
 import { motion } from "framer-motion";
 import { Code2, Download, ExternalLink, Mail } from "lucide-react";
+import { Chip } from "@/components/chip";
 
 const highlights = [
-  "CS sophomore at UT Dallas",
-  "Fintech & automation experience",
-  "Computer vision & ML wins",
+  "AI/ML · LLMs · Computer Vision",
+  "Production fintech APIs",
+  "Automation pipelines",
+  "MLH hackathon winner",
+  "TSA National #1",
   "End-to-end product delivery",
 ];
 
@@ -82,8 +85,11 @@ export function Contact() {
                 className="mt-8 max-w-lg text-lg leading-relaxed"
                 style={{ color: "var(--color-muted)" }}
               >
-                Open to opportunities where product quality matters and
-                implementations need to stand up under real usage.
+                Open to internships and projects at the intersection of{" "}
+                <span style={{ color: "var(--color-accent)" }}>AI</span>,{" "}
+                <span style={{ color: "var(--color-accent)" }}>automation</span>
+                , and product — where implementations need to stand up under
+                real usage.
               </p>
             </div>
 
@@ -138,17 +144,7 @@ export function Contact() {
             style={{ borderColor: "var(--color-border)" }}
           >
             {highlights.map((item) => (
-              <div
-                key={item}
-                className="rounded-full px-4 py-2 text-sm"
-                style={{
-                  border: "1px solid var(--color-border)",
-                  backgroundColor: "var(--color-surface-raised)",
-                  color: "var(--color-muted)",
-                }}
-              >
-                {item}
-              </div>
+              <Chip key={item}>{item}</Chip>
             ))}
           </div>
         </div>
