@@ -53,7 +53,7 @@ export function Cursor() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const size = hovering ? 46 : 28;
+  const size = hovering ? 28 : 14;
 
   return (
     <motion.div
