@@ -3,6 +3,7 @@ import { Projects } from "@/components/projects";
 import { Background } from "@/components/background";
 import { Contact } from "@/components/contact";
 import { Preloader } from "@/components/preloader";
+import { Cursor } from "@/components/cursor";
 
 export default function Home() {
   return (
