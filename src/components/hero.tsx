@@ -1,7 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+  useMotionTemplate,
+} from "framer-motion";
 import { ArrowUpRight, Download, Mail, Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 
@@ -11,29 +18,76 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-const stats = [
-  { value: "4+", label: "Products shipped" },
-  { value: "#1", label: "TSA National" },
-  { value: "MLH", label: "Hackathon win" },
+const rotatingWords = ["intelligent", "resilient", "elegant", "scalable"];
+
+const marqueeItems = [
+  "Python",
+  "TypeScript",
+  "React",
+  "Next.js",
+  "Node.js",
+  "PostgreSQL",
+  "TensorFlow",
+  "OpenCV",
+  "Supabase",
+  "REST APIs",
 ];
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
 export function Hero() {
   const { theme, toggleTheme } = useTheme();
+  const [wordIndex, setWordIndex] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Cursor-follow spotlight
+  const glowX = useMotionValue(50);
+  const glowY = useMotionValue(30);
+  const smoothX = useSpring(glowX, { stiffness: 120, damping: 30, mass: 0.4 });
+  const smoothY = useSpring(glowY, { stiffness: 120, damping: 30, mass: 0.4 });
+
+  useEffect(() => {
+    const id = setInterval(
+      () => setWordIndex((i) => (i + 1) % rotatingWords.length),
+      2400,
+    );
+    return () => clearInterval(id);
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = sectionRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    glowX.set(((e.clientX - rect.left) / rect.width) * 100);
+    glowY.set(((e.clientY - rect.top) / rect.height) * 100);
+  };
 
   return (
     <section
-      className="relative flex h-[100svh] min-h-[620px] flex-col overflow-hidden"
+      ref={sectionRef}
+      onMouseMove={handleMouseMove}
+      className="relative flex h-[100svh] min-h-[640px] flex-col overflow-hidden"
       style={{ backgroundColor: "var(--color-background)" }}
     >
-      {/* grid + glow backdrop */}
+      {/* grid backdrop */}
       <div className="vp-grid-bg pointer-events-none absolute inset-0 opacity-60" />
+
+      {/* cursor-follow spotlight */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background: useMotionTemplate`radial-gradient(520px circle at ${smoothX}% ${smoothY}%, var(--color-accent-glow), transparent 70%)`,
+        }}
+      />
+
+      {/* static top glow */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-52 left-1/2 h-[640px] w-[640px] -translate-x-1/2 rounded-full opacity-[0.06] blur-[150px]"
+        className="pointer-events-none absolute -top-52 left-1/2 h-[640px] w-[640px] -translate-x-1/2 rounded-full opacity-[0.05] blur-[150px]"
         style={{ backgroundColor: "var(--color-accent)" }}
       />
+
+      {/* film grain */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 z-50 opacity-[0.02]"
@@ -73,7 +127,7 @@ export function Hero() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium transition-colors duration-200"
+              className="group relative text-sm font-medium transition-colors duration-200"
               style={{ color: "var(--color-muted)" }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.color = "var(--color-foreground)")
@@ -83,6 +137,10 @@ export function Hero() {
               }
             >
               {link.label}
+              <span
+                className="absolute -bottom-1 left-0 h-px w-0 transition-all duration-300 group-hover:w-full"
+                style={{ backgroundColor: "var(--color-accent)" }}
+              />
             </a>
           ))}
         </div>
@@ -156,7 +214,7 @@ export function Hero() {
       </motion.nav>
 
       {/* ── Hero body (fills remaining viewport) ── */}
-      <div className="relative z-10 flex flex-1 items-center px-5 py-4 sm:px-10 lg:px-16">
+      <div className="relative z-10 flex flex-1 items-center px-5 sm:px-10 lg:px-16">
         <div className="mx-auto grid w-full max-w-screen-xl items-center gap-10 min-[900px]:grid-cols-[1.15fr_0.85fr]">
           {/* Left */}
           <div>
@@ -203,16 +261,20 @@ export function Hero() {
                   I build
                 </motion.span>
               </span>
-              <span className="block overflow-hidden">
-                <motion.span
-                  className="block"
-                  initial={{ y: "105%" }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 0.9, ease, delay: 0.37 }}
-                  style={{ color: "var(--color-accent)" }}
-                >
-                  intelligent
-                </motion.span>
+              <span className="relative block overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={rotatingWords[wordIndex]}
+                    className="block"
+                    initial={{ y: "105%", opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: "-105%", opacity: 0 }}
+                    transition={{ duration: 0.55, ease }}
+                    style={{ color: "var(--color-accent)" }}
+                  >
+                    {rotatingWords[wordIndex]}
+                  </motion.span>
+                </AnimatePresence>
               </span>
               <span className="block overflow-hidden">
                 <motion.span
@@ -283,32 +345,6 @@ export function Hero() {
                 <Download className="h-4 w-4" />
               </a>
             </motion.div>
-
-            {/* Stat row */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.78, ease }}
-              className="mt-10 flex gap-8 border-t pt-6"
-              style={{ borderColor: "var(--color-border)" }}
-            >
-              {stats.map((s) => (
-                <div key={s.label}>
-                  <p
-                    className="font-display text-2xl font-extrabold tracking-tight sm:text-3xl"
-                    style={{ color: "var(--color-foreground)" }}
-                  >
-                    {s.value}
-                  </p>
-                  <p
-                    className="mt-0.5 text-xs"
-                    style={{ color: "var(--color-subtle)" }}
-                  >
-                    {s.label}
-                  </p>
-                </div>
-              ))}
-            </motion.div>
           </div>
 
           {/* Right: Portrait */}
@@ -318,9 +354,24 @@ export function Hero() {
             transition={{ duration: 1, delay: 0.4, ease }}
             className="relative mx-auto hidden w-full max-w-[340px] min-[900px]:block min-[900px]:max-w-full"
           >
+            {/* rotating accent ring */}
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute -inset-3 rounded-[2rem] opacity-70"
+              style={{
+                background:
+                  "conic-gradient(from 0deg, transparent 55%, var(--color-accent) 90%, transparent 100%)",
+                filter: "blur(2px)",
+              }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
+            />
             <div
               className="relative overflow-hidden rounded-3xl"
-              style={{ border: "1px solid var(--color-border)" }}
+              style={{
+                border: "1px solid var(--color-border)",
+                backgroundColor: "var(--color-background)",
+              }}
             >
               <Image
                 src="/profilepic.jpeg"
@@ -328,101 +379,68 @@ export function Hero() {
                 width={680}
                 height={860}
                 priority
-                className="h-[clamp(320px,44vh,460px)] w-full object-cover object-top"
+                className="h-[clamp(340px,46vh,480px)] w-full object-cover object-top"
               />
               <div
-                className="absolute inset-x-0 bottom-0 h-28"
+                className="absolute inset-x-0 bottom-0 h-32"
                 style={{
                   background:
-                    "linear-gradient(to top, rgba(8,8,8,0.78) 0%, transparent 100%)",
+                    "linear-gradient(to top, rgba(8,8,8,0.82) 0%, transparent 100%)",
                 }}
               />
               <div
-                className="absolute bottom-4 left-4 right-4 rounded-2xl p-3.5 backdrop-blur-xl"
+                className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-2xl px-4 py-3 backdrop-blur-xl"
                 style={{
                   backgroundColor: "rgba(8,8,8,0.55)",
                   border: "1px solid rgba(255,255,255,0.1)",
                 }}
               >
-                <p
-                  className="text-xs font-bold uppercase tracking-widest"
+                <div>
+                  <p
+                    className="text-xs font-bold uppercase tracking-widest"
+                    style={{ color: "var(--color-accent)" }}
+                  >
+                    Open to work
+                  </p>
+                  <p className="mt-0.5 text-sm" style={{ color: "#bbb" }}>
+                    AI/ML · Automation · Full-stack
+                  </p>
+                </div>
+                <ArrowUpRight
+                  className="h-5 w-5"
                   style={{ color: "var(--color-accent)" }}
-                >
-                  Open to opportunities
-                </p>
-                <p className="mt-0.5 text-sm" style={{ color: "#bbb" }}>
-                  AI/ML · Automation · Full-stack
-                </p>
+                />
               </div>
             </div>
-
-            <motion.div
-              animate={{ y: [0, -7, 0] }}
-              transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -right-3 top-8 rounded-2xl px-4 py-2.5 shadow-2xl sm:-right-6"
-              style={{
-                backgroundColor: "var(--color-surface)",
-                border: "1px solid var(--color-border)",
-              }}
-            >
-              <p
-                className="text-xs font-bold"
-                style={{ color: "var(--color-accent)" }}
-              >
-                MLH Winner
-              </p>
-              <p className="text-[11px]" style={{ color: "var(--color-subtle)" }}>
-                NexDrop · 2024
-              </p>
-            </motion.div>
-
-            <motion.div
-              animate={{ y: [0, 6, 0] }}
-              transition={{
-                duration: 3.7,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.9,
-              }}
-              className="absolute -left-3 bottom-24 rounded-2xl px-4 py-2.5 shadow-2xl sm:-left-6"
-              style={{
-                backgroundColor: "var(--color-surface)",
-                border: "1px solid var(--color-border)",
-              }}
-            >
-              <p
-                className="text-xs font-bold"
-                style={{ color: "var(--color-foreground)" }}
-              >
-                #1 National
-              </p>
-              <p className="text-[11px]" style={{ color: "var(--color-subtle)" }}>
-                TSA Web Dev
-              </p>
-            </motion.div>
           </motion.div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* ── Tech marquee footer ── */}
       <motion.div
-        className="relative z-10 flex shrink-0 justify-center pb-5"
+        className="vp-marquee relative z-10 shrink-0 overflow-hidden border-t py-4"
+        style={{ borderColor: "var(--color-border)" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
+        transition={{ delay: 1, duration: 0.8 }}
         aria-hidden
       >
-        <motion.div
-          animate={{ y: [0, 7, 0] }}
-          transition={{ duration: 1.7, repeat: Infinity, ease: "easeInOut" }}
-          className="flex h-9 w-5 items-start justify-center rounded-full pt-2"
-          style={{ border: "1px solid var(--color-border)" }}
-        >
-          <div
-            className="h-1.5 w-1 rounded-full"
-            style={{ backgroundColor: "var(--color-accent)" }}
-          />
-        </motion.div>
+        <div className="vp-marquee-track gap-10">
+          {[...marqueeItems, ...marqueeItems].map((item, i) => (
+            <div key={i} className="flex items-center gap-10">
+              <span
+                className="text-sm font-semibold tracking-wide whitespace-nowrap"
+                style={{ color: "var(--color-subtle)" }}
+              >
+                {item}
+              </span>
+              <span
+                className="h-1 w-1 rounded-full"
+                style={{ backgroundColor: "var(--color-accent)" }}
+              />
+            </div>
+          ))}
+        </div>
       </motion.div>
     </section>
   );
