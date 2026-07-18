@@ -8,8 +8,7 @@ const highlights = [
   "AI/ML · LLMs · Computer Vision",
   "Production fintech APIs",
   "Automation pipelines",
-  "MLH hackathon winner",
-  "TSA National #1",
+  "Full-stack web apps",
   "End-to-end product delivery",
 ];
 
@@ -107,20 +106,7 @@ export function Contact() {
                 href="/VedP_Resume.pdf"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition-colors duration-200"
-                style={{
-                  border: "1px solid var(--color-border)",
-                  color: "var(--color-muted)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor =
-                    "var(--color-border-hover)";
-                  e.currentTarget.style.color = "var(--color-foreground)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "var(--color-border)";
-                  e.currentTarget.style.color = "var(--color-muted)";
-                }}
+                className="resume-btn inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold"
               >
                 <Download className="h-4 w-4" />
                 Resume PDF
@@ -162,7 +148,7 @@ export function Contact() {
           </div>
           <span
             className="text-sm font-semibold"
-            style={{ color: "var(--color-muted)" }}
+            style={{ color: "var(--color-foreground)" }}
           >
             Ved Patel
           </span>
@@ -176,13 +162,13 @@ export function Contact() {
               href={href}
               target={href.startsWith("mailto") ? undefined : "_blank"}
               rel={href.startsWith("mailto") ? undefined : "noreferrer"}
-              className="inline-flex items-center gap-1.5 text-sm transition-colors duration-200"
-              style={{ color: "var(--color-subtle)" }}
+              className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors duration-200"
+              style={{ color: "var(--color-foreground)" }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.color = "var(--color-accent)")
               }
               onMouseLeave={(e) =>
-                (e.currentTarget.style.color = "var(--color-subtle)")
+                (e.currentTarget.style.color = "var(--color-foreground)")
               }
             >
               <Icon className="h-4 w-4" />
@@ -193,13 +179,13 @@ export function Contact() {
             href="https://www.linkedin.com/in/vedpatel2006/"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm transition-colors duration-200"
-            style={{ color: "var(--color-subtle)" }}
+            className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors duration-200"
+            style={{ color: "var(--color-foreground)" }}
             onMouseEnter={(e) =>
               (e.currentTarget.style.color = "var(--color-accent)")
             }
             onMouseLeave={(e) =>
-              (e.currentTarget.style.color = "var(--color-subtle)")
+              (e.currentTarget.style.color = "var(--color-foreground)")
             }
           >
             <ExternalLink className="h-4 w-4" />

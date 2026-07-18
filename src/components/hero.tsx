@@ -1,14 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useMotionValue,
-  useSpring,
-  useMotionTemplate,
-} from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Download, Mail, Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 
@@ -23,14 +17,26 @@ const rotatingWords = ["intelligent", "resilient", "elegant", "scalable"];
 const marqueeItems = [
   "Python",
   "TypeScript",
+  "Java",
+  "C++",
+  "Go",
   "React",
   "Next.js",
   "Node.js",
   "PostgreSQL",
-  "TensorFlow",
-  "OpenCV",
-  "Supabase",
+  "MongoDB",
+  "Redis",
+  "GraphQL",
   "REST APIs",
+  "TensorFlow",
+  "PyTorch",
+  "OpenCV",
+  "Docker",
+  "Kubernetes",
+  "AWS",
+  "CI/CD",
+  "Git",
+  "Linux",
 ];
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -38,13 +44,6 @@ const ease = [0.16, 1, 0.3, 1] as const;
 export function Hero() {
   const { theme, toggleTheme } = useTheme();
   const [wordIndex, setWordIndex] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  // Cursor-follow spotlight
-  const glowX = useMotionValue(50);
-  const glowY = useMotionValue(30);
-  const smoothX = useSpring(glowX, { stiffness: 120, damping: 30, mass: 0.4 });
-  const smoothY = useSpring(glowY, { stiffness: 120, damping: 30, mass: 0.4 });
 
   useEffect(() => {
     const id = setInterval(
@@ -54,31 +53,13 @@ export function Hero() {
     return () => clearInterval(id);
   }, []);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = sectionRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    glowX.set(((e.clientX - rect.left) / rect.width) * 100);
-    glowY.set(((e.clientY - rect.top) / rect.height) * 100);
-  };
-
   return (
     <section
-      ref={sectionRef}
-      onMouseMove={handleMouseMove}
       className="relative flex h-[100svh] min-h-[640px] flex-col overflow-hidden"
       style={{ backgroundColor: "var(--color-background)" }}
     >
       {/* grid backdrop */}
       <div className="vp-grid-bg pointer-events-none absolute inset-0 opacity-60" />
-
-      {/* cursor-follow spotlight */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-0"
-        style={{
-          background: useMotionTemplate`radial-gradient(520px circle at ${smoothX}% ${smoothY}%, var(--color-accent-glow), transparent 70%)`,
-        }}
-      />
 
       {/* static top glow */}
       <div
@@ -175,19 +156,7 @@ export function Hero() {
             href="/VedP_Resume.pdf"
             target="_blank"
             rel="noreferrer"
-            className="hidden items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-colors duration-200 sm:inline-flex"
-            style={{
-              border: "1px solid var(--color-border)",
-              color: "var(--color-muted)",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "var(--color-border-hover)";
-              e.currentTarget.style.color = "var(--color-foreground)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "var(--color-border)";
-              e.currentTarget.style.color = "var(--color-muted)";
-            }}
+            className="resume-btn hidden items-center gap-1.5 px-4 py-2 text-xs font-semibold sm:inline-flex"
           >
             <Download className="h-3.5 w-3.5" />
             Resume
@@ -329,17 +298,7 @@ export function Hero() {
                 href="/VedP_Resume.pdf"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors duration-200"
-                style={{
-                  border: "1px solid var(--color-border)",
-                  color: "var(--color-foreground)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "var(--color-border-hover)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "var(--color-border)";
-                }}
+                className="resume-btn inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold"
               >
                 Resume
                 <Download className="h-4 w-4" />
@@ -352,46 +311,21 @@ export function Hero() {
             initial={{ opacity: 0, scale: 0.96, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4, ease }}
-            className="relative mx-auto hidden w-full max-w-[340px] min-[900px]:block min-[900px]:max-w-full"
+            className="relative mx-auto hidden w-full max-w-[360px] min-[900px]:block min-[900px]:max-w-[420px]"
           >
-            {/* rotating accent ring */}
-            <motion.div
-              aria-hidden
-              className="pointer-events-none absolute -inset-3 rounded-[2rem] opacity-70"
-              style={{
-                background:
-                  "conic-gradient(from 0deg, transparent 55%, var(--color-accent) 90%, transparent 100%)",
-                filter: "blur(2px)",
-              }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
-            />
-            <div
-              className="relative overflow-hidden rounded-3xl"
-              style={{
-                border: "1px solid var(--color-border)",
-                backgroundColor: "var(--color-background)",
-              }}
-            >
+            <div className="relative">
               <Image
                 src="/profilepic.jpeg"
                 alt="Ved Patel — Software Engineer"
                 width={680}
                 height={860}
                 priority
-                className="h-[clamp(340px,46vh,480px)] w-full object-cover object-top"
+                className="project-img h-[clamp(360px,52vh,520px)] w-full"
               />
               <div
-                className="absolute inset-x-0 bottom-0 h-32"
+                className="absolute bottom-3 left-3 right-3 flex items-center justify-between rounded-2xl px-4 py-3 backdrop-blur-xl"
                 style={{
-                  background:
-                    "linear-gradient(to top, rgba(8,8,8,0.82) 0%, transparent 100%)",
-                }}
-              />
-              <div
-                className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-2xl px-4 py-3 backdrop-blur-xl"
-                style={{
-                  backgroundColor: "rgba(8,8,8,0.55)",
+                  backgroundColor: "rgba(8,8,8,0.6)",
                   border: "1px solid rgba(255,255,255,0.1)",
                 }}
               >
@@ -402,7 +336,10 @@ export function Hero() {
                   >
                     Open to work
                   </p>
-                  <p className="mt-0.5 text-sm" style={{ color: "#bbb" }}>
+                  <p
+                    className="mt-0.5 text-sm"
+                    style={{ color: "var(--color-foreground-secondary)" }}
+                  >
                     AI/ML · Automation · Full-stack
                   </p>
                 </div>
@@ -430,7 +367,7 @@ export function Hero() {
             <div key={i} className="flex items-center gap-10">
               <span
                 className="text-sm font-semibold tracking-wide whitespace-nowrap"
-                style={{ color: "var(--color-subtle)" }}
+                style={{ color: "var(--color-foreground)" }}
               >
                 {item}
               </span>

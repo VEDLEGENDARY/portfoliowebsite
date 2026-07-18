@@ -3,24 +3,38 @@
 import { motion } from "framer-motion";
 import { GraduationCap, Briefcase, Trophy, ExternalLink } from "lucide-react";
 import { Chip } from "@/components/chip";
+import { HighlightText } from "@/components/highlight-text";
 
 const skills = [
   "Python",
-  "Node.js",
   "TypeScript",
+  "Java",
+  "C++",
+  "Go",
+  "SQL",
+  "Node.js",
   "React",
   "Next.js",
+  "Express.js",
   "PostgreSQL",
-  "Supabase",
+  "MongoDB",
+  "Redis",
+  "GraphQL",
   "REST APIs",
-  "OpenCV",
+  "Supabase",
   "TensorFlow",
+  "PyTorch",
+  "OpenCV",
   "Scikit-learn",
+  "Docker",
+  "Kubernetes",
+  "AWS",
+  "CI/CD",
   "Kotlin",
   "Swift",
   "Tailwind CSS",
-  "Express.js",
   "Git",
+  "Linux",
 ];
 
 type ExperienceEntry = {
@@ -124,17 +138,7 @@ export function Background() {
           href="/VedP_Resume.pdf"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 self-start rounded-full px-5 py-2.5 text-sm font-semibold transition-colors duration-200 sm:self-auto"
-          style={{
-            border: "1px solid var(--color-border)",
-            color: "var(--color-foreground)",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "var(--color-border-hover)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "var(--color-border)";
-          }}
+          className="resume-btn inline-flex items-center gap-2 self-start px-5 py-2.5 text-sm font-semibold sm:self-auto"
         >
           Full resume
           <ExternalLink className="h-4 w-4" />
@@ -212,7 +216,9 @@ export function Background() {
                       className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
                       style={{ backgroundColor: "var(--color-accent)" }}
                     />
-                    <span>{bullet}</span>
+                    <span>
+                      <HighlightText>{bullet}</HighlightText>
+                    </span>
                   </li>
                 ))}
               </ul>

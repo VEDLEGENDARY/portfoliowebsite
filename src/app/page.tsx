@@ -20,6 +20,7 @@ export default function Home() {
         }}
       />
       <Preloader />
+      <Cursor />
       <Hero />
       <Projects />
       <Background />

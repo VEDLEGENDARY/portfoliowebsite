@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { Chip } from "@/components/chip";
+import { HighlightText } from "@/components/highlight-text";
 
 type Project = {
   index: string;
@@ -137,9 +138,8 @@ export function Projects() {
               alt="NexDrop — satellite imagery ROI scoring app"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover transition duration-700 group-hover:scale-[1.03]"
+              className="project-img"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/20" />
           </div>
 
           <div
@@ -147,49 +147,42 @@ export function Projects() {
             style={{ backgroundColor: "var(--color-surface)" }}
           >
             <div>
-              <div className="mb-5 flex items-start justify-between gap-3">
-                <div>
-                  <span
-                    className="font-display text-xs font-semibold uppercase tracking-[0.35em]"
-                    style={{ color: "var(--color-accent)" }}
-                  >
-                    01 — Featured
-                  </span>
-                  <h3
-                    className="font-display mt-2 text-4xl font-extrabold tracking-[-0.02em]"
-                    style={{ color: "var(--color-foreground)" }}
-                  >
-                    NexDrop
-                  </h3>
-                  <p
-                    className="mt-1 text-sm font-medium"
-                    style={{ color: "var(--color-foreground-secondary)" }}
-                  >
-                    MLH-winning · AI/ML
-                  </p>
-                </div>
-                <div
-                  className="shrink-0 rounded-full px-3 py-1 text-xs font-bold"
-                  style={{
-                    backgroundColor: "rgba(185,255,102,0.12)",
-                    color: "#b9ff66",
-                    border: "1px solid rgba(185,255,102,0.25)",
-                  }}
+              <div className="mb-5">
+                <span
+                  className="font-display text-xs font-semibold uppercase tracking-[0.35em]"
+                  style={{ color: "var(--color-accent)" }}
                 >
-                  MLH Win
-                </div>
+                  01 — Featured
+                </span>
+                <h3
+                  className="font-display mt-2 text-4xl font-extrabold tracking-[-0.02em]"
+                  style={{ color: "var(--color-foreground)" }}
+                >
+                  NexDrop
+                </h3>
+                <p
+                  className="mt-1 text-sm font-medium"
+                  style={{ color: "var(--color-foreground-secondary)" }}
+                >
+                  AI/ML
+                </p>
               </div>
 
               <p
                 className="text-base leading-relaxed"
                 style={{ color: "var(--color-muted)" }}
               >
-                Computer-vision pipeline that extracts roof areas from satellite
-                imagery and scores rainwater-harvesting ROI — with automated
-                CI/CD around precipitation and surface-area analysis.
+                <HighlightText>
+                  {
+                    "Computer-vision pipeline that extracts roof areas from satellite imagery and scores rainwater-harvesting ROI — with automated CI/CD around precipitation and surface-area analysis."
+                  }
+                </HighlightText>
               </p>
 
               <div className="mt-6 flex flex-wrap gap-2">
+                <Chip color="#b9ff66" dot>
+                  MLH Win
+                </Chip>
                 {["OpenCV", "TensorFlow", "Scikit-learn", "CI/CD"].map((tag) => (
                   <Chip key={tag}>{tag}</Chip>
                 ))}
@@ -248,19 +241,8 @@ export function Projects() {
                 alt={`${project.name} screenshot`}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover object-top transition duration-500 group-hover:scale-[1.04]"
+                className="project-img"
               />
-              <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent" />
-              <div
-                className="absolute right-3 top-3 rounded-full px-2.5 py-1 text-[11px] font-bold backdrop-blur-sm"
-                style={{
-                  backgroundColor: `${project.accent}22`,
-                  color: project.accent,
-                  border: `1px solid ${project.accent}44`,
-                }}
-              >
-                {project.badge}
-              </div>
             </div>
 
             <div
@@ -293,10 +275,13 @@ export function Projects() {
                 className="flex-1 text-sm leading-relaxed"
                 style={{ color: "var(--color-muted)" }}
               >
-                {project.description}
+                <HighlightText>{project.description}</HighlightText>
               </p>
 
               <div className="mt-4 flex flex-wrap gap-1.5">
+                <Chip color={project.accent} dot>
+                  {project.badge}
+                </Chip>
                 {project.tags.map((tag) => (
                   <Chip key={tag}>{tag}</Chip>
                 ))}
