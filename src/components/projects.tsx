@@ -1,17 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { Chip } from "@/components/chip";
-import { Highlight } from "@/components/highlight";
 
 type Project = {
   index: string;
   name: string;
   category: string;
-  description: ReactNode;
+  description: string;
   tags: string[];
   image: string;
   link: string;
@@ -24,41 +22,17 @@ type Project = {
 
 const projects: Project[] = [
   {
-    index: "01",
-    name: "NexDrop",
-    category: "MLH-winning hackathon · AI/ML",
-    description: (
-      <>
-        <Highlight>Computer vision</Highlight> pipeline extracting roof areas
-        from satellite imagery and scoring ROI for water-harvesting lead
-        generation. Built with OpenCV, TensorFlow, and Scikit-learn.
-      </>
-    ),
-    tags: ["OpenCV", "TensorFlow", "Scikit-learn", "CI/CD"],
-    image: "/nexdrop.png",
-    link: "https://github.com/nshah2006/NexDrop/",
-    linkLabel: "View source",
-    badge: "MLH Win",
-    accent: "#b9ff66",
-  },
-  {
     index: "02",
     name: "TruScope",
-    category: "Fine-tuned LLM · Chrome Extension",
-    description: (
-      <>
-        Bias and clickbait detection powered by a{" "}
-        <Highlight>fine-tuned language model</Highlight>. Ships as both a web
-        app and <Highlight>Chrome extension</Highlight> — live on the Chrome
-        Web Store with a 5.0 rating.
-      </>
-    ),
-    tags: ["AI", "Text Classification", "Browser Extension"],
+    category: "Fine-tuned LLM",
+    description:
+      "Detects bias and clickbait in news. Ships as a web app and Chrome extension — live with a 5.0 rating.",
+    tags: ["LLM", "Classification", "Extension"],
     image: "/truscope.png",
     link: "https://truscope.app/",
     extraLink:
       "https://chromewebstore.google.com/detail/truscope/pncjbinbmlfgkgedabggpfgafomgjamn/",
-    linkLabel: "Live App",
+    linkLabel: "Live app",
     extraLabel: "Chrome Store",
     badge: "Live · 5.0★",
     accent: "#60a5fa",
@@ -66,36 +40,23 @@ const projects: Project[] = [
   {
     index: "03",
     name: "NaviEats",
-    category: "TSA National #1 · Web Dev",
-    description: (
-      <>
-        Full-stack web project ranked{" "}
-        <Highlight>#1 nationally at TSA</Highlight>. Production-ready
-        architecture, smart <Highlight>backend automation</Highlight>, and
-        polished UX — built and judged against the best in the country.
-      </>
-    ),
-    tags: ["Web Dev", "Backend", "National #1"],
+    category: "Full-stack web app",
+    description:
+      "Navigation-first food discovery app. Ranked #1 nationally at TSA Web Dev against the country's best.",
+    tags: ["Web", "Backend", "UX"],
     image: "/navieats.png",
     link: "https://navieats.netlify.app/",
-    linkLabel: "Live Demo",
+    linkLabel: "Live demo",
     badge: "#1 National",
     accent: "#fb923c",
   },
   {
     index: "04",
     name: "VFIN",
-    category: "Production fintech app",
-    description: (
-      <>
-        API layer for a live fintech app handling legal and transactional data
-        for 500+ accounts.{" "}
-        <Highlight>Daily automation pipelines</Highlight> in Python sync 6,000+
-        fund entries and power 12{" "}
-        <Highlight>investment calculators</Highlight> on iOS and Android.
-      </>
-    ),
-    tags: ["Node.js", "Python", "PostgreSQL", "Mobile APIs"],
+    category: "Production fintech",
+    description:
+      "API layer for a live fintech app. 500+ accounts, 6,000+ daily-synced fund entries, 12 calculators on iOS & Android.",
+    tags: ["Node.js", "Python", "PostgreSQL"],
     image: "/vfin.png",
     link: "https://play.google.com/store/search?q=vfin&c=apps",
     linkLabel: "Play Store",
@@ -104,12 +65,14 @@ const projects: Project[] = [
   },
 ];
 
+const ease = [0.16, 1, 0.3, 1] as const;
+
 const fadeUp = {
   hidden: { opacity: 0, y: 36 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] as const },
+    transition: { duration: 0.75, ease },
   },
 };
 
@@ -129,8 +92,8 @@ export function Projects() {
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="mb-14 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+        transition={{ duration: 0.7, ease }}
+        className="mb-14 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
       >
         <div>
           <p
@@ -140,19 +103,18 @@ export function Projects() {
             Selected work
           </p>
           <h2
-            className="font-display text-5xl font-black leading-[0.9] tracking-[-0.04em] sm:text-6xl"
+            className="font-display text-6xl font-extrabold leading-[0.9] tracking-[-0.03em] sm:text-7xl"
             style={{ color: "var(--color-foreground)" }}
           >
             Projects
           </h2>
         </div>
         <p
-          className="max-w-sm text-sm leading-relaxed"
-          style={{ color: "var(--color-subtle)" }}
+          className="max-w-xs text-sm leading-relaxed"
+          style={{ color: "var(--color-muted)" }}
         >
-          Hackathon-winning <Highlight>ML pipelines</Highlight>, live{" "}
-          <Highlight>LLM-powered</Highlight> apps, and production fintech
-          backends — built to solve real problems.
+          Award-winning ML, live LLM apps, and production backends — built to
+          solve real problems.
         </p>
       </motion.div>
 
@@ -161,14 +123,13 @@ export function Projects() {
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.8, ease }}
         className="group mb-5 overflow-hidden rounded-3xl"
         style={{ border: "1px solid var(--color-border)" }}
       >
         <div className="grid lg:grid-cols-2">
-          {/* Image pane */}
           <div
-            className="relative min-h-[280px] overflow-hidden lg:min-h-[440px]"
+            className="relative min-h-[280px] overflow-hidden lg:min-h-[460px]"
             style={{ backgroundColor: "var(--color-surface)" }}
           >
             <Image
@@ -176,13 +137,11 @@ export function Projects() {
               alt="NexDrop — satellite imagery ROI scoring app"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover transition duration-700 group-hover:scale-[1.02]"
+              className="object-cover transition duration-700 group-hover:scale-[1.03]"
             />
-            {/* Very thin vignette, no heavy overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/20" />
           </div>
 
-          {/* Content pane */}
           <div
             className="flex flex-col justify-between p-7 sm:p-10"
             style={{ backgroundColor: "var(--color-surface)" }}
@@ -197,7 +156,7 @@ export function Projects() {
                     01 — Featured
                   </span>
                   <h3
-                    className="font-display mt-2 text-4xl font-black tracking-[-0.03em]"
+                    className="font-display mt-2 text-4xl font-extrabold tracking-[-0.02em]"
                     style={{ color: "var(--color-foreground)" }}
                   >
                     NexDrop
@@ -206,7 +165,7 @@ export function Projects() {
                     className="mt-1 text-sm font-medium"
                     style={{ color: "var(--color-foreground-secondary)" }}
                   >
-                    MLH-winning hackathon · AI/ML
+                    MLH-winning · AI/ML
                   </p>
                 </div>
                 <div
@@ -225,12 +184,9 @@ export function Projects() {
                 className="text-base leading-relaxed"
                 style={{ color: "var(--color-muted)" }}
               >
-                <Highlight>Computer vision pipeline</Highlight> that extracts
-                roof areas from satellite imagery and scores ROI for
-                water-harvesting lead generation. Built with{" "}
-                <Highlight>TensorFlow</Highlight> and{" "}
-                <Highlight>Scikit-learn</Highlight>, with fully automated CI/CD
-                around precipitation history and surface area analysis.
+                Computer-vision pipeline that extracts roof areas from satellite
+                imagery and scores rainwater-harvesting ROI — with automated
+                CI/CD around precipitation and surface-area analysis.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-2">
@@ -245,7 +201,7 @@ export function Projects() {
                 href="https://github.com/nshah2006/NexDrop/"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-colors duration-200"
+                className="group/btn inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-colors duration-200"
                 style={{
                   backgroundColor: "var(--color-foreground)",
                   color: "var(--color-background)",
@@ -261,7 +217,7 @@ export function Projects() {
                 }}
               >
                 View source
-                <ArrowUpRight className="h-4 w-4" />
+                <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
               </a>
             </div>
           </div>
@@ -276,14 +232,13 @@ export function Projects() {
         viewport={{ once: true, margin: "-80px" }}
         variants={stagger}
       >
-        {projects.slice(1).map((project) => (
+        {projects.map((project) => (
           <motion.div
             key={project.name}
             variants={fadeUp}
-            className="group relative flex flex-col overflow-hidden rounded-2xl"
+            className="group relative flex flex-col overflow-hidden rounded-2xl transition-transform duration-300 hover:-translate-y-1"
             style={{ border: "1px solid var(--color-border)" }}
           >
-            {/* Project image — tall crop, very minimal overlay */}
             <div
               className="relative h-52 overflow-hidden sm:h-56"
               style={{ backgroundColor: "var(--color-surface-raised)" }}
@@ -293,11 +248,9 @@ export function Projects() {
                 alt={`${project.name} screenshot`}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover object-top transition duration-500 group-hover:scale-[1.03]"
+                className="object-cover object-top transition duration-500 group-hover:scale-[1.04]"
               />
-              {/* Minimal bottom scrim only */}
               <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent" />
-              {/* Badge overlay */}
               <div
                 className="absolute right-3 top-3 rounded-full px-2.5 py-1 text-[11px] font-bold backdrop-blur-sm"
                 style={{
@@ -310,20 +263,19 @@ export function Projects() {
               </div>
             </div>
 
-            {/* Card body */}
             <div
               className="flex flex-1 flex-col p-5"
               style={{ backgroundColor: "var(--color-surface)" }}
             >
               <div className="mb-1 flex items-center justify-between gap-2">
                 <h3
-                  className="font-display text-xl font-black"
+                  className="font-display text-xl font-extrabold tracking-tight"
                   style={{ color: "var(--color-foreground)" }}
                 >
                   {project.name}
                 </h3>
                 <span
-                  className="font-display text-2xl font-black tabular-nums"
+                  className="font-display text-2xl font-extrabold tabular-nums"
                   style={{ color: "var(--color-border-hover)" }}
                 >
                   {project.index}
@@ -331,8 +283,8 @@ export function Projects() {
               </div>
 
               <p
-                className="mb-3 text-xs font-medium"
-                style={{ color: "var(--color-foreground-secondary)" }}
+                className="mb-3 text-xs font-semibold uppercase tracking-wider"
+                style={{ color: "var(--color-accent)" }}
               >
                 {project.category}
               </p>
@@ -357,21 +309,21 @@ export function Projects() {
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-200"
-                    style={{ color: "var(--color-muted)" }}
+                    style={{ color: "var(--color-foreground)" }}
                     onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = "var(--color-foreground)")
+                      (e.currentTarget.style.color = "var(--color-accent)")
                     }
                     onMouseLeave={(e) =>
-                      (e.currentTarget.style.color = "var(--color-muted)")
+                      (e.currentTarget.style.color = "var(--color-foreground)")
                     }
                   >
                     {project.linkLabel}
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
                 )}
-                {"extraLink" in project && project.extraLink && (
+                {project.extraLink && (
                   <a
-                    href={project.extraLink as string}
+                    href={project.extraLink}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-200"
@@ -383,7 +335,7 @@ export function Projects() {
                       (e.currentTarget.style.color = "var(--color-subtle)")
                     }
                   >
-                    {"extraLabel" in project ? String(project.extraLabel) : ""}
+                    {project.extraLabel}
                     <ExternalLink className="h-3.5 w-3.5" />
                   </a>
                 )}

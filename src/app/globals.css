@@ -3,7 +3,7 @@
 /* ── Font tokens (static, no theme switching needed) ── */
 @theme inline {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* ── Dark mode (default) — CSS custom properties on :root ── */
@@ -116,4 +116,53 @@ html[data-theme="light"] {
   border-color: var(--color-accent-dim);
   color: var(--color-accent);
   background-color: var(--color-accent-subtle);
+}
+
+/* ── Display font: tighten optical sizing for headline weight ── */
+.font-display {
+  font-optical-sizing: auto;
+  font-feature-settings: "ss01", "ss02";
+}
+
+/* ── Lock scroll while the preloader is on screen ── */
+html.is-loading,
+html.is-loading body {
+  overflow: hidden;
+}
+
+/* ── Marquee for the skills / tech strip ── */
+@keyframes vp-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.vp-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: vp-marquee 32s linear infinite;
+}
+
+.vp-marquee:hover .vp-marquee-track {
+  animation-play-state: paused;
+}
+
+/* ── Fine grid background used behind sections ── */
+.vp-grid-bg {
+  background-image: linear-gradient(
+      var(--color-border) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vp-marquee-track {
+    animation: none;
+  }
 }

@@ -67,29 +67,19 @@ export function Contact() {
                 Contact
               </p>
               <h2
-                className="font-display text-5xl font-black leading-[0.88] tracking-[-0.04em] sm:text-6xl lg:text-7xl"
+                className="font-display text-6xl font-extrabold leading-[0.9] tracking-[-0.03em] sm:text-7xl"
                 style={{ color: "var(--color-foreground)" }}
               >
                 Let&apos;s build
                 <br />
-                <span style={{ color: "var(--color-subtle)" }}>something</span>
-                <br />
-                <em
-                  className="not-italic"
-                  style={{ color: "var(--color-accent)" }}
-                >
-                  real.
-                </em>
+                <span style={{ color: "var(--color-accent)" }}>something real.</span>
               </h2>
               <p
-                className="mt-8 max-w-lg text-lg leading-relaxed"
+                className="mt-7 max-w-md text-lg leading-relaxed"
                 style={{ color: "var(--color-muted)" }}
               >
-                Open to internships and projects at the intersection of{" "}
-                <span style={{ color: "var(--color-accent)" }}>AI</span>,{" "}
-                <span style={{ color: "var(--color-accent)" }}>automation</span>
-                , and product — where implementations need to stand up under
-                real usage.
+                Open to internships and roles in AI, automation, and product.
+                Let&apos;s talk.
               </p>
             </div>
 
