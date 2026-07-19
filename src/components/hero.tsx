@@ -135,7 +135,7 @@ export function Hero() {
                   </motion.span>
                 </AnimatePresence>
               </span>
-              <span className="block overflow-hidden">
+              <span className="-mb-[0.14em] block overflow-hidden pb-[0.14em]">
                 <motion.span
                   className="block"
                   initial={{ y: "105%" }}
