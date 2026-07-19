@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Bricolage_Grotesque } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { LenisProvider } from "@/providers/lenis-provider";
+import { Cursor } from "@/components/cursor";
 import "./globals.css";
 
 const inter = Inter({
@@ -39,12 +41,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${bricolage.variable} antialiased scroll-smooth`}
+      className={`${inter.variable} ${bricolage.variable} antialiased`}
       style={{ backgroundColor: "var(--color-background)", color: "var(--color-foreground)" }}
       suppressHydrationWarning
     >
       <body className="min-h-full font-sans bg-[var(--color-background)] text-[var(--color-foreground)]">
-        <ThemeProvider>{children}</ThemeProvider>
+        <LenisProvider>
+          <ThemeProvider>
+            <Cursor />
+            {children}
+          </ThemeProvider>
+        </LenisProvider>
       </body>
     </html>
   );
