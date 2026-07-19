@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>Pranav Palutla | Personal Portfolio</h1>
+  <h1>Ved Patel | Personal Portfolio</h1>
   <p>A modern, fast, and highly responsive personal portfolio website designed to showcase my software engineering projects, experiences, and technical skills.</p>
 
   <div>
@@ -14,27 +14,26 @@
 <br />
 
 ## 🚀 Live Preview
-**Check out the live site here:** [pranav.is-a.dev](https://pranav.is-a.dev) *(Update this link once your domain is live)*
+**Check out the live site here:** [vedp.dev](https://vedp.dev/)
 
 ## ✨ Key Features
 * **Smooth Animations:** High-performance scroll-triggered reveal animations via Framer Motion.
 * **Fully Responsive:** Tailored experiences scaling perfectly across mobile, tablet, and widescreen desktop viewports.
-* **Modern UI/UX:** Clean typography (Manrope), minimalist sharp corners, and cohesive color palette.
-* **Optimized Rendering:** Utilizing Next.js `next/image` components for automatic image optimization and lazy loading.
+* **Modern UI/UX:** Clean typography, minimalist sharp corners, and a cohesive color palette.
+* **Optimized Rendering:** Utilizing Next.js performance optimizations for automatic asset loading and fast rendering.
 * **Integrated Resume:** Quick and accessible one-click resume viewing tailored for technical recruiters.
 
 ## 📂 Project Structure
-* `/src/app` - Contains the Next.js App Router pages and main `page.tsx`.
+* `/src/app` - Contains the Next.js App Router pages and layout configurations.
 * `/public` - Static assets including high-resolution project images and my resume PDF.
 * `tailwind.config.ts` - Custom theme extensions, fonts, and responsive breakpoints.
 
 ## 📫 Connect with Me
-* **LinkedIn:** [linkedin.com/in/pranav-palutla](https://www.linkedin.com/in/pranav-palutla/)
-* **GitHub:** [@Pranav593](https://github.com/Pranav593)
-* **Email:** [pranavpalutla@gmail.com](mailto:pranavpalutla@gmail.com)
+* **GitHub:** [@VEDLEGENDARY](https://github.com/VEDLEGENDARY)
+* **Website:** [vedp.dev](https://vedp.dev/)
 
 ---
 
 <p align="center">
-  <i>Designed and built by Pranav Palutla.</i>
+  <i>Designed and built by Ved Patel.</i>
 </p>
