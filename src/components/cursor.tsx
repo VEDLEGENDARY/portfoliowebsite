@@ -117,12 +117,11 @@ export function Cursor() {
         style={{
           borderWidth: 2,
           borderStyle: "solid",
-          borderColor: isDarkBg ? "var(--color-accent)" : "#000000",
-          backgroundColor: hovering
-            ? isDarkBg
-              ? "var(--color-accent-subtle)"
-              : "rgba(0, 0, 0, 0.08)"
-            : "transparent",
+          // Change the logic here:
+          // Instead of green ring, we want a green dot with a black border
+          borderColor: isDarkBg ? "#000000" : "#ffffff", // Black border on dark bg, white border on light bg
+          backgroundColor: isDarkBg ? "var(--color-accent)" : "#000000", // Green dot on dark bg, black dot on light bg
+          // Remove the hovering color change logic, or adapt it as needed
           mixBlendMode: isDarkBg ? "normal" : "difference",
           filter: isDarkBg ? "none" : "invert(1) grayscale(1) brightness(0)",
         }}
