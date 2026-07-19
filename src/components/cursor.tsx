@@ -117,11 +117,12 @@ export function Cursor() {
         style={{
           borderWidth: 2,
           borderStyle: "solid",
-          // The base cursor color must be white for the difference blend mode 
-          // to invert it to absolute black over white and light green backgrounds.
-          borderColor: "#ffffff",
-          backgroundColor: hovering ? "rgba(255, 255, 255, 0.15)" : "transparent",
-          mixBlendMode: "difference",
+          borderColor: isDarkBg ? "var(--color-accent)" : "#000",
+          backgroundColor: hovering
+            ? isDarkBg
+              ? "var(--color-accent-subtle)"
+              : "rgba(0, 0, 0, 0.08)"
+            : "transparent",
         }}
         animate={{
           width: pressed ? size * 0.7 : size,
