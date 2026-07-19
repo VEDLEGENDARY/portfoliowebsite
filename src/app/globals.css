@@ -79,20 +79,6 @@ html[data-theme="light"] {
     background: var(--color-accent);
     color: var(--color-accent-text);
   }
-
-  ::-webkit-scrollbar {
-    width: 4px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--color-background);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-faint);
-    border-radius: 2px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-accent);
-  }
 }
 
 /* ── Chip — shared pill component ── */
@@ -174,14 +160,6 @@ html[data-theme="light"] {
     transparent 100%
   );
   mask-image: radial-gradient(135% 135% at 50% 50%, #000 82%, transparent 100%);
-}
-
-/* ── Custom donut cursor: hide native pointer on fine-pointer devices ── */
-@media (pointer: fine) {
-  html.has-custom-cursor,
-  html.has-custom-cursor * {
-    cursor: none !important;
-  }
 }
 
 /* ── Lock scroll while the preloader is on screen ── */
