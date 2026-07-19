@@ -24,6 +24,12 @@ export function Contact() {
       id="contact"
       className="relative mx-auto max-w-screen-xl px-5 py-24 sm:px-10 lg:px-16 lg:py-32"
     >
+      {/* Footer grid — propagates up from the bottom of the screen */}
+      <div
+        aria-hidden
+        className="vp-grid-footer pointer-events-none absolute inset-x-0 bottom-0 h-[500px] opacity-75"
+      />
+
       {/* Divider */}
       <div
         className="mb-20 h-px w-full"

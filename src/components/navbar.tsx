@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { ArrowUpRight, Mail, Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { MagneticButton } from "@/components/magnetic-button";
@@ -11,20 +11,22 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-const ease = [0.16, 1, 0.3, 1] as const;
-
 export function Navbar() {
   const { theme, toggleTheme } = useTheme();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <motion.header
-      className="fixed left-0 right-0 top-0 z-40"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.55, ease }}
+    <header
+      className={`glass-nav fixed left-0 right-0 top-0 z-40 transition-[backdrop-filter,background-color] duration-300 ${scrolled ? "glass-nav--scrolled" : "glass-nav--top"}`}
     >
       <nav
-        className="glass-nav flex items-center justify-between px-5 py-3.5 sm:px-10 lg:px-16"
+        className="flex items-center justify-between px-5 py-3.5 sm:px-10 lg:px-16"
         aria-label="Main navigation"
       >
         {/* Brand */}
@@ -44,7 +46,7 @@ export function Navbar() {
               VP
             </div>
             <span
-              className="text-sm font-bold tracking-tight"
+              className="font-display text-[17.5px] font-bold tracking-tight"
               style={{ color: "var(--color-foreground)" }}
             >
               Ved Patel
@@ -87,17 +89,23 @@ export function Navbar() {
               aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
               className="flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-200"
               style={{
-                border: "1px solid var(--color-border)",
-                color: "var(--color-muted)",
+                border: theme === "dark"
+                  ? "1px solid rgba(255,255,255,0.18)"
+                  : "1px solid rgba(0,0,0,0.25)",
+                color: theme === "dark" ? "#ffffff" : "#111111",
                 backgroundColor: "transparent",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "var(--color-border-hover)";
-                e.currentTarget.style.color = "var(--color-foreground)";
+                e.currentTarget.style.borderColor = theme === "dark"
+                  ? "rgba(255,255,255,0.55)"
+                  : "rgba(0,0,0,0.75)";
+                e.currentTarget.style.color = "var(--color-accent)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "var(--color-border)";
-                e.currentTarget.style.color = "var(--color-muted)";
+                e.currentTarget.style.borderColor = theme === "dark"
+                  ? "rgba(255,255,255,0.18)"
+                  : "rgba(0,0,0,0.25)";
+                e.currentTarget.style.color = theme === "dark" ? "#ffffff" : "#111111";
               }}
             >
               {theme === "dark" ? (
@@ -143,6 +151,6 @@ export function Navbar() {
           </MagneticButton>
         </div>
       </nav>
-    </motion.header>
+    </header>
   );
 }

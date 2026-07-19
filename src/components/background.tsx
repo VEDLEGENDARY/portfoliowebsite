@@ -108,6 +108,13 @@ export function Background() {
       id="background"
       className="relative mx-auto max-w-screen-xl px-5 py-24 sm:px-10 lg:px-16 lg:py-32"
     >
+      {/* Side grid — propagates from the right, underlaid behind all content */}
+      <div
+        aria-hidden
+        className="vp-grid-right pointer-events-none absolute inset-y-0 right-0 z-0 w-[380px] opacity-70"
+      />
+
+      <div className="relative z-10">
       <div
         className="mb-20 h-px w-full"
         style={{ backgroundColor: "var(--color-border)" }}
@@ -143,187 +150,192 @@ export function Background() {
         </a>
       </motion.div>
 
-      <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-        {/* ── Experience entries ── */}
-        <motion.div
-          className="space-y-5"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={stagger}
-        >
-          {experience.map((entry) => (
-            <motion.div key={entry.org} variants={fadeUp}>
-              <CardTilt3D
-                className="glass-card rounded-2xl"
-                intensity={6}
-                scaleOnHover={false}
-              >
-            <article className="p-6 sm:p-8">
-              {/* Header row */}
-              <div className="mb-5 flex items-start gap-4">
-                <div
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
-                  style={{
-                    border: "1px solid var(--color-border)",
-                    backgroundColor: "var(--color-surface-raised)",
-                    color: "var(--color-accent)",
-                  }}
-                >
-                  <Briefcase className="h-4 w-4" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h3
-                      className="font-display text-lg font-extrabold tracking-tight sm:text-xl"
-                      style={{ color: "var(--color-foreground)" }}
-                    >
-                      {entry.role}
-                    </h3>
-                    <span
-                      className="font-display shrink-0 text-2xl font-extrabold tabular-nums"
-                      style={{ color: "var(--color-border-hover)" }}
-                    >
-                      {entry.index}
-                    </span>
-                  </div>
-                  <p
-                    className="mt-0.5 text-sm font-semibold"
-                    style={{ color: "var(--color-accent)" }}
-                  >
-                    {entry.org}
-                  </p>
-                </div>
-              </div>
+      {/*
+        Flat 2-col grid — items placed explicitly so rows align:
+          col-1 row-1: VisorFin   col-2 row-1: Education
+          col-1 row-2: Tutor      col-2 row-2: TechStack
+      */}
+      <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:grid-rows-[auto_auto]">
 
-              <div className="mb-5 flex flex-wrap gap-2">
-                <Chip>{entry.period}</Chip>
-                <Chip>{entry.location}</Chip>
-              </div>
-
-              <ul className="space-y-3">
-                {entry.bullets.map((bullet, index) => (
-                  <li
-                    key={index}
-                    className="flex gap-3 text-sm leading-relaxed"
-                    style={{ color: "var(--color-muted)" }}
-                  >
-                    <span
-                      className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
-                      style={{ backgroundColor: "var(--color-accent)" }}
-                    />
-                    <span>
-                      <HighlightText>{bullet}</HighlightText>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </article>
-              </CardTilt3D>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* ── Right: Education + Skills ── */}
-        <div className="space-y-5">
-          {/* Education */}
+        {/* ── VisorFin (row 1, col 1) ── */}
+        {experience.map((entry, i) => (
           <motion.div
+            key={entry.org}
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, ease }}
-            className="glass-card rounded-2xl p-6 sm:p-8"
+            transition={{ duration: 0.7, delay: i * 0.1, ease }}
+            className="lg:col-start-1"
           >
-            <div className="mb-5 flex items-start gap-4">
-              <div
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
-                style={{
-                  border: "1px solid var(--color-border)",
-                  backgroundColor: "var(--color-surface-raised)",
-                  color: "var(--color-accent)",
-                }}
-              >
-                <GraduationCap className="h-4 w-4 " />
-              </div>
-              <div>
-                <h3
-                  className="font-display text-lg font-extrabold leading-tight tracking-tight sm:text-xl"
-                  style={{ color: "var(--color-foreground)" }}
-                >
-                  {education.school}
-                </h3>
-                <p
-                  className="mt-0.5 text-sm font-semibold"
-                  style={{ color: "var(--color-accent)" }}
-                >
-                  {education.degree}
-                </p>
-              </div>
-            </div>
-
-            <div className="mb-6 flex flex-wrap gap-2">
-              <Chip>{education.period}</Chip>
-              <Chip>{education.location}</Chip>
-            </div>
-
-            <div className="space-y-2.5">
-              {education.highlights.map((h) => {
-                const Icon = h.icon;
-                return (
+            <CardTilt3D
+              className="glass-card rounded-2xl"
+              intensity={6}
+              scaleOnHover={false}
+            >
+              <article className="p-6 sm:p-8">
+                <div className="mb-5 flex items-start gap-4">
                   <div
-                    key={h.text}
-                    className="flex items-center gap-3 rounded-xl p-3"
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
                     style={{
                       border: "1px solid var(--color-border)",
                       backgroundColor: "var(--color-surface-raised)",
+                      color: "var(--color-accent)",
                     }}
                   >
-                    <Icon
-                      className="h-4 w-4 shrink-0"
-                      style={{ color: "var(--color-accent)" }}
-                    />
-                    <span
-                      className="text-sm"
-                      style={{ color: "var(--color-foreground-secondary)" }}
-                    >
-                      {h.text}
-                    </span>
+                    <Briefcase className="h-4 w-4" />
                   </div>
-                );
-              })}
-            </div>
-          </motion.div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-baseline justify-between gap-3">
+                      <h3
+                        className="font-display text-lg font-extrabold tracking-tight sm:text-xl"
+                        style={{ color: "var(--color-foreground)" }}
+                      >
+                        {entry.role}
+                      </h3>
+                      <span
+                        className="font-display shrink-0 text-2xl font-extrabold tabular-nums"
+                        style={{ color: "var(--color-border-hover)" }}
+                      >
+                        {entry.index}
+                      </span>
+                    </div>
+                    <p
+                      className="mt-0.5 text-sm font-semibold"
+                      style={{ color: "var(--color-accent)" }}
+                    >
+                      {entry.org}
+                    </p>
+                  </div>
+                </div>
 
-          {/* Skills */}
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, delay: 0.1, ease }}
-            className="glass-card rounded-2xl p-6 sm:p-8"
-          >
-            <p
-              className="mb-5 text-xs font-semibold uppercase tracking-[0.35em]"
-              style={{ color: "var(--color-subtle)" }}
-            >
-              Tech stack
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {skills.map((skill, i) => (
-                <motion.div
-                  key={skill}
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.02 * i, ease }}
-                >
-                  <Chip>{skill}</Chip>
-                </motion.div>
-              ))}
-            </div>
+                <div className="mb-5 flex flex-wrap gap-2">
+                  <Chip>{entry.period}</Chip>
+                  <Chip>{entry.location}</Chip>
+                </div>
+
+                <ul className="space-y-3">
+                  {entry.bullets.map((bullet, index) => (
+                    <li
+                      key={index}
+                      className="flex gap-3 text-sm leading-relaxed"
+                      style={{ color: "var(--color-muted)" }}
+                    >
+                      <span
+                        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
+                        style={{ backgroundColor: "var(--color-accent)" }}
+                      />
+                      <span>
+                        <HighlightText>{bullet}</HighlightText>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </CardTilt3D>
           </motion.div>
-        </div>
+        ))}
+
+        {/* ── Education (row 1, col 2) — no border per design ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease }}
+          className="glass-card rounded-2xl p-6 sm:p-8 lg:col-start-2 lg:row-start-1"
+          style={{ border: "none" }}
+        >
+          <div className="mb-5 flex items-start gap-4">
+            <div
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+              style={{
+                border: "1px solid var(--color-border)",
+                backgroundColor: "var(--color-surface-raised)",
+                color: "var(--color-accent)",
+              }}
+            >
+              <GraduationCap className="h-4 w-4" />
+            </div>
+            <div>
+              <h3
+                className="font-display text-lg font-extrabold leading-tight tracking-tight sm:text-xl"
+                style={{ color: "var(--color-foreground)" }}
+              >
+                {education.school}
+              </h3>
+              <p
+                className="mt-0.5 text-sm font-semibold"
+                style={{ color: "var(--color-accent)" }}
+              >
+                {education.degree}
+              </p>
+            </div>
+          </div>
+
+          <div className="mb-6 flex flex-wrap gap-2">
+            <Chip>{education.period}</Chip>
+            <Chip>{education.location}</Chip>
+          </div>
+
+          <div className="space-y-2.5">
+            {education.highlights.map((h) => {
+              const Icon = h.icon;
+              return (
+                <div
+                  key={h.text}
+                  className="flex items-center gap-3 rounded-xl p-3"
+                  style={{
+                    border: "1px solid var(--color-border)",
+                    backgroundColor: "var(--color-surface-raised)",
+                  }}
+                >
+                  <Icon
+                    className="h-4 w-4 shrink-0"
+                    style={{ color: "var(--color-accent)" }}
+                  />
+                  <span
+                    className="text-sm"
+                    style={{ color: "var(--color-foreground-secondary)" }}
+                  >
+                    {h.text}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        {/* ── Tech Stack (row 2, col 2) — adjacent to Tutor ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, delay: 0.1, ease }}
+          className="glass-card rounded-2xl p-6 sm:p-8 lg:col-start-2 lg:row-start-2"
+          style={{ border: "1px solid rgba(255, 255, 255, 0.12)" }}
+        >
+          <p
+            className="mb-5 text-xs font-semibold uppercase tracking-[0.35em]"
+            style={{ color: "var(--color-subtle)" }}
+          >
+            Tech stack
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {skills.map((skill, i) => (
+              <motion.div
+                key={skill}
+                initial={{ opacity: 0, scale: 0.85 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: 0.02 * i, ease }}
+              >
+                <Chip>{skill}</Chip>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
       </div>
+      </div>{/* end relative z-10 */}
     </section>
   );
 }

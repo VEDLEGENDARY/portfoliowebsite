@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Chip } from "@/components/chip";
 import { HighlightText } from "@/components/highlight-text";
 import { CardTilt3D } from "@/components/card-tilt";
@@ -16,6 +16,7 @@ type Project = {
   description: string;
   tags: string[];
   image: string;
+  imageFit?: "cover" | "contain";
   link: string;
   linkLabel: string;
   badge: string;
@@ -49,6 +50,7 @@ const projects: Project[] = [
       "Navigation-first food discovery app. Ranked #1 nationally at TSA Web Dev against the country's best.",
     tags: ["Web", "Backend", "UX"],
     image: "/navieats.png",
+    imageFit: "contain",
     link: "https://navieats.netlify.app/",
     linkLabel: "Live demo",
     badge: "#1 National",
@@ -95,17 +97,14 @@ function ProjectCard({ project }: { project: Project }) {
           className="group relative flex h-full flex-col overflow-hidden rounded-2xl glass-card"
           intensity={8}
         >
-          {/* Image — full-bleed cover, bg matches card so no halo */}
-          <div
-            className="relative h-52 overflow-hidden sm:h-56"
-            style={{ backgroundColor: "rgba(17,17,17,0.6)" }}
-          >
+          {/* Image */}
+          <div className="relative h-52 overflow-hidden sm:h-56">
             <Image
               src={project.image}
               alt={`${project.name} screenshot`}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover"
+              className={project.imageFit === "contain" ? "object-contain p-3" : "object-cover"}
             />
           </div>
 
@@ -176,16 +175,16 @@ function ProjectCard({ project }: { project: Project }) {
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-200"
-                  style={{ color: "var(--color-subtle)" }}
+                  style={{ color: "var(--color-foreground)" }}
                   onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "var(--color-muted)")
+                    (e.currentTarget.style.color = "var(--color-accent)")
                   }
                   onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "var(--color-subtle)")
+                    (e.currentTarget.style.color = "var(--color-foreground)")
                   }
                 >
                   {project.extraLabel}
-                  <ExternalLink className="h-3.5 w-3.5" />
+                  <ArrowUpRight className="h-3.5 w-3.5" />
                 </a>
               )}
             </div>
@@ -212,6 +211,12 @@ export function Projects() {
       id="projects"
       className="relative mx-auto max-w-screen-xl px-5 py-24 sm:px-10 lg:px-16 lg:py-32"
     >
+      {/* Side grid — propagates from the left */}
+      <div
+        aria-hidden
+        className="vp-grid-left pointer-events-none absolute inset-y-0 left-0 w-[380px] opacity-70"
+      />
+
       {/* ── Section header ── */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
@@ -253,10 +258,7 @@ export function Projects() {
           intensity={5}
         >
           <div className="grid min-[900px]:grid-cols-2">
-            <div
-              className="relative min-h-[280px] overflow-hidden min-[900px]:min-h-[460px]"
-              style={{ backgroundColor: "rgba(17,17,17,0.6)" }}
-            >
+            <div className="relative min-h-[280px] overflow-hidden min-[900px]:min-h-[460px]">
               <Image
                 src="/nexdrop.png"
                 alt="NexDrop — satellite imagery ROI scoring app"
@@ -266,10 +268,7 @@ export function Projects() {
               />
             </div>
 
-            <div
-              className="flex flex-col justify-between p-7 sm:p-10"
-              style={{ backgroundColor: "rgba(12,12,12,0.72)" }}
-            >
+            <div className="flex flex-col justify-between p-7 sm:p-10">
               <div>
                 <div className="mb-5">
                   <div className="mb-3 flex items-center justify-between gap-2">
@@ -312,7 +311,7 @@ export function Projects() {
                 </p>
 
                 <div className="mt-6 flex flex-wrap gap-2">
-                  <Chip color="#b9ff66" dot>
+                  <Chip color="var(--color-accent)" dot>
                     MLH Win
                   </Chip>
                   {["OpenCV", "TensorFlow", "Scikit-learn", "CI/CD"].map((tag) => (
