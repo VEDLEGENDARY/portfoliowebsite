@@ -1,9 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+
+// Client-only: WebGL canvas must never render on the server
+const Scene3D = dynamic(
+  () => import("@/components/scene-3d").then((m) => m.Scene3D),
+  { ssr: false },
+);
 
 const rotatingWords = ["intelligent", "resilient", "elegant", "scalable"];
 
@@ -52,6 +59,27 @@ export function Hero() {
     >
       {/* grid backdrop */}
       <div className="vp-grid-bg pointer-events-none absolute inset-0 opacity-85" />
+
+      {/* ── Interactive 3D scene (immersive backdrop, offset right) ── */}
+      <motion.div
+        aria-hidden
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.6, delay: 0.5, ease }}
+        className="pointer-events-none absolute inset-0 z-[1]"
+      >
+        <Scene3D />
+      </motion.div>
+
+      {/* left-side contrast wash so the headline stays legible over the scene */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[2] hidden min-[900px]:block"
+        style={{
+          background:
+            "linear-gradient(90deg, var(--color-background) 30%, transparent 68%)",
+        }}
+      />
 
       {/* static top glow */}
       <div
