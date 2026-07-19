@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { HeroCanvas } from "@/components/hero-canvas";
 import { Magnetic } from "@/components/magnetic";
+import { HeroCanvas } from "@/components/hero-canvas";
 
 const rotatingWords = ["intelligent", "resilient", "elegant", "scalable"];
 
@@ -52,13 +52,27 @@ export function Hero() {
       className="relative flex h-[100svh] min-h-[640px] flex-col overflow-hidden"
       style={{ backgroundColor: "var(--color-background)" }}
     >
-      {/* faint grid backdrop (texture behind copy) */}
-      <div className="vp-grid-bg pointer-events-none absolute inset-0 opacity-40" />
+      {/* grid backdrop */}
+      <div className="vp-grid-bg pointer-events-none absolute inset-0 opacity-50" />
 
-      {/* interactive 3D core scene */}
-      <div className="pointer-events-none absolute inset-0 z-[1]">
-        <HeroCanvas />
-      </div>
+      {/* animated radial glow */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -right-32 -top-64 h-[800px] w-[800px] rounded-full opacity-20 blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, var(--color-accent), transparent 70%)",
+        }}
+        animate={{
+          y: [0, 40, 0],
+          x: [0, 20, 0],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
 
       {/* film grain */}
       <div
@@ -78,9 +92,9 @@ export function Hero() {
           {/* Left */}
           <div>
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease, delay: 0.25 }}
+              transition={{ duration: 0.7, ease, delay: 0.1 }}
               className="mb-6 inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5"
               style={{
                 border: "1px solid var(--color-border)",
@@ -115,7 +129,7 @@ export function Hero() {
                   className="block"
                   initial={{ y: "105%" }}
                   animate={{ y: 0 }}
-                  transition={{ duration: 0.9, ease, delay: 0.3 }}
+                  transition={{ duration: 0.8, ease, delay: 0.15 }}
                 >
                   I build
                 </motion.span>
@@ -128,7 +142,7 @@ export function Hero() {
                     initial={{ y: "105%", opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: "-105%", opacity: 0 }}
-                    transition={{ duration: 0.55, ease }}
+                    transition={{ duration: 0.6, ease }}
                     style={{ color: "var(--color-accent)" }}
                   >
                     {rotatingWords[wordIndex]}
@@ -140,7 +154,7 @@ export function Hero() {
                   className="block"
                   initial={{ y: "105%" }}
                   animate={{ y: 0 }}
-                  transition={{ duration: 0.9, ease, delay: 0.44 }}
+                  transition={{ duration: 0.8, ease, delay: 0.25 }}
                 >
                   software.
                 </motion.span>
@@ -148,9 +162,9 @@ export function Hero() {
             </h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.6, ease }}
+              transition={{ duration: 0.8, delay: 0.4, ease }}
               className="mt-7 max-w-md text-base leading-relaxed sm:text-lg"
               style={{ color: "var(--color-muted)" }}
             >
@@ -159,9 +173,9 @@ export function Hero() {
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.68, ease }}
+              transition={{ duration: 0.8, delay: 0.5, ease }}
               className="mt-8 flex flex-wrap items-center gap-3"
             >
               <Magnetic>
@@ -202,9 +216,9 @@ export function Hero() {
 
           {/* Right: Portrait */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95, y: 32 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4, ease }}
+            transition={{ duration: 1.1, delay: 0.2, ease }}
             className="relative mx-auto hidden w-full max-w-[360px] min-[900px]:block min-[900px]:max-w-[420px]"
           >
             <div className="relative">

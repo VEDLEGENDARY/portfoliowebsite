@@ -89,17 +89,17 @@ const education = {
 const ease = [0.16, 1, 0.3, 1] as const;
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
-  visible: {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease },
-  },
+    transition: { duration: 0.85, ease, delay: i * 0.12 },
+  }),
 };
 
 const stagger = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.14 } },
+  visible: { transition: { staggerChildren: 0.1 } },
 };
 
 export function Background() {
@@ -152,8 +152,8 @@ export function Background() {
           viewport={{ once: true, margin: "-80px" }}
           variants={stagger}
         >
-          {experience.map((entry) => (
-            <motion.div key={entry.org} variants={fadeUp}>
+          {experience.map((entry, idx) => (
+            <motion.div key={entry.org} custom={idx} variants={fadeUp}>
               <Tilt max={6} className="rounded-2xl">
                 <article
                   className="rounded-2xl p-6 transition-shadow duration-300 sm:p-8"

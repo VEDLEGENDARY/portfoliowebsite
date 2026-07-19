@@ -70,12 +70,12 @@ const projects: Project[] = [
 const ease = [0.16, 1, 0.3, 1] as const;
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 36 },
-  visible: {
+  hidden: { opacity: 0, y: 48 },
+  visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.75, ease },
-  },
+    transition: { duration: 0.9, ease, delay: i * 0.12 },
+  }),
 };
 
 const stagger = {
@@ -243,8 +243,8 @@ export function Projects() {
         viewport={{ once: true, margin: "-80px" }}
         variants={stagger}
       >
-        {projects.map((project) => (
-          <motion.div key={project.name} variants={fadeUp} className="h-full">
+        {projects.map((project, idx) => (
+          <motion.div key={project.name} custom={idx} variants={fadeUp} className="h-full">
             <Tilt max={9} className="h-full rounded-2xl">
               <div
                 className="group relative flex h-full flex-col overflow-hidden rounded-2xl transition-shadow duration-300"

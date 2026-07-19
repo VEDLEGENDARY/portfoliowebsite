@@ -1,24 +1,30 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useReducedMotion } from "framer-motion";
-import { useTheme } from "@/components/theme-provider";
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
-const HeroScene = dynamic(
-  () => import("@/components/hero-scene").then((m) => m.HeroScene),
-  { ssr: false },
-);
+const HeroScene = dynamic(() => import("@/components/hero-scene"), {
+  ssr: false,
+});
 
 export function HeroCanvas() {
-  const { theme } = useTheme();
-  const reduce = useReducedMotion() ?? false;
+  const { resolvedTheme } = useTheme();
+  const [reduced, setReduced] = useState(false);
 
-  // Lime in the dark, deep green in the light theme — matches the CSS tokens.
-  const accent = theme === "light" ? "#4e8c00" : "#b9ff66";
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const on = () => setReduced(mq.matches);
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+
+  const accent = resolvedTheme === "light" ? "#4d7c0f" : "#a3e635";
 
   return (
-    <div className="absolute inset-0" aria-hidden>
-      <HeroScene accent={accent} reduced={reduce} />
+    <div className="h-full w-full">
+      <HeroScene accent={accent} reduced={reduced} />
     </div>
   );
 }

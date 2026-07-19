@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, Code2, ExternalLink, Mail } from "lucide-react";
 import { Chip } from "@/components/chip";
+import { Magnetic } from "@/components/magnetic";
 
 const highlights = [
   "AI/ML · LLMs · Computer Vision",
@@ -83,25 +84,27 @@ export function Contact() {
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row lg:min-w-[220px] lg:flex-col">
-              <a
-                href="mailto:ved.sp@outlook.com"
-                className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold transition-colors duration-200"
-                style={{
-                  backgroundColor: "var(--color-accent)",
-                  color: "var(--color-accent-text)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor =
-                    "var(--color-accent-dark)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor =
-                    "var(--color-accent)";
-                }}
-              >
-                <Mail className="h-4 w-4" />
-                Send an email
-              </a>
+              <Magnetic>
+                <a
+                  href="mailto:ved.sp@outlook.com"
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold transition-colors duration-200"
+                  style={{
+                    backgroundColor: "var(--color-accent)",
+                    color: "var(--color-accent-text)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor =
+                      "var(--color-accent-dark)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor =
+                      "var(--color-accent)";
+                  }}
+                >
+                  <Mail className="h-4 w-4" />
+                  Send an email
+                </a>
+              </Magnetic>
               <a
                 href="/VedP_Resume.pdf"
                 target="_blank"

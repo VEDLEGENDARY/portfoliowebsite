@@ -5,150 +5,128 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import {
   Environment,
   Float,
-  Grid,
+  Icosahedron,
   MeshDistortMaterial,
-  MeshTransmissionMaterial,
+  Torus,
 } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import * as THREE from "three";
 
-/* ── The glowing "digital core": a slowly morphing icosahedron ── */
+/* ── Morphing crystalline core ── */
 function Core({ accent }: { accent: string }) {
-  const mesh = useRef<THREE.Mesh>(null);
-  const glow = useRef<THREE.Mesh>(null);
+  const ref = useRef<THREE.Mesh>(null);
 
-  useFrame((state, delta) => {
-    if (mesh.current) {
-      mesh.current.rotation.x += delta * 0.15;
-      mesh.current.rotation.y += delta * 0.22;
+  useFrame((state) => {
+    if (!ref.current) return;
+    const t = state.clock.elapsedTime;
+    ref.current.rotation.y = t * 0.25;
+    ref.current.rotation.x = Math.sin(t * 0.3) * 0.25;
+  });
+
+  return (
+    <Icosahedron ref={ref} args={[0.95, 4]}>
+      {/* MeshDistortMaterial gives an organic, liquid-metal crystal */}
+      <MeshDistortMaterial
+        color={accent}
+        emissive={accent}
+        emissiveIntensity={0.35}
+        roughness={0.08}
+        metalness={0.95}
+        distort={0.38}
+        speed={1.6}
+      />
+    </Icosahedron>
+  );
+}
+
+/* ── Orbiting metallic gyroscope rings ── */
+function Rings({ accent }: { accent: string }) {
+  const g1 = useRef<THREE.Mesh>(null);
+  const g2 = useRef<THREE.Mesh>(null);
+  const g3 = useRef<THREE.Mesh>(null);
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    if (g1.current) g1.current.rotation.z = t * 0.4;
+    if (g2.current) {
+      g2.current.rotation.x = t * 0.35;
+      g2.current.rotation.y = t * 0.2;
     }
-    if (glow.current) {
-      const t = state.clock.elapsedTime;
-      const s = 1.28 + Math.sin(t * 1.4) * 0.04;
-      glow.current.scale.setScalar(s);
+    if (g3.current) {
+      g3.current.rotation.y = -t * 0.3;
+      g3.current.rotation.x = Math.PI / 2.4;
     }
   });
+
+  const ringMat = (glow: number) => (
+    <meshStandardMaterial
+      color="#0b0f0a"
+      emissive={accent}
+      emissiveIntensity={glow}
+      roughness={0.2}
+      metalness={1}
+    />
+  );
 
   return (
     <group>
-      {/* Outer emissive shell — the glow */}
-      <mesh ref={glow}>
-        <icosahedronGeometry args={[1, 3]} />
-        <meshBasicMaterial
-          color={accent}
-          transparent
-          opacity={0.06}
-          side={THREE.BackSide}
-        />
-      </mesh>
-
-      {/* Morphing metallic core */}
-      <mesh ref={mesh}>
-        <icosahedronGeometry args={[1, 12]} />
-        <MeshDistortMaterial
-          color="#0c0c0c"
-          emissive={accent}
-          emissiveIntensity={0.42}
-          roughness={0.15}
-          metalness={0.95}
-          distort={0.32}
-          speed={1.6}
-        />
-      </mesh>
-
-      {/* Wireframe overlay for a technical read */}
-      <mesh scale={1.015}>
-        <icosahedronGeometry args={[1, 2]} />
-        <meshBasicMaterial color={accent} wireframe transparent opacity={0.14} />
-      </mesh>
+      <Torus ref={g1} args={[1.55, 0.02, 16, 160]} rotation={[Math.PI / 3, 0, 0]}>
+        {ringMat(0.9)}
+      </Torus>
+      <Torus ref={g2} args={[1.9, 0.015, 16, 160]}>
+        {ringMat(0.6)}
+      </Torus>
+      <Torus ref={g3} args={[2.25, 0.012, 16, 180]}>
+        {ringMat(0.45)}
+      </Torus>
     </group>
   );
 }
 
-/* ── Orbiting gyroscope rings around the core ── */
-function Rings({ accent }: { accent: string }) {
-  const group = useRef<THREE.Group>(null);
-
-  useFrame((_, delta) => {
-    if (group.current) {
-      group.current.rotation.z += delta * 0.12;
-      group.current.rotation.x += delta * 0.05;
-    }
-  });
-
-  const ringProps = {
-    metalness: 1,
-    roughness: 0.2,
-    emissive: new THREE.Color(accent),
-    emissiveIntensity: 0.3,
-    color: "#161616",
-  };
-
-  return (
-    <group ref={group}>
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[1.9, 0.018, 16, 128]} />
-        <meshStandardMaterial {...ringProps} />
-      </mesh>
-      <mesh rotation={[Math.PI / 2.6, Math.PI / 5, 0]}>
-        <torusGeometry args={[2.25, 0.014, 16, 128]} />
-        <meshStandardMaterial {...ringProps} />
-      </mesh>
-      <mesh rotation={[Math.PI / 1.7, -Math.PI / 4, 0]}>
-        <torusGeometry args={[2.55, 0.01, 16, 128]} />
-        <meshStandardMaterial {...ringProps} />
-      </mesh>
-    </group>
-  );
-}
-
-/* ── A few intentional glass crystal shards floating in orbit ── */
+/* ── Floating geometric crystal shards (intentional geometry, not dots) ── */
 function Shards({ accent }: { accent: string }) {
   const shards = useMemo(
     () => [
-      { pos: [2.6, 1.1, -0.5], scale: 0.32, speed: 2.4 },
-      { pos: [-2.7, -0.8, 0.3], scale: 0.24, speed: 3.1 },
-      { pos: [1.9, -1.6, 0.8], scale: 0.2, speed: 2.0 },
-      { pos: [-2.1, 1.5, -0.9], scale: 0.28, speed: 2.7 },
+      { pos: [2.6, 1.4, -1] as const, s: 0.28, speed: 1.2, rot: 2 },
+      { pos: [-2.4, -1.2, -0.5] as const, s: 0.36, speed: 0.9, rot: 3 },
+      { pos: [2.2, -1.6, 0.5] as const, s: 0.22, speed: 1.5, rot: 5 },
+      { pos: [-2.8, 1.0, -1.5] as const, s: 0.3, speed: 1.1, rot: 1 },
+      { pos: [0.2, 2.4, -2] as const, s: 0.24, speed: 1.3, rot: 4 },
     ],
     [],
   );
 
   return (
     <>
-      {shards.map((s, i) => (
+      {shards.map((sh, i) => (
         <Float
           key={i}
-          speed={s.speed}
-          rotationIntensity={2}
-          floatIntensity={1.5}
+          speed={sh.speed}
+          rotationIntensity={sh.rot}
+          floatIntensity={1.4}
         >
-          <mesh position={s.pos as [number, number, number]} scale={s.scale}>
-            <octahedronGeometry args={[1, 0]} />
-            <MeshTransmissionMaterial
-              thickness={0.4}
-              roughness={0.05}
-              transmission={1}
-              ior={1.5}
-              chromaticAberration={0.4}
-              backside
-              color={accent}
+          <Icosahedron args={[sh.s, 0]} position={sh.pos}>
+            <meshStandardMaterial
+              color="#0d120b"
               emissive={accent}
-              emissiveIntensity={0.15}
+              emissiveIntensity={0.5}
+              roughness={0.15}
+              metalness={0.9}
+              flatShading
             />
-          </mesh>
+          </Icosahedron>
         </Float>
       ))}
     </>
   );
 }
 
-/* ── Camera parallax that follows the pointer (fed from a window listener so
-   the canvas can stay pointer-events:none and keep the UI clickable) ── */
+/* ── Camera parallax driven by a window pointer listener (canvas stays
+   pointer-events:none so the UI beneath keeps working) ── */
 function Rig({ mouse }: { mouse: React.MutableRefObject<{ x: number; y: number }> }) {
   useFrame((state, delta) => {
-    const targetX = mouse.current.x * 0.9;
-    const targetY = 0.4 + mouse.current.y * 0.5;
+    const targetX = mouse.current.x * 0.8;
+    const targetY = 0.3 + mouse.current.y * 0.45;
     const k = Math.min(delta * 2, 1);
     state.camera.position.x += (targetX - state.camera.position.x) * k;
     state.camera.position.y += (targetY - state.camera.position.y) * k;
@@ -157,8 +135,8 @@ function Rig({ mouse }: { mouse: React.MutableRefObject<{ x: number; y: number }
   return null;
 }
 
-export function HeroScene({
-  accent = "#b9ff66",
+export default function HeroScene({
+  accent = "#a3e635",
   reduced = false,
 }: {
   accent?: string;
@@ -178,60 +156,37 @@ export function HeroScene({
 
   return (
     <Canvas
-      camera={{ position: [0, 0.4, 6], fov: 42 }}
+      camera={{ position: [0, 0.3, 6], fov: 42 }}
+      gl={{ antialias: true, alpha: true }}
       dpr={[1, 2]}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{ background: "transparent" }}
     >
+      <ambientLight intensity={0.4} />
+      <pointLight position={[4, 4, 4]} intensity={40} color={accent} />
+      <pointLight position={[-5, -3, 2]} intensity={25} color="#4ac0ff" />
+      <spotLight position={[0, 6, 3]} intensity={30} angle={0.6} penumbra={1} />
+
       <Suspense fallback={null}>
-        <ambientLight intensity={0.35} />
-        <directionalLight position={[4, 5, 3]} intensity={1.4} color="#ffffff" />
-        <pointLight position={[-4, -2, -3]} intensity={2} color={accent} />
-        <pointLight position={[0, 0, 2]} intensity={1.2} color={accent} />
-
-        <Float
-          speed={reduced ? 0 : 1.2}
-          rotationIntensity={reduced ? 0 : 0.4}
-          floatIntensity={reduced ? 0 : 0.6}
-        >
-          <group scale={1.05} position={[1.15, 0.15, 0]}>
-            <Core accent={accent} />
-            <Rings accent={accent} />
-          </group>
-        </Float>
-
-        {!reduced && <Shards accent={accent} />}
-
-        {/* Reflective receding grid floor */}
-        <Grid
-          position={[0, -2.6, 0]}
-          args={[30, 30]}
-          cellSize={0.6}
-          cellThickness={0.6}
-          cellColor={accent}
-          sectionSize={3}
-          sectionThickness={1.1}
-          sectionColor={accent}
-          fadeDistance={26}
-          fadeStrength={4}
-          followCamera={false}
-          infiniteGrid
-        />
-
-        <Environment preset="night" />
-
-        {!reduced && <Rig mouse={mouse} />}
-
-        <EffectComposer>
-          <Bloom
-            intensity={0.9}
-            luminanceThreshold={0.18}
-            luminanceSmoothing={0.9}
-            mipmapBlur
-          />
-          <Vignette eskil={false} offset={0.25} darkness={0.85} />
-        </EffectComposer>
+        {/* pushed to the right so it frames the portrait / right column */}
+        <group position={[1.5, 0.1, 0]} scale={1.1}>
+          <Core accent={accent} />
+          <Rings accent={accent} />
+        </group>
+        <Shards accent={accent} />
+        <Environment preset="city" />
       </Suspense>
+
+      {!reduced && <Rig mouse={mouse} />}
+
+      <EffectComposer>
+        <Bloom
+          intensity={1.1}
+          luminanceThreshold={0.15}
+          luminanceSmoothing={0.9}
+          mipmapBlur
+        />
+        <Vignette eskil={false} offset={0.25} darkness={0.7} />
+      </EffectComposer>
     </Canvas>
   );
 }
