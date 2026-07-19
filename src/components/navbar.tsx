@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { ArrowUpRight, Mail, Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { MagneticButton } from "@/components/magnetic-button";
@@ -11,17 +11,19 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-const ease = [0.16, 1, 0.3, 1] as const;
-
 export function Navbar() {
   const { theme, toggleTheme } = useTheme();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <motion.header
-      className="glass-nav fixed left-0 right-0 top-0 z-40"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.55, ease }}
+    <header
+      className={`glass-nav fixed left-0 right-0 top-0 z-40 transition-[backdrop-filter,background-color] duration-300 ${scrolled ? "glass-nav--scrolled" : "glass-nav--top"}`}
     >
       <nav
         className="flex items-center justify-between px-5 py-3.5 sm:px-10 lg:px-16"
@@ -143,6 +145,6 @@ export function Navbar() {
           </MagneticButton>
         </div>
       </nav>
-    </motion.header>
+    </header>
   );
 }

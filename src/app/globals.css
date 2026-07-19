@@ -379,9 +379,26 @@ html[data-theme="light"] .glass-strong {
 /* ── Navbar: medium frosted blur, grainy texture ── */
 .glass-nav {
   position: relative;
+}
+
+/* At the very top of the page — no blur, barely visible */
+.glass-nav--top {
+  background: rgba(18, 18, 18, 0);
+  backdrop-filter: blur(0px) saturate(100%);
+  -webkit-backdrop-filter: blur(0px) saturate(100%);
+}
+
+/* Once the user has scrolled — full blur kicks in */
+.glass-nav--scrolled {
   background: rgba(18, 18, 18, 0.55);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
+}
+
+html[data-theme="light"] .glass-nav--top {
+  background: rgba(245, 245, 240, 0);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
 }
 
 /* Grain overlay via SVG feTurbulence — sits above bg, under content */
@@ -399,7 +416,7 @@ html[data-theme="light"] .glass-strong {
   pointer-events: none;
 }
 
-html[data-theme="light"] .glass-nav {
+html[data-theme="light"] .glass-nav--scrolled {
   background: rgba(235, 235, 230, 0.58);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
