@@ -158,10 +158,21 @@ export function Background() {
             <motion.article
               key={entry.org}
               variants={fadeUp}
-              className="rounded-2xl p-6 transition-colors duration-300 sm:p-8"
+              className="rounded-2xl p-6 transition-all duration-300 sm:p-8"
               style={{
                 border: "1px solid var(--color-border)",
                 backgroundColor: "var(--color-surface)",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor =
+                  "var(--color-border-hover)";
+                (e.currentTarget as HTMLElement).style.boxShadow =
+                  "0 8px 40px -8px var(--color-accent-glow)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor =
+                  "var(--color-border)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "none";
               }}
             >
               {/* Header row */}
@@ -185,7 +196,7 @@ export function Background() {
                       {entry.role}
                     </h3>
                     <span
-                      className="font-display shrink-0 text-sm font-extrabold tabular-nums"
+                      className="font-display shrink-0 text-2xl font-extrabold tabular-nums"
                       style={{ color: "var(--color-border-hover)" }}
                     >
                       {entry.index}

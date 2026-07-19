@@ -3,10 +3,11 @@ import { Projects } from "@/components/projects";
 import { Background } from "@/components/background";
 import { Contact } from "@/components/contact";
 import { Preloader } from "@/components/preloader";
+import { Navbar } from "@/components/navbar";
 
 export default function Home() {
   return (
-    <main className="relative overflow-x-hidden">
+    <>
       {/* Inline script prevents flash of wrong theme before hydration */}
       <script
         dangerouslySetInnerHTML={{
@@ -19,10 +20,13 @@ export default function Home() {
         }}
       />
       <Preloader />
-      <Hero />
-      <Projects />
-      <Background />
-      <Contact />
-    </main>
+      <Navbar />
+      <main className="relative overflow-x-hidden">
+        <Hero />
+        <Projects />
+        <Background />
+        <Contact />
+      </main>
+    </>
   );
 }
