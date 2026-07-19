@@ -155,11 +155,7 @@ export function Background() {
             <motion.article
               key={entry.org}
               variants={fadeUp}
-              className="rounded-2xl p-6 transition-all duration-300 sm:p-8"
-              style={{
-                border: "1px solid var(--color-border)",
-                backgroundColor: "var(--color-surface)",
-              }}
+              className="glass-card rounded-2xl p-6 transition-all duration-300 sm:p-8"
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.borderColor =
                   "var(--color-border-hover)";
@@ -168,7 +164,7 @@ export function Background() {
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLElement).style.borderColor =
-                  "var(--color-border)";
+                  "rgba(255,255,255,0.09)";
                 (e.currentTarget as HTMLElement).style.boxShadow = "none";
               }}
             >
@@ -242,11 +238,7 @@ export function Background() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease }}
-            className="rounded-2xl p-6 sm:p-8"
-            style={{
-              border: "1px solid var(--color-border)",
-              backgroundColor: "var(--color-surface)",
-            }}
+            className="glass-card rounded-2xl p-6 sm:p-8"
           >
             <div className="mb-5 flex items-start gap-4">
               <div
@@ -314,11 +306,7 @@ export function Background() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, delay: 0.1, ease }}
-            className="rounded-2xl p-6 sm:p-8"
-            style={{
-              border: "1px solid var(--color-border)",
-              backgroundColor: "var(--color-surface)",
-            }}
+            className="glass-card rounded-2xl p-6 sm:p-8"
           >
             <p
               className="mb-5 text-xs font-semibold uppercase tracking-[0.35em]"

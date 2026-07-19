@@ -252,9 +252,9 @@ export function Projects() {
           className="group overflow-hidden rounded-3xl transition-shadow duration-300 glass-card"
           intensity={5}
         >
-          <div className="grid lg:grid-cols-2">
+          <div className="grid min-[900px]:grid-cols-2">
             <div
-              className="relative min-h-[280px] overflow-hidden lg:min-h-[460px]"
+              className="relative min-h-[280px] overflow-hidden min-[900px]:min-h-[460px]"
               style={{ backgroundColor: "var(--color-surface)" }}
             >
               <Image
@@ -268,7 +268,7 @@ export function Projects() {
 
             <div
               className="flex flex-col justify-between p-7 sm:p-10"
-              style={{ backgroundColor: "rgba(17,17,17,0.55)" }}
+              style={{ backgroundColor: "rgba(12,12,12,0.72)" }}
             >
               <div>
                 <div className="mb-5">

@@ -221,7 +221,16 @@ export function Hero() {
             transition={{ duration: 1, delay: 0.4, ease }}
             className="relative mx-auto hidden w-full max-w-[360px] min-[900px]:block min-[900px]:max-w-[420px]"
           >
-            <div className="relative">
+            <div className="relative rounded-2xl overflow-hidden" style={{ border: "1px solid var(--color-border)" }}>
+              {/* Dark color-blend layer to neutralize white photo background */}
+              <div
+                aria-hidden
+                className="absolute inset-0 z-[1] pointer-events-none"
+                style={{
+                  background: "linear-gradient(to bottom, rgba(8,8,8,0.18) 0%, rgba(8,8,8,0.0) 40%, rgba(8,8,8,0.55) 100%)",
+                  mixBlendMode: "multiply",
+                }}
+              />
               <Image
                 src="/profilepic.jpeg"
                 alt="Ved Patel — Software Engineer"
@@ -230,7 +239,7 @@ export function Hero() {
                 priority
                 className="project-img h-[clamp(360px,52vh,520px)] w-full"
               />
-              <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between rounded-2xl px-4 py-3 glass-strong">
+              <div className="absolute bottom-3 left-3 right-3 z-[2] flex items-center justify-between rounded-2xl px-4 py-3 glass-strong">
                 <div>
                   <p
                     className="text-xs font-bold uppercase tracking-widest"
