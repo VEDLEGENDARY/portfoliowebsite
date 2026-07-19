@@ -149,12 +149,31 @@ html[data-theme="light"] {
   transform: translateY(2px);
 }
 
-/* ── Keyword highlight: accent text + dotted underline ── */
+/* ── Keyword highlight: accent text + sparse dotted underline ── */
 .hl {
   color: var(--color-accent);
   font-weight: 600;
-  border-bottom: 1.5px dotted var(--color-accent);
-  padding-bottom: 1px;
+  padding-bottom: 3px;
+  /* sparse dots drawn as a repeating radial-gradient along the baseline */
+  background-image: radial-gradient(
+    circle,
+    var(--color-accent) 1.2px,
+    transparent 1.4px
+  );
+  background-position: 0 100%;
+  background-size: 7px 2px;
+  background-repeat: repeat-x;
+  transition:
+    color 0.25s ease,
+    background-size 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    text-shadow 0.25s ease;
+  cursor: default;
+}
+.hl:hover {
+  color: var(--color-accent-dark, var(--color-accent));
+  text-shadow: 0 0 18px var(--color-accent-glow, transparent);
+  /* dots gently tighten + brighten on hover */
+  background-size: 5px 2px;
 }
 
 /* ── Project image: full image, soft corner blend into bg ── */
@@ -205,8 +224,86 @@ html.is-loading body {
     mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 30%, transparent 85%);
   }
 
+/* ── Section eyebrow: pulsing accent dot + soft tracking pull-in ── */
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.section-eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: currentColor;
+  box-shadow: 0 0 0 0 currentColor;
+  animation: vp-ping 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+@keyframes vp-ping {
+  0% {
+    box-shadow: 0 0 0 0 var(--color-accent-glow);
+    opacity: 1;
+  }
+  70% {
+    box-shadow: 0 0 0 7px transparent;
+    opacity: 0.55;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+    opacity: 1;
+  }
+}
+
+/* ── Shine sweep across large headings ── */
+.shine-text {
+  background: linear-gradient(
+    100deg,
+    var(--color-foreground) 0%,
+    var(--color-foreground) 40%,
+    var(--color-accent) 50%,
+    var(--color-foreground) 60%,
+    var(--color-foreground) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: vp-shine 6s ease-in-out infinite;
+}
+@keyframes vp-shine {
+  0%,
+  100% {
+    background-position: 150% 0;
+  }
+  50% {
+    background-position: -50% 0;
+  }
+}
+
+/* ── Gentle floating loop for accent decorations ── */
+@keyframes vp-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.vp-float {
+  animation: vp-float 5s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .vp-marquee-track {
+  .vp-marquee-track,
+  .section-eyebrow::before,
+  .shine-text,
+  .vp-float {
     animation: none;
+  }
+  .shine-text {
+    -webkit-text-fill-color: var(--color-foreground);
+    color: var(--color-foreground);
   }
 }
