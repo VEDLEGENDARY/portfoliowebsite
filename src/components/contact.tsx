@@ -1,15 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code2, Download, ExternalLink, Mail } from "lucide-react";
+import { ArrowUpRight, Code2, ExternalLink, Mail } from "lucide-react";
 import { Chip } from "@/components/chip";
 
 const highlights = [
   "AI/ML · LLMs · Computer Vision",
   "Production fintech APIs",
   "Automation pipelines",
-  "MLH hackathon winner",
-  "TSA National #1",
+  "Full-stack web apps",
   "End-to-end product delivery",
 ];
 
@@ -67,29 +66,19 @@ export function Contact() {
                 Contact
               </p>
               <h2
-                className="font-display text-5xl font-black leading-[0.88] tracking-[-0.04em] sm:text-6xl lg:text-7xl"
+                className="font-display text-6xl font-extrabold leading-[0.9] tracking-[-0.03em] sm:text-7xl"
                 style={{ color: "var(--color-foreground)" }}
               >
                 Let&apos;s build
                 <br />
-                <span style={{ color: "var(--color-subtle)" }}>something</span>
-                <br />
-                <em
-                  className="not-italic"
-                  style={{ color: "var(--color-accent)" }}
-                >
-                  real.
-                </em>
+                <span style={{ color: "var(--color-accent)" }}>something real.</span>
               </h2>
               <p
-                className="mt-8 max-w-lg text-lg leading-relaxed"
+                className="mt-7 max-w-md text-lg leading-relaxed"
                 style={{ color: "var(--color-muted)" }}
               >
-                Open to internships and projects at the intersection of{" "}
-                <span style={{ color: "var(--color-accent)" }}>AI</span>,{" "}
-                <span style={{ color: "var(--color-accent)" }}>automation</span>
-                , and product — where implementations need to stand up under
-                real usage.
+                Open to internships and roles in AI, automation, and product.
+                Let&apos;s talk.
               </p>
             </div>
 
@@ -117,23 +106,10 @@ export function Contact() {
                 href="/VedP_Resume.pdf"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition-colors duration-200"
-                style={{
-                  border: "1px solid var(--color-border)",
-                  color: "var(--color-muted)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor =
-                    "var(--color-border-hover)";
-                  e.currentTarget.style.color = "var(--color-foreground)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "var(--color-border)";
-                  e.currentTarget.style.color = "var(--color-muted)";
-                }}
+                className="resume-btn inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold"
               >
-                <Download className="h-4 w-4" />
                 Resume PDF
+                <ArrowUpRight className="h-4 w-4" />
               </a>
             </div>
           </div>
@@ -172,7 +148,7 @@ export function Contact() {
           </div>
           <span
             className="text-sm font-semibold"
-            style={{ color: "var(--color-muted)" }}
+            style={{ color: "var(--color-foreground)" }}
           >
             Ved Patel
           </span>
@@ -186,13 +162,13 @@ export function Contact() {
               href={href}
               target={href.startsWith("mailto") ? undefined : "_blank"}
               rel={href.startsWith("mailto") ? undefined : "noreferrer"}
-              className="inline-flex items-center gap-1.5 text-sm transition-colors duration-200"
-              style={{ color: "var(--color-subtle)" }}
+              className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors duration-200"
+              style={{ color: "var(--color-foreground)" }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.color = "var(--color-accent)")
               }
               onMouseLeave={(e) =>
-                (e.currentTarget.style.color = "var(--color-subtle)")
+                (e.currentTarget.style.color = "var(--color-foreground)")
               }
             >
               <Icon className="h-4 w-4" />
@@ -203,13 +179,13 @@ export function Contact() {
             href="https://www.linkedin.com/in/vedpatel2006/"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm transition-colors duration-200"
-            style={{ color: "var(--color-subtle)" }}
+            className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors duration-200"
+            style={{ color: "var(--color-foreground)" }}
             onMouseEnter={(e) =>
               (e.currentTarget.style.color = "var(--color-accent)")
             }
             onMouseLeave={(e) =>
-              (e.currentTarget.style.color = "var(--color-subtle)")
+              (e.currentTarget.style.color = "var(--color-foreground)")
             }
           >
             <ExternalLink className="h-4 w-4" />

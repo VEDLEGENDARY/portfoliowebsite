@@ -1,65 +1,93 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { ArrowUpRight, Download, Mail, Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUpRight, Mail, Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
-import { Chip } from "@/components/chip";
-import { Highlight } from "@/components/highlight";
 
 const navLinks = [
   { label: "Work", href: "#projects" },
-  { label: "Background", href: "#background" },
+  { label: "Experience", href: "#background" },
   { label: "Contact", href: "#contact" },
 ];
 
+const rotatingWords = ["intelligent", "resilient", "elegant", "scalable"];
+
+const marqueeItems = [
+  "Python",
+  "TypeScript",
+  "Java",
+  "C++",
+  "Go",
+  "React",
+  "Next.js",
+  "Node.js",
+  "PostgreSQL",
+  "MongoDB",
+  "Redis",
+  "GraphQL",
+  "REST APIs",
+  "TensorFlow",
+  "PyTorch",
+  "OpenCV",
+  "Docker",
+  "Kubernetes",
+  "AWS",
+  "CI/CD",
+  "Git",
+  "Linux",
+];
+
+const ease = [0.16, 1, 0.3, 1] as const;
+
 export function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const { theme, toggleTheme } = useTheme();
+  const [wordIndex, setWordIndex] = useState(0);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
-
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
+  useEffect(() => {
+    const id = setInterval(
+      () => setWordIndex((i) => (i + 1) % rotatingWords.length),
+      2400,
+    );
+    return () => clearInterval(id);
+  }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className="relative min-h-screen overflow-hidden"
+    <section
+      className="relative flex h-[100svh] min-h-[640px] flex-col overflow-hidden"
       style={{ backgroundColor: "var(--color-background)" }}
     >
-      {/* Subtle grain */}
+      {/* grid backdrop */}
+      <div className="vp-grid-bg pointer-events-none absolute inset-0 opacity-85" />
+
+      {/* static top glow */}
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-0 z-50 opacity-[0.018]"
+        className="pointer-events-none absolute -top-52 left-1/2 h-[640px] w-[640px] -translate-x-1/2 rounded-full opacity-[0.05] blur-[150px]"
+        style={{ backgroundColor: "var(--color-accent)" }}
+      />
+
+      {/* film grain */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-50 opacity-[0.02]"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
         }}
       />
 
-      {/* Accent glow blob */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 h-[700px] w-[700px] -translate-x-1/2 rounded-full opacity-[0.05] blur-[140px]"
-        style={{ backgroundColor: "var(--color-accent)" }}
-      />
-
       {/* ── Nav ── */}
       <motion.nav
-        className="relative z-20 flex items-center justify-between px-5 py-5 sm:px-10 lg:px-16"
+        className="relative z-20 flex shrink-0 items-center justify-between px-5 py-5 sm:px-10 lg:px-16"
         initial={{ opacity: 0, y: -14 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.7, ease, delay: 0.1 }}
         aria-label="Main navigation"
       >
-        {/* Logo */}
         <div className="flex items-center gap-2.5">
           <div
-            className="flex h-8 w-8 items-center justify-center rounded-full text-[11px] font-black"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-[11px] font-black"
             style={{
               backgroundColor: "var(--color-accent)",
               color: "var(--color-accent-text)",
@@ -68,20 +96,19 @@ export function Hero() {
             VP
           </div>
           <span
-            className="text-sm font-bold tracking-wide"
+            className="text-sm font-bold tracking-tight"
             style={{ color: "var(--color-foreground)" }}
           >
             Ved Patel
           </span>
         </div>
 
-        {/* Links */}
         <div className="hidden items-center gap-8 sm:flex">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium transition-colors duration-200"
+              className="group relative text-sm font-medium transition-colors duration-200"
               style={{ color: "var(--color-muted)" }}
               onMouseEnter={(e) =>
                 (e.currentTarget.style.color = "var(--color-foreground)")
@@ -91,13 +118,15 @@ export function Hero() {
               }
             >
               {link.label}
+              <span
+                className="absolute -bottom-1 left-0 h-px w-0 transition-all duration-300 group-hover:w-full"
+                style={{ backgroundColor: "var(--color-accent)" }}
+              />
             </a>
           ))}
         </div>
 
-        {/* Actions */}
         <div className="flex items-center gap-2">
-          {/* Theme toggle */}
           <button
             onClick={toggleTheme}
             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
@@ -108,16 +137,12 @@ export function Hero() {
               backgroundColor: "transparent",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor =
-                "var(--color-border-hover)";
-              (e.currentTarget as HTMLButtonElement).style.color =
-                "var(--color-foreground)";
+              e.currentTarget.style.borderColor = "var(--color-border-hover)";
+              e.currentTarget.style.color = "var(--color-foreground)";
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor =
-                "var(--color-border)";
-              (e.currentTarget as HTMLButtonElement).style.color =
-                "var(--color-muted)";
+              e.currentTarget.style.borderColor = "var(--color-border)";
+              e.currentTarget.style.color = "var(--color-muted)";
             }}
           >
             {theme === "dark" ? (
@@ -131,22 +156,10 @@ export function Hero() {
             href="/VedP_Resume.pdf"
             target="_blank"
             rel="noreferrer"
-            className="hidden items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-colors duration-200 sm:inline-flex"
-            style={{
-              border: "1px solid var(--color-border)",
-              color: "var(--color-muted)",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "var(--color-border-hover)";
-              e.currentTarget.style.color = "var(--color-foreground)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "var(--color-border)";
-              e.currentTarget.style.color = "var(--color-muted)";
-            }}
+            className="resume-btn hidden items-center gap-1.5 px-4 py-2 text-xs font-semibold sm:inline-flex"
           >
-            <Download className="h-3.5 w-3.5" />
             Resume
+            <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
 
           <a
@@ -169,61 +182,101 @@ export function Hero() {
         </div>
       </motion.nav>
 
-      {/* ── Hero body ── */}
-      <motion.div
-        style={{ y: heroY, opacity: heroOpacity }}
-        className="relative z-10 mx-auto max-w-screen-xl px-5 pb-20 pt-8 sm:px-10 lg:px-16"
-      >
-        {/* Headline */}
-        <div className="overflow-hidden">
-          <motion.h1
-            initial={{ y: "102%" }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.14 }}
-            className="font-display font-black leading-[0.86] tracking-[-0.04em] text-[clamp(2.8rem,8.5vw,8rem)]"
-            style={{ color: "var(--color-foreground)" }}
-          >
-            I build{" "}
-            <em className="not-italic" style={{ color: "var(--color-accent)" }}>
-              AI - powered
-            </em>
-          </motion.h1>
-        </div>
-        <div className="overflow-hidden">
-          <motion.h1
-            initial={{ y: "102%" }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.21 }}
-            className="font-display font-black leading-[0.86] tracking-[-0.04em] text-[clamp(2.8rem,8.5vw,8rem)]"
-            style={{ color: "var(--color-subtle)" }}
-          >
-            software.
-          </motion.h1>
-        </div>
-
-        {/* Sub-grid */}
-        <div className="mt-12 grid items-start gap-12 lg:grid-cols-[1fr_340px]">
+      {/* ── Hero body (fills remaining viewport) ── */}
+      <div className="relative z-10 flex flex-1 items-center px-5 sm:px-10 lg:px-16">
+        <div className="mx-auto grid w-full max-w-screen-xl items-center gap-10 min-[900px]:grid-cols-[1.15fr_0.85fr]">
           {/* Left */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
-            className="space-y-8"
-          >
-            <p
-              className="max-w-[520px] text-lg leading-relaxed"
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease, delay: 0.25 }}
+              className="mb-6 inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5"
+              style={{
+                border: "1px solid var(--color-border)",
+                backgroundColor: "var(--color-surface)",
+              }}
+            >
+              <span className="relative flex h-2 w-2">
+                <span
+                  className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
+                  style={{ backgroundColor: "var(--color-accent)" }}
+                />
+                <span
+                  className="relative inline-flex h-2 w-2 rounded-full"
+                  style={{ backgroundColor: "var(--color-accent)" }}
+                />
+              </span>
+              <span
+                className="text-xs font-semibold tracking-wide"
+                style={{ color: "var(--color-foreground-secondary)" }}
+              >
+                Software Engineer · Dallas, TX
+              </span>
+            </motion.div>
+
+            {/* Headline */}
+            <h1
+              className="font-display font-extrabold leading-[0.9] tracking-[-0.03em] text-[clamp(2.6rem,6.2vw,5.6rem)]"
+              style={{ color: "var(--color-foreground)" }}
+            >
+              <span className="block overflow-hidden">
+                <motion.span
+                  className="block"
+                  initial={{ y: "105%" }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.9, ease, delay: 0.3 }}
+                >
+                  I build
+                </motion.span>
+              </span>
+              <span className="relative block overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={rotatingWords[wordIndex]}
+                    className="block"
+                    initial={{ y: "105%", opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: "-105%", opacity: 0 }}
+                    transition={{ duration: 0.55, ease }}
+                    style={{ color: "var(--color-accent)" }}
+                  >
+                    {rotatingWords[wordIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              </span>
+              <span className="block overflow-hidden">
+                <motion.span
+                  className="block"
+                  initial={{ y: "105%" }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.9, ease, delay: 0.44 }}
+                >
+                  software.
+                </motion.span>
+              </span>
+            </h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.6, ease }}
+              className="mt-7 max-w-md text-base leading-relaxed sm:text-lg"
               style={{ color: "var(--color-muted)" }}
             >
-              From <Highlight>fine-tuned language models</Highlight> and{" "}
-              <Highlight>computer vision pipelines</Highlight> to production
-              fintech APIs — I build systems that automate real workflows and
-              ship to real users.
-            </p>
+              AI, computer vision, and production fintech APIs — shipped to real
+              users at real scale.
+            </motion.p>
 
-            <div className="flex flex-wrap gap-3">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.68, ease }}
+              className="mt-8 flex flex-wrap items-center gap-3"
+            >
               <a
                 href="#projects"
-                className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-colors duration-200"
+                className="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-colors duration-200"
                 style={{
                   backgroundColor: "var(--color-foreground)",
                   color: "var(--color-background)",
@@ -238,154 +291,94 @@ export function Hero() {
                   e.currentTarget.style.color = "var(--color-background)";
                 }}
               >
-                See My Work
-                <ArrowUpRight className="h-4 w-4" />
+                See my work
+                <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
               <a
                 href="/VedP_Resume.pdf"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors duration-200"
-                style={{
-                  border: "2px solid var(--color-border)",
-                  color: "var(--color-white)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor =
-                    "var(--color-border-hover)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "var(--color-border)";
-                }}
+                className="resume-btn inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold"
               >
-                Resume PDF
+                Resume
                 <ArrowUpRight className="h-4 w-4" />
               </a>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {/* Right: Portrait */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 24 }}
+            initial={{ opacity: 0, scale: 0.96, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
-            className="relative mx-auto w-full max-w-[320px] lg:mx-0 lg:max-w-full"
+            transition={{ duration: 1, delay: 0.4, ease }}
+            className="relative mx-auto hidden w-full max-w-[360px] min-[900px]:block min-[900px]:max-w-[420px]"
           >
-            <div
-              className="relative overflow-hidden rounded-3xl"
-              style={{ border: "1px solid var(--color-border)" }}
-            >
+            <div className="relative">
               <Image
                 src="/profilepic.jpeg"
                 alt="Ved Patel — Software Engineer"
                 width={680}
                 height={860}
                 priority
-                className="h-[400px] w-full object-cover object-top lg:h-[460px]"
+                className="project-img h-[clamp(360px,52vh,520px)] w-full"
               />
-              {/* Very subtle bottom gradient — just enough for the tag to read */}
               <div
-                className="absolute inset-x-0 bottom-0 h-28"
+                className="absolute bottom-3 left-3 right-3 flex items-center justify-between rounded-2xl px-4 py-3 backdrop-blur-xl"
                 style={{
-                  background:
-                    "linear-gradient(to top, rgba(8,8,8,0.72) 0%, transparent 100%)",
-                }}
-              />
-              {/* Status tag */}
-              <div
-                className="absolute bottom-4 left-4 right-4 rounded-2xl p-3.5 backdrop-blur-xl"
-                style={{
-                  backgroundColor: "rgba(8,8,8,0.55)",
+                  backgroundColor: "rgba(8,8,8,0.6)",
                   border: "1px solid rgba(255,255,255,0.1)",
                 }}
               >
-                <p
-                  className="text-xs font-bold uppercase tracking-widest"
+                <div>
+                  <p
+                    className="text-xs font-bold uppercase tracking-widest"
+                    style={{ color: "var(--color-accent)" }}
+                  >
+                    Open to work
+                  </p>
+                  <p
+                    className="mt-0.5 text-sm"
+                    style={{ color: "var(--color-foreground-secondary)" }}
+                  >
+                    AI/ML · Automation · Full-stack
+                  </p>
+                </div>
+                <ArrowUpRight
+                  className="h-5 w-5"
                   style={{ color: "var(--color-accent)" }}
-                >
-                  Open to opportunities
-                </p>
-                <p className="mt-0.5 text-sm" style={{ color: "#bbb" }}>
-                  AI/ML · Automation · Fintech · Full-stack
-                </p>
+                />
               </div>
             </div>
-
-            {/* Floating badges */}
-            <motion.div
-              animate={{ y: [0, -7, 0] }}
-              transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -right-3 top-10 rounded-2xl px-4 py-2.5 shadow-2xl sm:-right-6"
-              style={{
-                backgroundColor: "var(--color-surface)",
-                border: "1px solid var(--color-border)",
-              }}
-            >
-              <p
-                className="text-xs font-bold"
-                style={{ color: "var(--color-accent)" }}
-              >
-                MLH Winner
-              </p>
-              <p
-                className="text-[11px]"
-                style={{ color: "var(--color-subtle)" }}
-              >
-                NexDrop · 2024
-              </p>
-            </motion.div>
-
-            <motion.div
-              animate={{ y: [0, 6, 0] }}
-              transition={{
-                duration: 3.7,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.9,
-              }}
-              className="absolute -left-3 bottom-28 rounded-2xl px-4 py-2.5 shadow-2xl sm:-left-6"
-              style={{
-                backgroundColor: "var(--color-surface)",
-                border: "1px solid var(--color-border)",
-              }}
-            >
-              <p
-                className="text-xs font-bold"
-                style={{ color: "var(--color-foreground)" }}
-              >
-                #1 National
-              </p>
-              <p
-                className="text-[11px]"
-                style={{ color: "var(--color-subtle)" }}
-              >
-                TSA Web Dev
-              </p>
-            </motion.div>
           </motion.div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Scroll indicator */}
+      {/* ── Tech marquee footer ── */}
       <motion.div
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
+        className="vp-marquee relative z-10 shrink-0 overflow-hidden border-t py-4"
+        style={{ borderColor: "var(--color-border)" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.3, duration: 0.6 }}
+        transition={{ delay: 1, duration: 0.8 }}
         aria-hidden
       >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.7, repeat: Infinity, ease: "easeInOut" }}
-          className="flex h-10 w-6 items-start justify-center rounded-full pt-2"
-          style={{ border: "1px solid var(--color-border)" }}
-        >
-          <div
-            className="h-1.5 w-1 rounded-full"
-            style={{ backgroundColor: "var(--color-accent)" }}
-          />
-        </motion.div>
+        <div className="vp-marquee-track gap-10">
+          {[...marqueeItems, ...marqueeItems].map((item, i) => (
+            <div key={i} className="flex items-center gap-10">
+              <span
+                className="text-sm font-semibold tracking-wide whitespace-nowrap"
+                style={{ color: "var(--color-foreground)" }}
+              >
+                {item}
+              </span>
+              <span
+                className="h-1 w-1 rounded-full"
+                style={{ backgroundColor: "var(--color-accent)" }}
+              />
+            </div>
+          ))}
+        </div>
       </motion.div>
-    </div>
+    </section>
   );
 }

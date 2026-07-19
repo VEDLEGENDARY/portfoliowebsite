@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Syne } from "next/font/google";
+import { Inter, Bricolage_Grotesque } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -9,22 +9,28 @@ const inter = Inter({
   display: "swap",
 });
 
-const syne = Syne({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-syne",
+  variable: "--font-bricolage",
+  weight: ["600", "700", "800"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Ved Patel — Software Engineer",
   description:
-    "CS sophomore at UTD building fintech APIs, AI/ML pipelines, and award-winning software. Portfolio of Ved Patel.",
+    "Software engineer building AI systems, computer vision pipelines, and production fintech APIs. MLH winner. TSA National #1.",
   openGraph: {
     title: "Ved Patel — Software Engineer",
     description:
-      "CS sophomore at UTD building fintech APIs, AI/ML pipelines, and award-winning software.",
+      "AI systems, computer vision, and production fintech APIs — shipped to real users.",
     type: "website",
   },
+};
+
+export const viewport = {
+  themeColor: "#080808",
+  colorScheme: "dark light",
 };
 
 export default function RootLayout({
@@ -33,7 +39,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${syne.variable} antialiased scroll-smooth`}
+      className={`${inter.variable} ${bricolage.variable} antialiased scroll-smooth`}
       style={{ backgroundColor: "var(--color-background)", color: "var(--color-foreground)" }}
       suppressHydrationWarning
     >
