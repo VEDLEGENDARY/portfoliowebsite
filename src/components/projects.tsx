@@ -16,6 +16,7 @@ type Project = {
   description: string;
   tags: string[];
   image: string;
+  imageFit?: "cover" | "contain";
   link: string;
   linkLabel: string;
   badge: string;
@@ -49,6 +50,7 @@ const projects: Project[] = [
       "Navigation-first food discovery app. Ranked #1 nationally at TSA Web Dev against the country's best.",
     tags: ["Web", "Backend", "UX"],
     image: "/navieats.png",
+    imageFit: "contain",
     link: "https://navieats.netlify.app/",
     linkLabel: "Live demo",
     badge: "#1 National",
@@ -95,14 +97,14 @@ function ProjectCard({ project }: { project: Project }) {
           className="group relative flex h-full flex-col overflow-hidden rounded-2xl glass-card"
           intensity={8}
         >
-          {/* Image — full-bleed cover */}
+          {/* Image */}
           <div className="relative h-52 overflow-hidden sm:h-56">
             <Image
               src={project.image}
               alt={`${project.name} screenshot`}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover"
+              className={project.imageFit === "contain" ? "object-contain p-3" : "object-cover"}
             />
           </div>
 

@@ -89,17 +89,17 @@ export function Navbar() {
               aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
               className="flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-200"
               style={{
-                border: "1px solid var(--color-border)",
-                color: "var(--color-muted)",
+                border: "1px solid rgba(255,255,255,0.18)",
+                color: "#ffffff",
                 backgroundColor: "transparent",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "var(--color-border-hover)";
-                e.currentTarget.style.color = "var(--color-foreground)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.55)";
+                e.currentTarget.style.color = "var(--color-accent)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "var(--color-border)";
-                e.currentTarget.style.color = "var(--color-muted)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)";
+                e.currentTarget.style.color = "#ffffff";
               }}
             >
               {theme === "dark" ? (
