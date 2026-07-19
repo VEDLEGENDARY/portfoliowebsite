@@ -59,7 +59,7 @@ export function Hero() {
       style={{ backgroundColor: "var(--color-background)" }}
     >
       {/* grid backdrop */}
-      <div className="vp-grid-bg pointer-events-none absolute inset-0 opacity-60" />
+      <div className="vp-grid-bg pointer-events-none absolute inset-0 opacity-85" />
 
       {/* static top glow */}
       <div
