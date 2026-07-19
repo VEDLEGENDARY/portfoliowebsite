@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Download, Mail, Moon, Sun } from "lucide-react";
+import { ArrowUpRight, Mail, Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 
 const navLinks = [
@@ -158,8 +158,8 @@ export function Hero() {
             rel="noreferrer"
             className="resume-btn hidden items-center gap-1.5 px-4 py-2 text-xs font-semibold sm:inline-flex"
           >
-            <Download className="h-3.5 w-3.5" />
             Resume
+            <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
 
           <a
@@ -301,7 +301,7 @@ export function Hero() {
                 className="resume-btn inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold"
               >
                 Resume
-                <Download className="h-4 w-4" />
+                <ArrowUpRight className="h-4 w-4" />
               </a>
             </motion.div>
           </div>

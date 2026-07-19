@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code2, Download, ExternalLink, Mail } from "lucide-react";
+import { ArrowUpRight, Code2, ExternalLink, Mail } from "lucide-react";
 import { Chip } from "@/components/chip";
 
 const highlights = [
@@ -108,8 +108,8 @@ export function Contact() {
                 rel="noreferrer"
                 className="resume-btn inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold"
               >
-                <Download className="h-4 w-4" />
                 Resume PDF
+                <ArrowUpRight className="h-4 w-4" />
               </a>
             </div>
           </div>

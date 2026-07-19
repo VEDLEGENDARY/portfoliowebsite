@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Trophy, ExternalLink } from "lucide-react";
+import { GraduationCap, Briefcase, Trophy, ArrowUpRight } from "lucide-react";
 import { Chip } from "@/components/chip";
 import { HighlightText } from "@/components/highlight-text";
 
@@ -141,7 +141,7 @@ export function Background() {
           className="resume-btn inline-flex items-center gap-2 self-start px-5 py-2.5 text-sm font-semibold sm:self-auto"
         >
           Full resume
-          <ExternalLink className="h-4 w-4" />
+          <ArrowUpRight className="h-4 w-4" />
         </a>
       </motion.div>
 

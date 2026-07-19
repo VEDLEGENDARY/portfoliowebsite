@@ -6,7 +6,9 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 export function Cursor() {
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
-  const springCfg = { stiffness: 350, damping: 28, mass: 0.5 };
+  // High damping relative to stiffness = critically damped: smooth trailing
+  // follow with no overshoot past the target position.
+  const springCfg = { stiffness: 500, damping: 45, mass: 0.35 };
   const sx = useSpring(x, springCfg);
   const sy = useSpring(y, springCfg);
 
