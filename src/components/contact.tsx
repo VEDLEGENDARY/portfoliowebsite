@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, Code2, ExternalLink, Mail } from "lucide-react";
 import { Chip } from "@/components/chip";
+import { MagneticButton } from "@/components/magnetic-button";
 
 const highlights = [
   "AI/ML · LLMs · Computer Vision",
@@ -13,16 +14,8 @@ const highlights = [
 ];
 
 const socials = [
-  {
-    label: "GitHub",
-    href: "https://github.com/VEDLEGENDARY",
-    icon: Code2,
-  },
-  {
-    label: "Email",
-    href: "mailto:ved.sp@outlook.com",
-    icon: Mail,
-  },
+  { label: "GitHub", href: "https://github.com/VEDLEGENDARY", icon: Code2 },
+  { label: "Email", href: "mailto:ved.sp@outlook.com", icon: Mail },
 ];
 
 export function Contact() {
@@ -37,23 +30,25 @@ export function Contact() {
         style={{ backgroundColor: "var(--color-border)" }}
       />
 
-      {/* ── CTA card ── */}
+      {/* ── CTA card — glassmorphism ── */}
       <motion.div
         initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="overflow-hidden rounded-3xl"
-        style={{ border: "1px solid var(--color-border)" }}
+        className="overflow-hidden rounded-3xl glass-strong"
       >
-        <div
-          className="relative p-8 sm:p-12 lg:p-16"
-          style={{ backgroundColor: "var(--color-surface)" }}
-        >
-          {/* Glow */}
+        <div className="relative p-8 sm:p-12 lg:p-16">
+          {/* Accent glow */}
           <div
             aria-hidden
-            className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full opacity-[0.06] blur-[120px]"
+            className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full opacity-[0.07] blur-[120px]"
+            style={{ backgroundColor: "var(--color-accent)" }}
+          />
+          {/* Second glow bottom-left */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -bottom-32 -left-20 h-[360px] w-[360px] rounded-full opacity-[0.04] blur-[100px]"
             style={{ backgroundColor: "var(--color-accent)" }}
           />
 
@@ -71,7 +66,9 @@ export function Contact() {
               >
                 Let&apos;s build
                 <br />
-                <span style={{ color: "var(--color-accent)" }}>something real.</span>
+                <span style={{ color: "var(--color-accent)" }}>
+                  something real.
+                </span>
               </h2>
               <p
                 className="mt-7 max-w-md text-lg leading-relaxed"
@@ -83,34 +80,39 @@ export function Contact() {
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row lg:min-w-[220px] lg:flex-col">
-              <a
-                href="mailto:ved.sp@outlook.com"
-                className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold transition-colors duration-200"
-                style={{
-                  backgroundColor: "var(--color-accent)",
-                  color: "var(--color-accent-text)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor =
-                    "var(--color-accent-dark)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor =
-                    "var(--color-accent)";
-                }}
-              >
-                <Mail className="h-4 w-4" />
-                Send an email
-              </a>
-              <a
-                href="/VedP_Resume.pdf"
-                target="_blank"
-                rel="noreferrer"
-                className="resume-btn inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold"
-              >
-                Resume PDF
-                <ArrowUpRight className="h-4 w-4" />
-              </a>
+              <MagneticButton strength={0.22}>
+                <a
+                  data-cursor-grow
+                  href="mailto:ved.sp@outlook.com"
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold transition-colors duration-200 w-full"
+                  style={{
+                    backgroundColor: "var(--color-accent)",
+                    color: "var(--color-accent-text)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "var(--color-accent-dark)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "var(--color-accent)";
+                  }}
+                >
+                  <Mail className="h-4 w-4" />
+                  Send an email
+                </a>
+              </MagneticButton>
+
+              <MagneticButton strength={0.22}>
+                <a
+                  data-cursor-grow
+                  href="/VedP_Resume.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="resume-btn inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold w-full"
+                >
+                  Resume PDF
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </MagneticButton>
             </div>
           </div>
 
@@ -159,6 +161,7 @@ export function Contact() {
           {socials.map(({ label, href, icon: Icon }) => (
             <a
               key={label}
+              data-cursor-grow
               href={href}
               target={href.startsWith("mailto") ? undefined : "_blank"}
               rel={href.startsWith("mailto") ? undefined : "noreferrer"}
@@ -176,6 +179,7 @@ export function Contact() {
             </a>
           ))}
           <a
+            data-cursor-grow
             href="https://www.linkedin.com/in/vedpatel2006/"
             target="_blank"
             rel="noreferrer"
@@ -193,10 +197,7 @@ export function Contact() {
           </a>
         </div>
 
-        <p
-          className="text-sm"
-          style={{ color: "var(--color-faint)" }}
-        >
+        <p className="text-sm" style={{ color: "var(--color-faint)" }}>
           © {new Date().getFullYear()} Ved Patel
         </p>
       </motion.footer>

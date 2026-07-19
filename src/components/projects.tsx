@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { Chip } from "@/components/chip";
 import { HighlightText } from "@/components/highlight-text";
+import { CardTilt3D } from "@/components/card-tilt";
+import { MagneticButton } from "@/components/magnetic-button";
+import { useIntersection } from "@/hooks/useIntersection";
 
 type Project = {
   index: string;
@@ -70,17 +73,138 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 const fadeUp = {
   hidden: { opacity: 0, y: 36 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.75, ease },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.75, ease } },
 };
 
 const stagger = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.12, delayChildren: 0.04 } },
 };
+
+/* ─── Gated project card: only renders when visible ─── */
+function ProjectCard({ project }: { project: Project }) {
+  const { ref, hasEverIntersected } = useIntersection<HTMLDivElement>({
+    rootMargin: "80px",
+    threshold: 0.05,
+  });
+
+  return (
+    <motion.div ref={ref} variants={fadeUp} className="h-full">
+      {hasEverIntersected ? (
+        <CardTilt3D
+          className="group relative flex h-full flex-col overflow-hidden rounded-2xl glass-card"
+          intensity={8}
+        >
+          {/* Image — full-bleed cover, bg matches card so no halo */}
+          <div
+            className="relative h-52 overflow-hidden sm:h-56"
+            style={{ backgroundColor: "rgba(17,17,17,0.6)" }}
+          >
+            <Image
+              src={project.image}
+              alt={`${project.name} screenshot`}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover"
+            />
+          </div>
+
+          {/* Body */}
+          <div className="flex flex-1 flex-col p-5">
+            <div className="mb-1 flex items-center justify-between gap-2">
+              <h3
+                className="font-display text-xl font-extrabold tracking-tight"
+                style={{ color: "var(--color-foreground)" }}
+              >
+                {project.name}
+              </h3>
+              <span
+                className="font-display text-2xl font-extrabold tabular-nums"
+                style={{ color: "var(--color-border-hover)" }}
+              >
+                {project.index}
+              </span>
+            </div>
+
+            <p
+              className="mb-3 text-xs font-semibold uppercase tracking-wider"
+              style={{ color: "var(--color-accent)" }}
+            >
+              {project.category}
+            </p>
+
+            <p
+              className="flex-1 text-sm leading-relaxed"
+              style={{ color: "var(--color-muted)" }}
+            >
+              <HighlightText>{project.description}</HighlightText>
+            </p>
+
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              <Chip color={project.accent} dot>
+                {project.badge}
+              </Chip>
+              {project.tags.map((tag) => (
+                <Chip key={tag}>{tag}</Chip>
+              ))}
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              {project.link && (
+                <a
+                  data-cursor-grow
+                  href={project.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-200"
+                  style={{ color: "var(--color-foreground)" }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.color = "var(--color-accent)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.color = "var(--color-foreground)")
+                  }
+                >
+                  {project.linkLabel}
+                  <ArrowUpRight className="h-3.5 w-3.5" />
+                </a>
+              )}
+              {project.extraLink && (
+                <a
+                  data-cursor-grow
+                  href={project.extraLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-200"
+                  style={{ color: "var(--color-subtle)" }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.color = "var(--color-muted)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.color = "var(--color-subtle)")
+                  }
+                >
+                  {project.extraLabel}
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </a>
+              )}
+            </div>
+          </div>
+        </CardTilt3D>
+      ) : (
+        // Skeleton placeholder while off-screen
+        <div
+          className="h-full rounded-2xl"
+          style={{
+            border: "1px solid var(--color-border)",
+            backgroundColor: "var(--color-surface)",
+            minHeight: 380,
+          }}
+        />
+      )}
+    </motion.div>
+  );
+}
 
 export function Projects() {
   return (
@@ -116,122 +240,116 @@ export function Projects() {
         </p>
       </motion.div>
 
-      {/* ── Featured card (NexDrop) ── */}
+      {/* ── Featured card (NexDrop) with 3D tilt ── */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.8, ease }}
-        className="group mb-5 overflow-hidden rounded-3xl transition-all duration-300"
-        style={{ border: "1px solid var(--color-border)" }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLDivElement).style.borderColor =
-            "var(--color-border-hover)";
-          (e.currentTarget as HTMLDivElement).style.boxShadow =
-            "0 12px 60px -12px var(--color-accent-glow)";
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLDivElement).style.borderColor =
-            "var(--color-border)";
-          (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
-        }}
+        className="mb-5"
       >
-        <div className="grid lg:grid-cols-2">
-          <div
-            className="relative min-h-[280px] overflow-hidden lg:min-h-[460px]"
-            style={{ backgroundColor: "var(--color-surface)" }}
-          >
-            <Image
-              src="/nexdrop.png"
-              alt="NexDrop — satellite imagery ROI scoring app"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="project-img"
-            />
-          </div>
+        <CardTilt3D
+          className="group overflow-hidden rounded-3xl glass-card"
+          intensity={5}
+        >
+          <div className="grid min-[900px]:grid-cols-2">
+            <div
+              className="relative min-h-[280px] overflow-hidden min-[900px]:min-h-[460px]"
+              style={{ backgroundColor: "rgba(17,17,17,0.6)" }}
+            >
+              <Image
+                src="/nexdrop.png"
+                alt="NexDrop — satellite imagery ROI scoring app"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
 
-          <div
-            className="flex flex-col justify-between p-7 sm:p-10"
-            style={{ backgroundColor: "var(--color-surface)" }}
-          >
-            <div>
-              <div className="mb-5">
-                {/* Top row: accent "Featured" label + ghost "01" index mirroring the grid cards */}
-                <div className="mb-3 flex items-center justify-between gap-2">
-                  <span
-                    className="font-display text-xs font-semibold uppercase tracking-[0.35em]"
-                    style={{ color: "var(--color-accent)" }}
+            <div
+              className="flex flex-col justify-between p-7 sm:p-10"
+              style={{ backgroundColor: "rgba(12,12,12,0.72)" }}
+            >
+              <div>
+                <div className="mb-5">
+                  <div className="mb-3 flex items-center justify-between gap-2">
+                    <span
+                      className="font-display text-xs font-semibold uppercase tracking-[0.35em]"
+                      style={{ color: "var(--color-accent)" }}
+                    >
+                      01 — Featured
+                    </span>
+                    <span
+                      className="font-display text-2xl font-extrabold tabular-nums"
+                      style={{ color: "var(--color-border-hover)" }}
+                    >
+                      01
+                    </span>
+                  </div>
+                  <h3
+                    className="font-display mt-2 text-4xl font-extrabold tracking-[-0.02em]"
+                    style={{ color: "var(--color-foreground)" }}
                   >
-                    01 — Featured
-                  </span>
-                  <span
-                    className="font-display text-2xl font-extrabold tabular-nums"
-                    style={{ color: "var(--color-border-hover)" }}
+                    NexDrop
+                  </h3>
+                  <p
+                    className="mt-1 text-sm font-medium"
+                    style={{ color: "var(--color-foreground-secondary)" }}
                   >
-                    01
-                  </span>
+                    AI/ML
+                  </p>
                 </div>
-                <h3
-                  className="font-display mt-2 text-4xl font-extrabold tracking-[-0.02em]"
-                  style={{ color: "var(--color-foreground)" }}
-                >
-                  NexDrop
-                </h3>
+
                 <p
-                  className="mt-1 text-sm font-medium"
-                  style={{ color: "var(--color-foreground-secondary)" }}
+                  className="text-base leading-relaxed"
+                  style={{ color: "var(--color-muted)" }}
                 >
-                  AI/ML
+                  <HighlightText>
+                    {
+                      "Computer-vision pipeline that extracts roof areas from satellite imagery and scores rainwater-harvesting ROI — with automated CI/CD around precipitation and surface-area analysis."
+                    }
+                  </HighlightText>
                 </p>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  <Chip color="#b9ff66" dot>
+                    MLH Win
+                  </Chip>
+                  {["OpenCV", "TensorFlow", "Scikit-learn", "CI/CD"].map((tag) => (
+                    <Chip key={tag}>{tag}</Chip>
+                  ))}
+                </div>
               </div>
 
-              <p
-                className="text-base leading-relaxed"
-                style={{ color: "var(--color-muted)" }}
-              >
-                <HighlightText>
-                  {
-                    "Computer-vision pipeline that extracts roof areas from satellite imagery and scores rainwater-harvesting ROI — with automated CI/CD around precipitation and surface-area analysis."
-                  }
-                </HighlightText>
-              </p>
-
-              <div className="mt-6 flex flex-wrap gap-2">
-                <Chip color="#b9ff66" dot>
-                  MLH Win
-                </Chip>
-                {["OpenCV", "TensorFlow", "Scikit-learn", "CI/CD"].map((tag) => (
-                  <Chip key={tag}>{tag}</Chip>
-                ))}
+              <div className="mt-8">
+                <MagneticButton strength={0.25}>
+                  <a
+                    data-cursor-grow
+                    href="https://github.com/nshah2006/NexDrop/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group/btn inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-colors duration-200"
+                    style={{
+                      backgroundColor: "var(--color-foreground)",
+                      color: "var(--color-background)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = "#b9ff66";
+                      e.currentTarget.style.color = "#080808";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = "var(--color-foreground)";
+                      e.currentTarget.style.color = "var(--color-background)";
+                    }}
+                  >
+                    View source
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                  </a>
+                </MagneticButton>
               </div>
-            </div>
-
-            <div className="mt-8">
-              <a
-                href="https://github.com/nshah2006/NexDrop/"
-                target="_blank"
-                rel="noreferrer"
-                className="group/btn inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-colors duration-200"
-                style={{
-                  backgroundColor: "var(--color-foreground)",
-                  color: "var(--color-background)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "#b9ff66";
-                  e.currentTarget.style.color = "#080808";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor =
-                    "var(--color-foreground)";
-                  e.currentTarget.style.color = "var(--color-background)";
-                }}
-              >
-                View source
-                <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-              </a>
             </div>
           </div>
-        </div>
+        </CardTilt3D>
       </motion.div>
 
       {/* ── Remaining 3 projects ── */}
@@ -243,118 +361,7 @@ export function Projects() {
         variants={stagger}
       >
         {projects.map((project) => (
-          <motion.div
-            key={project.name}
-            variants={fadeUp}
-            className="group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-1.5"
-            style={{ border: "1px solid var(--color-border)" }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLDivElement).style.borderColor =
-                "var(--color-border-hover)";
-              (e.currentTarget as HTMLDivElement).style.boxShadow =
-                "0 8px 40px -8px var(--color-accent-glow)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLDivElement).style.borderColor =
-                "var(--color-border)";
-              (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
-            }}
-          >
-            <div
-              className="relative h-52 overflow-hidden sm:h-56"
-              style={{ backgroundColor: "var(--color-surface-raised)" }}
-            >
-              <Image
-                src={project.image}
-                alt={`${project.name} screenshot`}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="project-img"
-              />
-            </div>
-
-            <div
-              className="flex flex-1 flex-col p-5"
-              style={{ backgroundColor: "var(--color-surface)" }}
-            >
-              <div className="mb-1 flex items-center justify-between gap-2">
-                <h3
-                  className="font-display text-xl font-extrabold tracking-tight"
-                  style={{ color: "var(--color-foreground)" }}
-                >
-                  {project.name}
-                </h3>
-                <span
-                  className="font-display text-2xl font-extrabold tabular-nums"
-                  style={{ color: "var(--color-border-hover)" }}
-                >
-                  {project.index}
-                </span>
-              </div>
-
-              <p
-                className="mb-3 text-xs font-semibold uppercase tracking-wider"
-                style={{ color: "var(--color-accent)" }}
-              >
-                {project.category}
-              </p>
-
-              <p
-                className="flex-1 text-sm leading-relaxed"
-                style={{ color: "var(--color-muted)" }}
-              >
-                <HighlightText>{project.description}</HighlightText>
-              </p>
-
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                <Chip color={project.accent} dot>
-                  {project.badge}
-                </Chip>
-                {project.tags.map((tag) => (
-                  <Chip key={tag}>{tag}</Chip>
-                ))}
-              </div>
-
-              <div className="mt-4 flex flex-wrap items-center gap-3">
-                {project.link && (
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-200"
-                    style={{ color: "var(--color-foreground)" }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = "var(--color-accent)")
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.color = "var(--color-foreground)")
-                    }
-                  >
-                    {project.linkLabel}
-                    <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
-                )}
-                {project.extraLink && (
-                  <a
-                    href={project.extraLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-200"
-                    style={{ color: "var(--color-subtle)" }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = "var(--color-muted)")
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.color = "var(--color-subtle)")
-                    }
-                  >
-                    {project.extraLabel}
-                    <ExternalLink className="h-3.5 w-3.5" />
-                  </a>
-                )}
-              </div>
-            </div>
-          </motion.div>
+          <ProjectCard key={project.name} project={project} />
         ))}
       </motion.div>
     </section>

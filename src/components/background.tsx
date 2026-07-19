@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { GraduationCap, Briefcase, Trophy, ArrowUpRight } from "lucide-react";
 import { Chip } from "@/components/chip";
 import { HighlightText } from "@/components/highlight-text";
+import { CardTilt3D } from "@/components/card-tilt";
 
 const skills = [
   "Python",
@@ -152,26 +153,13 @@ export function Background() {
           variants={stagger}
         >
           {experience.map((entry) => (
-            <motion.article
-              key={entry.org}
-              variants={fadeUp}
-              className="rounded-2xl p-6 transition-all duration-300 sm:p-8"
-              style={{
-                border: "1px solid var(--color-border)",
-                backgroundColor: "var(--color-surface)",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "var(--color-border-hover)";
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  "0 8px 40px -8px var(--color-accent-glow)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "var(--color-border)";
-                (e.currentTarget as HTMLElement).style.boxShadow = "none";
-              }}
-            >
+            <motion.div key={entry.org} variants={fadeUp}>
+              <CardTilt3D
+                className="glass-card rounded-2xl"
+                intensity={6}
+                scaleOnHover={false}
+              >
+            <article className="p-6 sm:p-8">
               {/* Header row */}
               <div className="mb-5 flex items-start gap-4">
                 <div
@@ -230,7 +218,9 @@ export function Background() {
                   </li>
                 ))}
               </ul>
-            </motion.article>
+            </article>
+              </CardTilt3D>
+            </motion.div>
           ))}
         </motion.div>
 
@@ -242,11 +232,7 @@ export function Background() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease }}
-            className="rounded-2xl p-6 sm:p-8"
-            style={{
-              border: "1px solid var(--color-border)",
-              backgroundColor: "var(--color-surface)",
-            }}
+            className="glass-card rounded-2xl p-6 sm:p-8"
           >
             <div className="mb-5 flex items-start gap-4">
               <div
@@ -257,7 +243,7 @@ export function Background() {
                   color: "var(--color-accent)",
                 }}
               >
-                <GraduationCap className="h-4 w-4" />
+                <GraduationCap className="h-4 w-4 " />
               </div>
               <div>
                 <h3
@@ -314,11 +300,7 @@ export function Background() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, delay: 0.1, ease }}
-            className="rounded-2xl p-6 sm:p-8"
-            style={{
-              border: "1px solid var(--color-border)",
-              backgroundColor: "var(--color-surface)",
-            }}
+            className="glass-card rounded-2xl p-6 sm:p-8"
           >
             <p
               className="mb-5 text-xs font-semibold uppercase tracking-[0.35em]"
