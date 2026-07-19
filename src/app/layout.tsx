@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Bricolage_Grotesque } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LenisProvider } from "@/providers/lenis-provider";
-import { Cursor } from "@/components/cursor";
 import "./globals.css";
 
 const inter = Inter({
@@ -48,7 +47,6 @@ export default function RootLayout({
       <body className="min-h-full font-sans bg-[var(--color-background)] text-[var(--color-foreground)]">
         <LenisProvider>
           <ThemeProvider>
-            <Cursor />
             {children}
           </ThemeProvider>
         </LenisProvider>

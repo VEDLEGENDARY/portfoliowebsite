@@ -15,23 +15,20 @@ interface CardTilt3DProps {
   style?: React.CSSProperties;
   /** Max tilt angle in degrees. Default 10. */
   intensity?: number;
+  /** Scale up the card on hover. Default true. */
+  scaleOnHover?: boolean;
 }
 
-/**
- * Spline-style 3D card tilt using CSS perspective + framer-motion springs.
- * Adds a dynamic specular glare highlight that tracks the cursor.
- * Respects prefers-reduced-motion.
- */
 export function CardTilt3D({
   children,
   className,
   style,
   intensity = 10,
+  scaleOnHover = true,
 }: CardTilt3DProps) {
   const ref = useRef<HTMLDivElement>(null);
   const prefersReduced = useReducedMotion();
 
-  // Normalized mouse position: 0 = top-left, 1 = bottom-right
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
 
@@ -46,7 +43,9 @@ export function CardTilt3D({
     mass: 0.5,
   });
 
-  // Specular glare: follows cursor as a radial highlight
+  const scale = useSpring(1, { stiffness: 260, damping: 24, mass: 0.5 });
+
+  // Specular glare: follows cursor
   const glareX = useTransform(mouseX, [0, 1], ["0%", "100%"]);
   const glareY = useTransform(mouseY, [0, 1], ["0%", "100%"]);
   const glareOpacity = useSpring(0, { stiffness: 200, damping: 25 });
@@ -66,10 +65,16 @@ export function CardTilt3D({
     glareOpacity.set(1);
   };
 
+  const handleEnter = () => {
+    if (prefersReduced) return;
+    if (scaleOnHover) scale.set(1.025);
+  };
+
   const handleLeave = () => {
     mouseX.set(0.5);
     mouseY.set(0.5);
     glareOpacity.set(0);
+    if (scaleOnHover) scale.set(1);
   };
 
   if (prefersReduced) {
@@ -86,16 +91,22 @@ export function CardTilt3D({
       className={className}
       style={{ ...style, perspective: "1200px" }}
       onMouseMove={handleMove}
+      onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
       <motion.div
         style={{
           rotateX,
           rotateY,
+          scale,
           transformStyle: "preserve-3d",
+          transformOrigin: "center center",
           position: "relative",
           width: "100%",
           height: "100%",
+          /* Critical: keep corners clipped during tilt */
+          borderRadius: "inherit",
+          overflow: "hidden",
         }}
       >
         {children}

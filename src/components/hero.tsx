@@ -221,16 +221,10 @@ export function Hero() {
             transition={{ duration: 1, delay: 0.4, ease }}
             className="relative mx-auto hidden w-full max-w-[360px] min-[900px]:block min-[900px]:max-w-[420px]"
           >
-            <div className="relative rounded-2xl overflow-hidden" style={{ border: "1px solid var(--color-border)" }}>
-              {/* Dark color-blend layer to neutralize white photo background */}
-              <div
-                aria-hidden
-                className="absolute inset-0 z-[1] pointer-events-none"
-                style={{
-                  background: "linear-gradient(to bottom, rgba(8,8,8,0.18) 0%, rgba(8,8,8,0.0) 40%, rgba(8,8,8,0.55) 100%)",
-                  mixBlendMode: "multiply",
-                }}
-              />
+            <div
+              className="relative overflow-hidden rounded-2xl"
+              style={{ border: "1px solid var(--color-border)" }}
+            >
               <Image
                 src="/profilepic.jpeg"
                 alt="Ved Patel — Software Engineer"
@@ -239,25 +233,51 @@ export function Hero() {
                 priority
                 className="project-img h-[clamp(360px,52vh,520px)] w-full"
               />
-              <div className="absolute bottom-3 left-3 right-3 z-[2] flex items-center justify-between rounded-2xl px-4 py-3 glass-strong">
-                <div>
-                  <p
-                    className="text-xs font-bold uppercase tracking-widest"
-                    style={{ color: "var(--color-accent)" }}
-                  >
-                    Open to work
-                  </p>
-                  <p
-                    className="mt-0.5 text-sm"
-                    style={{ color: "var(--color-foreground-secondary)" }}
-                  >
-                    AI/ML · Automation · Full-stack
-                  </p>
+              {/* Gradient scrim so the badge is legible */}
+              <div
+                aria-hidden
+                className="absolute inset-x-0 bottom-0 h-28 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(to top, rgba(8,8,8,0.82) 0%, transparent 100%)",
+                }}
+              />
+              {/* Open to work badge — original chip style */}
+              <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between">
+                <div
+                  className="inline-flex items-center gap-2.5 rounded-full px-3.5 py-2"
+                  style={{
+                    backgroundColor: "rgba(8,8,8,0.72)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    backdropFilter: "blur(16px)",
+                    WebkitBackdropFilter: "blur(16px)",
+                  }}
+                >
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span
+                      className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
+                      style={{ backgroundColor: "var(--color-accent)" }}
+                    />
+                    <span
+                      className="relative inline-flex h-2 w-2 rounded-full"
+                      style={{ backgroundColor: "var(--color-accent)" }}
+                    />
+                  </span>
+                  <div>
+                    <p
+                      className="text-xs font-bold leading-none"
+                      style={{ color: "var(--color-accent)" }}
+                    >
+                      Open to work
+                    </p>
+                    <p
+                      className="mt-0.5 text-[11px] leading-none"
+                      style={{ color: "var(--color-foreground-secondary)" }}
+                    >
+                      AI/ML · Automation · Full-stack
+                    </p>
+                  </div>
                 </div>
-                <ArrowUpRight
-                  className="h-5 w-5"
-                  style={{ color: "var(--color-accent)" }}
-                />
               </div>
             </div>
           </motion.div>

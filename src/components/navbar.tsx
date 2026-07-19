@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight, Mail, Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { MagneticButton } from "@/components/magnetic-button";
@@ -16,49 +15,16 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 export function Navbar() {
   const { theme, toggleTheme } = useTheme();
-  const [scrolled, setScrolled] = useState(false);
-  const [visible, setVisible] = useState(true);
-  const lastYRef = useRef(0);
-  const prefersReduced = useReducedMotion();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const y = window.scrollY;
-      const prev = lastYRef.current;
-      lastYRef.current = y;
-
-      if (y <= 40) {
-        setVisible(true);
-        setScrolled(false);
-        return;
-      }
-
-      setScrolled(true);
-
-      if (y < prev - 4) setVisible(true);
-      else if (y > prev + 6) setVisible(false);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <motion.header
       className="fixed left-0 right-0 top-0 z-40"
-      initial={{ opacity: 0, y: -24 }}
-      animate={{ opacity: 1, y: visible ? 0 : -88 }}
-      transition={{ duration: prefersReduced ? 0 : 0.42, ease }}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.55, ease }}
     >
       <nav
-        className={`flex items-center justify-between px-5 py-3.5 transition-all duration-500 sm:px-10 lg:px-16 ${
-          scrolled ? "glass-strong" : ""
-        }`}
-        style={
-          scrolled
-            ? {}
-            : { backgroundColor: "transparent", borderBottom: "1px solid transparent" }
-        }
+        className="glass-nav flex items-center justify-between px-5 py-3.5 sm:px-10 lg:px-16"
         aria-label="Main navigation"
       >
         {/* Brand */}
