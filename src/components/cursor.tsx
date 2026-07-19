@@ -3,46 +3,6 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
-/**
- * Parse RGB color string and return luminance (0 = black, 1 = white).
- * Uses relative luminance formula from WCAG.
- */
-function getColorLuminance(rgbString: string): number {
-  const match = rgbString.match(/\d+/g);
-  if (!match || match.length < 3) return 0.5; // default to mid-gray
-  const [r, g, b] = match.map((v) => {
-    const val = parseInt(v) / 255;
-    return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
-  });
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-}
-
-/**
- * Check if background is dark (contrast threshold for light text).
- * Also returns true if the color is heavily green (lime accent area).
- */
-function isBackgroundDark(rgbString: string): boolean {
-  // Default to dark background
-  if (!rgbString || rgbString === "transparent" || rgbString === "rgba(0, 0, 0, 0)")
-    return true;
-
-  const match = rgbString.match(/\d+/g);
-  if (!match || match.length < 3) return true;
-
-  const [r, g, b] = match.map(Number);
-  const luminance = getColorLuminance(rgbString);
-
-  // If it's bright (white areas, light text), return false (use black cursor)
-  if (luminance > 0.6) return false;
-
-  // If it's a bright green (lime accent #b9ff66), detect and use black cursor
-  // Lime has high G, moderate R, low B
-  if (g > 200 && r > 150 && b < 150) return false;
-
-  // Otherwise it's a dark area, use accent color cursor
-  return true;
-}
-
 export function Cursor() {
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
@@ -55,7 +15,6 @@ export function Cursor() {
   const [visible, setVisible] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [pressed, setPressed] = useState(false);
-  const [isDarkBg, setIsDarkBg] = useState(true);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -71,16 +30,9 @@ export function Cursor() {
       x.set(e.clientX);
       y.set(e.clientY);
       if (!visible) setVisible(true);
+      
       const target = e.target as Element | null;
       setHovering(Boolean(target?.closest(interactiveSel)));
-
-      // Sample background color under cursor to detect light/green areas
-      const el = document.elementFromPoint(e.clientX, e.clientY);
-      if (el) {
-        const bgColor = window.getComputedStyle(el).backgroundColor;
-        const isDark = isBackgroundDark(bgColor);
-        setIsDarkBg(isDark);
-      }
     };
     const down = () => setPressed(true);
     const up = () => setPressed(false);
@@ -104,7 +56,8 @@ export function Cursor() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const size = hovering ? 28 : 14;
+  // Reduced dimensions: 8px default dot, expands to 16px on hover
+  const size = hovering ? 16 : 8;
 
   return (
     <motion.div
@@ -115,15 +68,10 @@ export function Cursor() {
       <motion.span
         className="block -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
-          borderWidth: 2,
+          borderWidth: 1.5, // Slightly thinner border to balance the smaller diameter
           borderStyle: "solid",
-          // Change the logic here:
-          // Instead of green ring, we want a green dot with a black border
-          borderColor: isDarkBg ? "#000000" : "#ffffff", // Black border on dark bg, white border on light bg
-          backgroundColor: isDarkBg ? "var(--color-accent)" : "#000000", // Green dot on dark bg, black dot on light bg
-          // Remove the hovering color change logic, or adapt it as needed
-          mixBlendMode: isDarkBg ? "normal" : "difference",
-          filter: isDarkBg ? "none" : "invert(1) grayscale(1) brightness(0)",
+          borderColor: "#000000",
+          backgroundColor: "var(--color-accent)",
         }}
         animate={{
           width: pressed ? size * 0.7 : size,
