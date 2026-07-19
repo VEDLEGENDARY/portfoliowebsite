@@ -3,9 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
-const SEGMENTS = 16;
-const ACCENT_COLOR = "var(--color-accent)";
-const DARK_COLOR = "#000";
+// Number of arc slices around the ring. Each slice independently checks
+// the background beneath it and picks its own color.
+const SEGMENTS = 12;
+
+// Radius (in local SVG units) the ring is drawn at. Hover/press sizing is
+// done by scaling this whole ring via CSS transform rather than
+// recomputing the arc geometry every frame.
+const BASE_RADIUS = 7;
 
 /**
  * Parse RGB color string and return luminance (0 = black, 1 = white).
@@ -13,57 +18,62 @@ const DARK_COLOR = "#000";
  */
 function getColorLuminance(rgbString: string): number {
   const match = rgbString.match(/\d+/g);
-  if (!match || match.length < 3) return 0.5;
-  const [r, g, b] = match.slice(0, 3).map((v) => {
+  if (!match || match.length < 3) return 0.5; // default to mid-gray
+  const [r, g, b] = match.map((v) => {
     const val = parseInt(v) / 255;
     return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
   });
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-function isTransparent(rgbString: string): boolean {
-  if (!rgbString || rgbString === "transparent") return true;
-  const nums = rgbString.match(/[\d.]+/g);
-  if (!nums) return true;
-  // rgba(...) with alpha 0
-  if (nums.length === 4 && parseFloat(nums[3]) === 0) return true;
-  return false;
-}
-
 /**
- * Walk up the DOM from an element until a non-transparent background
- * is found. This fixes the "doesn't work on text" bug: text nodes are
- * almost always transparent themselves, so we need whatever is behind them.
+ * Check if background is dark (contrast threshold for light text).
+ * Also returns false if the color is heavily green (lime accent area),
+ * so those spots switch to black too.
  */
-function getEffectiveBackgroundColor(el: Element | null): string {
-  let node: Element | null = el;
-  while (node) {
-    const bg = window.getComputedStyle(node).backgroundColor;
-    if (!isTransparent(bg)) return bg;
-    node = node.parentElement;
-  }
-  return "rgb(255, 255, 255)"; // nothing found, assume page default (white)
-}
+function isBackgroundDark(rgbString: string): boolean {
+  // Default to dark background
+  if (!rgbString || rgbString === "transparent" || rgbString === "rgba(0, 0, 0, 0)")
+    return true;
 
-/** Does this surface color require a dark/black cursor segment to stay visible? */
-function isLightSurface(rgbString: string): boolean {
   const match = rgbString.match(/\d+/g);
-  if (!match || match.length < 3) return false;
+  if (!match || match.length < 3) return true;
+
   const [r, g, b] = match.map(Number);
   const luminance = getColorLuminance(rgbString);
 
-  // bright/white areas -> light surface, needs black cursor
-  if (luminance > 0.6) return true;
+  // If it's bright (white areas, light text), use black
+  if (luminance > 0.6) return false;
 
-  // lime accent (#b9ff66-ish): high G, moderate R, low B -> also light surface
-  if (g > 200 && r > 150 && b < 150) return true;
+  // If it's a bright green (lime accent #b9ff66), detect and use black
+  if (g > 200 && r > 150 && b < 150) return false;
 
-  return false;
+  // Otherwise it's a dark area, keep the accent color
+  return true;
+}
+
+// Precompute each segment's start/end/mid angle once.
+const SEGMENT_ANGLES = Array.from({ length: SEGMENTS }, (_, i) => {
+  const start = (i / SEGMENTS) * Math.PI * 2;
+  const end = ((i + 1) / SEGMENTS) * Math.PI * 2;
+  const mid = (start + end) / 2;
+  return { start, end, mid };
+});
+
+function arcPath(radius: number, start: number, end: number) {
+  const sx = radius * Math.cos(start);
+  const sy = radius * Math.sin(start);
+  const ex = radius * Math.cos(end);
+  const ey = radius * Math.sin(end);
+  // Every segment here spans less than 180°, so large-arc-flag is always 0.
+  return `M ${sx.toFixed(2)} ${sy.toFixed(2)} A ${radius} ${radius} 0 0 1 ${ex.toFixed(2)} ${ey.toFixed(2)}`;
 }
 
 export function Cursor() {
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
+  // High damping relative to stiffness = critically damped: smooth trailing
+  // follow with no overshoot past the target position.
   const springCfg = { stiffness: 500, damping: 45, mass: 0.35 };
   const sx = useSpring(x, springCfg);
   const sy = useSpring(y, springCfg);
@@ -71,22 +81,15 @@ export function Cursor() {
   const [visible, setVisible] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [pressed, setPressed] = useState(false);
-  // one entry per ring segment: true = light surface under that segment
-  const [segmentIsLight, setSegmentIsLight] = useState<boolean[]>(() =>
-    Array(SEGMENTS).fill(false)
+  const [isDarkBg, setIsDarkBg] = useState(true); // drives the hover fill wash
+  const [segmentDark, setSegmentDark] = useState<boolean[]>(
+    Array(SEGMENTS).fill(true)
   );
 
+  // Refs mirror hovering/pressed so the mousemove handler always reads the
+  // latest value without the effect needing to re-run on every state change.
   const hoveringRef = useRef(hovering);
   const pressedRef = useRef(pressed);
-  const rafRef = useRef<number>();
-
-  useEffect(() => {
-    hoveringRef.current = hovering;
-  }, [hovering]);
-
-  useEffect(() => {
-    pressedRef.current = pressed;
-  }, [pressed]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -103,10 +106,41 @@ export function Cursor() {
       y.set(e.clientY);
       if (!visible) setVisible(true);
       const target = e.target as Element | null;
-      setHovering(Boolean(target?.closest(interactiveSel)));
+      const isHover = Boolean(target?.closest(interactiveSel));
+      hoveringRef.current = isHover;
+      setHovering(isHover);
+
+      // Center sample: drives the subtle fill wash in the middle of the ring.
+      const centerEl = document.elementFromPoint(e.clientX, e.clientY);
+      if (centerEl) {
+        setIsDarkBg(
+          isBackgroundDark(window.getComputedStyle(centerEl).backgroundColor)
+        );
+      }
+
+      // Per-segment samples: drives the ring's stroke color around its
+      // circumference, so only the arcs actually sitting over white/green
+      // flip to black instead of the whole ring switching at once.
+      const diameter = hoveringRef.current ? 28 : 14;
+      const radius = (pressedRef.current ? diameter * 0.7 : diameter) / 2;
+
+      const next = SEGMENT_ANGLES.map(({ mid }) => {
+        const px = e.clientX + radius * Math.cos(mid);
+        const py = e.clientY + radius * Math.sin(mid);
+        const el = document.elementFromPoint(px, py);
+        if (!el) return true;
+        return isBackgroundDark(window.getComputedStyle(el).backgroundColor);
+      });
+      setSegmentDark(next);
     };
-    const down = () => setPressed(true);
-    const up = () => setPressed(false);
+    const down = () => {
+      pressedRef.current = true;
+      setPressed(true);
+    };
+    const up = () => {
+      pressedRef.current = false;
+      setPressed(false);
+    };
     const leave = () => setVisible(false);
     const enter = () => setVisible(true);
 
@@ -116,32 +150,6 @@ export function Cursor() {
     document.addEventListener("mouseleave", leave);
     document.addEventListener("mouseenter", enter);
 
-    // Every frame: sample the background color at N points around the
-    // ring's circumference, using the ring's actual spring-smoothed
-    // position (not the raw mouse position), so each segment can be
-    // colored based on what it's literally sitting on top of.
-    const sample = () => {
-      const cx = sx.get();
-      const cy = sy.get();
-      const baseSize = hoveringRef.current ? 28 : 14;
-      const currentSize = pressedRef.current ? baseSize * 0.7 : baseSize;
-      const radius = currentSize / 2;
-
-      const next: boolean[] = new Array(SEGMENTS);
-      for (let i = 0; i < SEGMENTS; i++) {
-        const angle = (i / SEGMENTS) * Math.PI * 2;
-        const px = cx + Math.cos(angle) * radius;
-        const py = cy + Math.sin(angle) * radius;
-        const el = document.elementFromPoint(px, py);
-        const bg = getEffectiveBackgroundColor(el);
-        next[i] = isLightSurface(bg);
-      }
-      setSegmentIsLight(next);
-
-      rafRef.current = requestAnimationFrame(sample);
-    };
-    rafRef.current = requestAnimationFrame(sample);
-
     return () => {
       root.classList.remove("has-custom-cursor");
       window.removeEventListener("mousemove", move);
@@ -149,16 +157,15 @@ export function Cursor() {
       window.removeEventListener("mouseup", up);
       document.removeEventListener("mouseleave", leave);
       document.removeEventListener("mouseenter", enter);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const size = hovering ? 28 : 14;
   const displaySize = pressed ? size * 0.7 : size;
-  const strokeWidth = 2;
-  const radius = displaySize / 2 - strokeWidth / 2;
-  const anyLight = segmentIsLight.some(Boolean);
+  const scale = displaySize / (BASE_RADIUS * 2);
+  const pad = 4; // room for stroke overflow past the radius
+  const viewSize = (BASE_RADIUS + pad) * 2;
 
   return (
     <motion.div
@@ -166,46 +173,36 @@ export function Cursor() {
       className="pointer-events-none fixed left-0 top-0 z-[9999] hidden md:block"
       style={{ x: sx, y: sy, opacity: visible ? 1 : 0 }}
     >
-      <motion.div
-        className="-translate-x-1/2 -translate-y-1/2 rounded-full"
-        animate={{ width: displaySize, height: displaySize }}
-        transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.4 }}
-        style={{
-          backgroundColor: hovering
-            ? anyLight
-              ? "rgba(0, 0, 0, 0.08)"
-              : "var(--color-accent-subtle)"
-            : "transparent",
-        }}
-      >
-        <svg
-          width={displaySize}
-          height={displaySize}
-          viewBox={`0 0 ${displaySize} ${displaySize}`}
+      <div className="-translate-x-1/2 -translate-y-1/2">
+        <motion.svg
+          width={viewSize}
+          height={viewSize}
+          viewBox={`${-(BASE_RADIUS + pad)} ${-(BASE_RADIUS + pad)} ${viewSize} ${viewSize}`}
+          animate={{ scale }}
+          transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.4 }}
         >
-          {segmentIsLight.map((isLight, i) => {
-            const cx = displaySize / 2;
-            const cy = displaySize / 2;
-            const toRad = (deg: number) => (deg * Math.PI) / 180;
-            const angleStart = (i / SEGMENTS) * 360;
-            const angleEnd = ((i + 1) / SEGMENTS) * 360 + 0.5; // slight overlap, avoids seams
-            const x1 = cx + radius * Math.cos(toRad(angleStart));
-            const y1 = cy + radius * Math.sin(toRad(angleStart));
-            const x2 = cx + radius * Math.cos(toRad(angleEnd));
-            const y2 = cy + radius * Math.sin(toRad(angleEnd));
-            return (
-              <path
-                key={i}
-                d={`M ${x1} ${y1} A ${radius} ${radius} 0 0 1 ${x2} ${y2}`}
-                stroke={isLight ? DARK_COLOR : ACCENT_COLOR}
-                strokeWidth={strokeWidth}
-                fill="none"
-                strokeLinecap="round"
-              />
-            );
-          })}
-        </svg>
-      </motion.div>
+          <circle
+            r={BASE_RADIUS}
+            fill={
+              hovering
+                ? isDarkBg
+                  ? "var(--color-accent-subtle)"
+                  : "rgba(0, 0, 0, 0.08)"
+                : "transparent"
+            }
+          />
+          {SEGMENT_ANGLES.map(({ start, end }, i) => (
+            <path
+              key={i}
+              d={arcPath(BASE_RADIUS, start, end)}
+              fill="none"
+              stroke={segmentDark[i] ? "var(--color-accent)" : "#000"}
+              strokeWidth={2}
+              vectorEffect="non-scaling-stroke"
+            />
+          ))}
+        </motion.svg>
+      </div>
     </motion.div>
   );
 }
