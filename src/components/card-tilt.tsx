@@ -95,6 +95,7 @@ export function CardTilt3D({
       onMouseLeave={handleLeave}
     >
       <motion.div
+        className="card-tilt-inner"
         style={{
           rotateX,
           rotateY,

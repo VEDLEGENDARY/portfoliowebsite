@@ -311,7 +311,7 @@ export function Projects() {
                 </p>
 
                 <div className="mt-6 flex flex-wrap gap-2">
-                  <Chip color="#b9ff66" dot>
+                  <Chip color="var(--color-accent)" dot>
                     MLH Win
                   </Chip>
                   {["OpenCV", "TensorFlow", "Scikit-learn", "CI/CD"].map((tag) => (

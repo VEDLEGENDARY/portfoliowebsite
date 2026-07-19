@@ -368,7 +368,13 @@ html[data-theme="light"] .glass {
 
 html[data-theme="light"] .glass-card {
   background: transparent;
-  border: none;
+  /* Dark gray 1px border on all glass-card elements in light mode */
+  border: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+/* The inner rotating div inside CardTilt3D also gets the light-mode border */
+html[data-theme="light"] .card-tilt-inner {
+  border-color: rgba(0, 0, 0, 0.18) !important;
 }
 
 html[data-theme="light"] .glass-strong {

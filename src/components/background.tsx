@@ -235,13 +235,14 @@ export function Background() {
           </motion.div>
         ))}
 
-        {/* ── Education (row 1, col 2) ── */}
+        {/* ── Education (row 1, col 2) — no border per design ── */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease }}
           className="glass-card rounded-2xl p-6 sm:p-8 lg:col-start-2 lg:row-start-1"
+          style={{ border: "none" }}
         >
           <div className="mb-5 flex items-start gap-4">
             <div
