@@ -112,26 +112,23 @@ export function Cursor() {
       className="pointer-events-none fixed left-0 top-0 z-[9999] hidden md:block"
       style={{ x: sx, y: sy, opacity: visible ? 1 : 0 }}
     >
-    <motion.span
-      className="block -translate-x-1/2 -translate-y-1/2 rounded-full"
-      style={{
-        borderWidth: 2,
-        borderStyle: "solid",
-        // 1. Set to white. When mix-blend-mode: difference is active, 
-        // white backgrounds/greens will turn this black.
-        borderColor: "#ffffff", 
-        backgroundColor: "transparent",
-        
-        // 2. This is the magic property. It inverts the colors behind the cursor.
-        // It works on sub-pixel levels, so if part is on green, that part turns black.
-        mixBlendMode: "difference",
-      }}
-      animate={{
-        width: pressed ? size * 0.7 : size,
-        height: pressed ? size * 0.7 : size,
-      }}
-      transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.4 }}
-    />
+      <motion.span
+        className="block -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{
+          borderWidth: 2,
+          borderStyle: "solid",
+          // The base cursor color must be white for the difference blend mode 
+          // to invert it to absolute black over white and light green backgrounds.
+          borderColor: "#ffffff",
+          backgroundColor: hovering ? "rgba(255, 255, 255, 0.15)" : "transparent",
+          mixBlendMode: "difference",
+        }}
+        animate={{
+          width: pressed ? size * 0.7 : size,
+          height: pressed ? size * 0.7 : size,
+        }}
+        transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.4 }}
+      />
     </motion.div>
   );
 }
