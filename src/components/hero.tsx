@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { HeroCanvas } from "@/components/hero-canvas";
+import { Magnetic } from "@/components/magnetic";
 
 const rotatingWords = ["intelligent", "resilient", "elegant", "scalable"];
 
@@ -50,15 +52,13 @@ export function Hero() {
       className="relative flex h-[100svh] min-h-[640px] flex-col overflow-hidden"
       style={{ backgroundColor: "var(--color-background)" }}
     >
-      {/* grid backdrop */}
-      <div className="vp-grid-bg pointer-events-none absolute inset-0 opacity-85" />
+      {/* faint grid backdrop (texture behind copy) */}
+      <div className="vp-grid-bg pointer-events-none absolute inset-0 opacity-40" />
 
-      {/* static top glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-52 left-1/2 h-[640px] w-[640px] -translate-x-1/2 rounded-full opacity-[0.05] blur-[150px]"
-        style={{ backgroundColor: "var(--color-accent)" }}
-      />
+      {/* interactive 3D core scene */}
+      <div className="pointer-events-none absolute inset-0 z-[1]">
+        <HeroCanvas />
+      </div>
 
       {/* film grain */}
       <div
@@ -164,35 +164,39 @@ export function Hero() {
               transition={{ duration: 0.7, delay: 0.68, ease }}
               className="mt-8 flex flex-wrap items-center gap-3"
             >
-              <a
-                href="#projects"
-                className="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-colors duration-200"
-                style={{
-                  backgroundColor: "var(--color-foreground)",
-                  color: "var(--color-background)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "var(--color-accent)";
-                  e.currentTarget.style.color = "var(--color-accent-text)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor =
-                    "var(--color-foreground)";
-                  e.currentTarget.style.color = "var(--color-background)";
-                }}
-              >
-                See my work
-                <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
-              <a
-                href="/VedP_Resume.pdf"
-                target="_blank"
-                rel="noreferrer"
-                className="resume-btn inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold"
-              >
-                Resume
-                <ArrowUpRight className="h-4 w-4" />
-              </a>
+              <Magnetic>
+                <a
+                  href="#projects"
+                  className="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-colors duration-200"
+                  style={{
+                    backgroundColor: "var(--color-foreground)",
+                    color: "var(--color-background)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "var(--color-accent)";
+                    e.currentTarget.style.color = "var(--color-accent-text)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor =
+                      "var(--color-foreground)";
+                    e.currentTarget.style.color = "var(--color-background)";
+                  }}
+                >
+                  See my work
+                  <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
+              </Magnetic>
+              <Magnetic>
+                <a
+                  href="/VedP_Resume.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="resume-btn inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold"
+                >
+                  Resume
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </Magnetic>
             </motion.div>
           </div>
 

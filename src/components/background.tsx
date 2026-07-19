@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { GraduationCap, Briefcase, Trophy, ArrowUpRight } from "lucide-react";
 import { Chip } from "@/components/chip";
 import { HighlightText } from "@/components/highlight-text";
+import { Tilt } from "@/components/tilt";
 
 const skills = [
   "Python",
@@ -152,26 +153,26 @@ export function Background() {
           variants={stagger}
         >
           {experience.map((entry) => (
-            <motion.article
-              key={entry.org}
-              variants={fadeUp}
-              className="rounded-2xl p-6 transition-all duration-300 sm:p-8"
-              style={{
-                border: "1px solid var(--color-border)",
-                backgroundColor: "var(--color-surface)",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "var(--color-border-hover)";
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  "0 8px 40px -8px var(--color-accent-glow)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "var(--color-border)";
-                (e.currentTarget as HTMLElement).style.boxShadow = "none";
-              }}
-            >
+            <motion.div key={entry.org} variants={fadeUp}>
+              <Tilt max={6} className="rounded-2xl">
+                <article
+                  className="rounded-2xl p-6 transition-shadow duration-300 sm:p-8"
+                  style={{
+                    border: "1px solid var(--color-border)",
+                    backgroundColor: "var(--color-surface)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor =
+                      "var(--color-border-hover)";
+                    (e.currentTarget as HTMLElement).style.boxShadow =
+                      "0 16px 50px -12px var(--color-accent-glow)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor =
+                      "var(--color-border)";
+                    (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                  }}
+                >
               {/* Header row */}
               <div className="mb-5 flex items-start gap-4">
                 <div
@@ -230,7 +231,9 @@ export function Background() {
                   </li>
                 ))}
               </ul>
-            </motion.article>
+                </article>
+              </Tilt>
+            </motion.div>
           ))}
         </motion.div>
 

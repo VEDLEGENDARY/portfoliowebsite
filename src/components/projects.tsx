@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { Chip } from "@/components/chip";
 import { HighlightText } from "@/components/highlight-text";
+import { Tilt } from "@/components/tilt";
 
 type Project = {
   index: string;
@@ -243,27 +244,27 @@ export function Projects() {
         variants={stagger}
       >
         {projects.map((project) => (
-          <motion.div
-            key={project.name}
-            variants={fadeUp}
-            className="group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-1.5"
-            style={{ border: "1px solid var(--color-border)" }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLDivElement).style.borderColor =
-                "var(--color-border-hover)";
-              (e.currentTarget as HTMLDivElement).style.boxShadow =
-                "0 8px 40px -8px var(--color-accent-glow)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLDivElement).style.borderColor =
-                "var(--color-border)";
-              (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
-            }}
-          >
-            <div
-              className="relative h-52 overflow-hidden sm:h-56"
-              style={{ backgroundColor: "var(--color-surface-raised)" }}
-            >
+          <motion.div key={project.name} variants={fadeUp} className="h-full">
+            <Tilt max={9} className="h-full rounded-2xl">
+              <div
+                className="group relative flex h-full flex-col overflow-hidden rounded-2xl transition-shadow duration-300"
+                style={{ border: "1px solid var(--color-border)" }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.borderColor =
+                    "var(--color-border-hover)";
+                  (e.currentTarget as HTMLDivElement).style.boxShadow =
+                    "0 18px 50px -12px var(--color-accent-glow)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.borderColor =
+                    "var(--color-border)";
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
+                }}
+              >
+                <div
+                  className="relative h-52 overflow-hidden sm:h-56"
+                  style={{ backgroundColor: "var(--color-surface-raised)" }}
+                >
               <Image
                 src={project.image}
                 alt={`${project.name} screenshot`}
@@ -352,8 +353,10 @@ export function Projects() {
                     <ExternalLink className="h-3.5 w-3.5" />
                   </a>
                 )}
+                </div>
               </div>
-            </div>
+              </div>
+            </Tilt>
           </motion.div>
         ))}
       </motion.div>
