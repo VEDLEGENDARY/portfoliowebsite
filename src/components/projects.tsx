@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Chip } from "@/components/chip";
 import { HighlightText } from "@/components/highlight-text";
 import { CardTilt3D } from "@/components/card-tilt";
@@ -95,11 +95,8 @@ function ProjectCard({ project }: { project: Project }) {
           className="group relative flex h-full flex-col overflow-hidden rounded-2xl glass-card"
           intensity={8}
         >
-          {/* Image — full-bleed cover, bg matches card so no halo */}
-          <div
-            className="relative h-52 overflow-hidden sm:h-56"
-            style={{ backgroundColor: "rgba(17,17,17,0.6)" }}
-          >
+          {/* Image — full-bleed cover */}
+          <div className="relative h-52 overflow-hidden sm:h-56">
             <Image
               src={project.image}
               alt={`${project.name} screenshot`}
@@ -176,16 +173,16 @@ function ProjectCard({ project }: { project: Project }) {
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-200"
-                  style={{ color: "var(--color-subtle)" }}
+                  style={{ color: "var(--color-foreground)" }}
                   onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "var(--color-muted)")
+                    (e.currentTarget.style.color = "var(--color-accent)")
                   }
                   onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "var(--color-subtle)")
+                    (e.currentTarget.style.color = "var(--color-foreground)")
                   }
                 >
                   {project.extraLabel}
-                  <ExternalLink className="h-3.5 w-3.5" />
+                  <ArrowUpRight className="h-3.5 w-3.5" />
                 </a>
               )}
             </div>
@@ -259,10 +256,7 @@ export function Projects() {
           intensity={5}
         >
           <div className="grid min-[900px]:grid-cols-2">
-            <div
-              className="relative min-h-[280px] overflow-hidden min-[900px]:min-h-[460px]"
-              style={{ backgroundColor: "rgba(17,17,17,0.6)" }}
-            >
+            <div className="relative min-h-[280px] overflow-hidden min-[900px]:min-h-[460px]">
               <Image
                 src="/nexdrop.png"
                 alt="NexDrop — satellite imagery ROI scoring app"
@@ -272,10 +266,7 @@ export function Projects() {
               />
             </div>
 
-            <div
-              className="flex flex-col justify-between p-7 sm:p-10"
-              style={{ backgroundColor: "rgba(12,12,12,0.72)" }}
-            >
+            <div className="flex flex-col justify-between p-7 sm:p-10">
               <div>
                 <div className="mb-5">
                   <div className="mb-3 flex items-center justify-between gap-2">

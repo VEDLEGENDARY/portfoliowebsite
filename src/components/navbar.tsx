@@ -18,13 +18,13 @@ export function Navbar() {
 
   return (
     <motion.header
-      className="fixed left-0 right-0 top-0 z-40"
+      className="glass-nav fixed left-0 right-0 top-0 z-40"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, ease }}
     >
       <nav
-        className="glass-nav flex items-center justify-between px-5 py-3.5 sm:px-10 lg:px-16"
+        className="flex items-center justify-between px-5 py-3.5 sm:px-10 lg:px-16"
         aria-label="Main navigation"
       >
         {/* Brand */}

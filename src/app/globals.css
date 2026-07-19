@@ -349,9 +349,7 @@ html.is-loading body {
 }
 
 .glass-card {
-  background: rgba(17, 17, 17, 0.6);
-  backdrop-filter: blur(32px) saturate(200%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  background: transparent;
   border: none;
 }
 
@@ -369,7 +367,7 @@ html[data-theme="light"] .glass {
 }
 
 html[data-theme="light"] .glass-card {
-  background: rgba(255, 255, 255, 0.65);
+  background: transparent;
   border: none;
 }
 
@@ -384,7 +382,6 @@ html[data-theme="light"] .glass-strong {
   background: rgba(18, 18, 18, 0.55);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
-  isolation: isolate;
 }
 
 /* Grain overlay via SVG feTurbulence — sits above bg, under content */
