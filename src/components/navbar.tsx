@@ -44,7 +44,7 @@ export function Navbar() {
               VP
             </div>
             <span
-              className="text-sm font-bold tracking-tight"
+              className="font-display text-sm font-bold tracking-tight"
               style={{ color: "var(--color-foreground)" }}
             >
               Ved Patel

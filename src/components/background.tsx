@@ -108,6 +108,12 @@ export function Background() {
       id="background"
       className="relative mx-auto max-w-screen-xl px-5 py-24 sm:px-10 lg:px-16 lg:py-32"
     >
+      {/* Side grid — propagates from the right */}
+      <div
+        aria-hidden
+        className="vp-grid-right pointer-events-none absolute inset-y-0 right-0 w-[380px] opacity-70"
+      />
+
       <div
         className="mb-20 h-px w-full"
         style={{ backgroundColor: "var(--color-border)" }}

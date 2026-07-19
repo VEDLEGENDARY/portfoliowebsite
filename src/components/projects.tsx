@@ -212,6 +212,12 @@ export function Projects() {
       id="projects"
       className="relative mx-auto max-w-screen-xl px-5 py-24 sm:px-10 lg:px-16 lg:py-32"
     >
+      {/* Side grid — propagates from the left */}
+      <div
+        aria-hidden
+        className="vp-grid-left pointer-events-none absolute inset-y-0 left-0 w-[380px] opacity-70"
+      />
+
       {/* ── Section header ── */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}

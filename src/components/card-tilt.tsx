@@ -45,14 +45,15 @@ export function CardTilt3D({
 
   const scale = useSpring(1, { stiffness: 260, damping: 24, mass: 0.5 });
 
-  // Specular glare: follows cursor
+  // Specular glare: follows cursor — dispersed wide glow, not a focal point
   const glareX = useTransform(mouseX, [0, 1], ["0%", "100%"]);
   const glareY = useTransform(mouseY, [0, 1], ["0%", "100%"]);
   const glareOpacity = useSpring(0, { stiffness: 200, damping: 25 });
   const glareBackground = useTransform(
     [glareX, glareY],
     ([gx, gy]: string[]) =>
-      `radial-gradient(circle at ${gx} ${gy}, rgba(255,255,255,0.048) 0%, rgba(255,255,255,0.012) 45%, transparent 90%)`,
+      // Large elliptical gradient = wide dispersed glow, not a tight focal spot
+      `radial-gradient(ellipse 90% 80% at ${gx} ${gy}, rgba(255,255,255,0.072) 0%, rgba(255,255,255,0.036) 35%, rgba(255,255,255,0.012) 65%, transparent 100%)`,
   );
 
   const handleMove = (e: React.MouseEvent) => {

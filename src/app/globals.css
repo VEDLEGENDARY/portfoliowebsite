@@ -152,17 +152,22 @@ html[data-theme="light"] {
 /* ── Keyword highlight: accent text + sparse dotted underline ── */
 .hl {
   color: var(--color-accent);
-  font-weight: 600;
+  font-weight: 700;
   padding-bottom: 3px;
-  /* sparse dots drawn as a repeating radial-gradient along the baseline */
-  background-image: radial-gradient(
-    circle,
-    var(--color-accent) 1.2px,
-    transparent 1.4px
-  );
+  /* animated green underbar: slides in from left */
+  position: relative;
+  display: inline;
+  background-image:
+    /* Glow halo layer behind text */
+    radial-gradient(
+      circle,
+      var(--color-accent) 1.4px,
+      transparent 1.6px
+    );
   background-position: 0 100%;
-  background-size: 7px 2px;
+  background-size: 6px 2.5px;
   background-repeat: repeat-x;
+  text-shadow: 0 0 14px var(--color-accent-glow);
   transition:
     color 0.25s ease,
     background-size 0.35s cubic-bezier(0.16, 1, 0.3, 1),
@@ -171,9 +176,9 @@ html[data-theme="light"] {
 }
 .hl:hover {
   color: var(--color-accent-dark, var(--color-accent));
-  text-shadow: 0 0 18px var(--color-accent-glow, transparent);
+  text-shadow: 0 0 22px var(--color-accent-glow), 0 0 6px var(--color-accent-glow);
   /* dots gently tighten + brighten on hover */
-  background-size: 5px 2px;
+  background-size: 4px 2.5px;
 }
 
 /* ── Project image: full-bleed cover ── */
@@ -216,6 +221,39 @@ html.is-loading body {
     linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
     background-size: 64px 64px;
     mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 30%, transparent 85%);
+  }
+
+  /* ── Footer grid — propagates up from the bottom ── */
+  .vp-grid-footer {
+    background-image: linear-gradient(
+      var(--color-border) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 120% 80% at 50% 100%, black 20%, transparent 80%);
+  }
+
+  /* ── Side grid — propagates from the left edge ── */
+  .vp-grid-left {
+    background-image: linear-gradient(
+      var(--color-border) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(ellipse 85% 100% at 0% 50%, black 20%, transparent 80%);
+  }
+
+  /* ── Side grid — propagates from the right edge ── */
+  .vp-grid-right {
+    background-image: linear-gradient(
+      var(--color-border) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(ellipse 85% 100% at 100% 50%, black 20%, transparent 80%);
   }
 
 /* ── Section eyebrow: pulsing accent dot + soft tracking pull-in ── */
@@ -344,37 +382,53 @@ html[data-theme="light"] .glass-strong {
 /*
   Layered approach:
   1. Ultra-heavy blur (60px) + high saturation = the frosted look
-  2. Very low fill opacity = liquid transparency
+  2. Visible tinted fill for a real liquid glass body
   3. Spectral top-edge rim light via box-shadow inset = the "glass catching light" illusion
-  4. A faint bottom hairline for depth separation
+  4. Inner highlight gradient layer for the iOS luster
+  5. Thick bottom hairline + outer glow for depth separation
 */
 .glass-nav {
-  background: rgba(8, 8, 8, 0.38);
-  backdrop-filter: blur(60px) saturate(240%) brightness(1.12) contrast(1.04);
-  -webkit-backdrop-filter: blur(60px) saturate(240%) brightness(1.12) contrast(1.04);
-  /* No visible border — rely on light effects */
-  border-bottom: 1px solid transparent;
+  background:
+    /* Inner highlight gradient — bright top sheen fading to transparent */
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.09) 0%,
+      rgba(255, 255, 255, 0.02) 60%,
+      transparent 100%
+    ),
+    /* Tinted fill — dark enough to read content, light enough to see through */
+    rgba(18, 18, 18, 0.58);
+  backdrop-filter: blur(48px) saturate(220%) brightness(1.1) contrast(1.05);
+  -webkit-backdrop-filter: blur(48px) saturate(220%) brightness(1.1) contrast(1.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow:
     /* Top rim: bright catch-light like glass edge */
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
     /* Bottom rim: subtle dark crease */
-    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05),
     /* Ambient drop shadow to separate from page */
-    0 8px 40px -8px rgba(0, 0, 0, 0.55),
-    /* Outer glow — very subtle chromatic hint */
-    0 1px 0 rgba(255, 255, 255, 0.06);
+    0 12px 48px -8px rgba(0, 0, 0, 0.72),
+    /* Soft outer edge glow */
+    0 2px 0 rgba(255, 255, 255, 0.04);
 }
 
 html[data-theme="light"] .glass-nav {
-  background: rgba(255, 255, 255, 0.42);
-  backdrop-filter: blur(60px) saturate(240%) brightness(1.04) contrast(1.02);
-  -webkit-backdrop-filter: blur(60px) saturate(240%) brightness(1.04) contrast(1.02);
-  border-bottom: 1px solid transparent;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(255, 255, 255, 0.3) 60%,
+      rgba(255, 255, 255, 0.1) 100%
+    ),
+    rgba(235, 235, 230, 0.62);
+  backdrop-filter: blur(48px) saturate(220%) brightness(1.06) contrast(1.03);
+  -webkit-backdrop-filter: blur(48px) saturate(220%) brightness(1.06) contrast(1.03);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.04),
-    0 8px 32px -8px rgba(0, 0, 0, 0.14),
-    0 1px 0 rgba(255, 255, 255, 0.5);
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05),
+    0 8px 36px -8px rgba(0, 0, 0, 0.18),
+    0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 /* ── Magnetic button: prevent layout jitter ── */
