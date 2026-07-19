@@ -60,7 +60,7 @@ export function Contact() {
           <div className="relative grid gap-12 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="max-w-2xl">
               <p
-                className="mb-4 text-xs font-semibold uppercase tracking-[0.35em]"
+                className="section-eyebrow mb-4 text-xs font-semibold uppercase tracking-[0.35em]"
                 style={{ color: "var(--color-accent)" }}
               >
                 Contact

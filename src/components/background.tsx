@@ -122,15 +122,12 @@ export function Background() {
       >
         <div>
           <p
-            className="mb-3 text-xs font-semibold uppercase tracking-[0.35em]"
+            className="section-eyebrow mb-3 text-xs font-semibold uppercase tracking-[0.35em]"
             style={{ color: "var(--color-accent)" }}
           >
             Career
           </p>
-          <h2
-            className="font-display text-6xl font-extrabold leading-[0.9] tracking-[-0.03em] sm:text-7xl"
-            style={{ color: "var(--color-foreground)" }}
-          >
+          <h2 className="shine-text font-display text-6xl font-extrabold leading-[0.9] tracking-[-0.03em] sm:text-7xl">
             Experience
           </h2>
         </div>
@@ -158,10 +155,21 @@ export function Background() {
             <motion.article
               key={entry.org}
               variants={fadeUp}
-              className="rounded-2xl p-6 transition-colors duration-300 sm:p-8"
+              className="rounded-2xl p-6 transition-all duration-300 sm:p-8"
               style={{
                 border: "1px solid var(--color-border)",
                 backgroundColor: "var(--color-surface)",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor =
+                  "var(--color-border-hover)";
+                (e.currentTarget as HTMLElement).style.boxShadow =
+                  "0 8px 40px -8px var(--color-accent-glow)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor =
+                  "var(--color-border)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "none";
               }}
             >
               {/* Header row */}
@@ -185,7 +193,7 @@ export function Background() {
                       {entry.role}
                     </h3>
                     <span
-                      className="font-display shrink-0 text-sm font-extrabold tabular-nums"
+                      className="font-display shrink-0 text-2xl font-extrabold tabular-nums"
                       style={{ color: "var(--color-border-hover)" }}
                     >
                       {entry.index}

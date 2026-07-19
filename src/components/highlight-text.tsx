@@ -4,24 +4,19 @@ import { Fragment } from "react";
  * Auto-wraps recruiter-relevant keywords in an accent "dotted underline" style.
  * Longer phrases are matched first so "REST APIs" wins over "APIs".
  */
+// Only the strong, recruiter-relevant terms for CS / SWE / Full-stack roles.
 const KEYWORDS = [
   "computer vision",
   "machine learning",
   "full-stack",
-  "end-to-end",
-  "real-time",
-  "CI/CD",
   "REST APIs",
   "REST API",
-  "pipelines",
-  "pipeline",
-  "automated",
-  "automation",
-  "production",
+  "CI/CD",
   "scalable",
+  "production",
+  "automation",
   "LLMs",
   "LLM",
-  "APIs",
 ];
 
 const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

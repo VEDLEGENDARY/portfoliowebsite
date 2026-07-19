@@ -98,15 +98,12 @@ export function Projects() {
       >
         <div>
           <p
-            className="mb-3 text-xs font-semibold uppercase tracking-[0.35em]"
+            className="section-eyebrow mb-3 text-xs font-semibold uppercase tracking-[0.35em]"
             style={{ color: "var(--color-accent)" }}
           >
             Selected work
           </p>
-          <h2
-            className="font-display text-6xl font-extrabold leading-[0.9] tracking-[-0.03em] sm:text-7xl"
-            style={{ color: "var(--color-foreground)" }}
-          >
+          <h2 className="shine-text font-display text-6xl font-extrabold leading-[0.9] tracking-[-0.03em] sm:text-7xl">
             Projects
           </h2>
         </div>
@@ -125,8 +122,19 @@ export function Projects() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.8, ease }}
-        className="group mb-5 overflow-hidden rounded-3xl"
+        className="group mb-5 overflow-hidden rounded-3xl transition-all duration-300"
         style={{ border: "1px solid var(--color-border)" }}
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLDivElement).style.borderColor =
+            "var(--color-border-hover)";
+          (e.currentTarget as HTMLDivElement).style.boxShadow =
+            "0 12px 60px -12px var(--color-accent-glow)";
+        }}
+        onMouseLeave={(e) => {
+          (e.currentTarget as HTMLDivElement).style.borderColor =
+            "var(--color-border)";
+          (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
+        }}
       >
         <div className="grid lg:grid-cols-2">
           <div
@@ -148,12 +156,21 @@ export function Projects() {
           >
             <div>
               <div className="mb-5">
-                <span
-                  className="font-display text-xs font-semibold uppercase tracking-[0.35em]"
-                  style={{ color: "var(--color-accent)" }}
-                >
-                  01 — Featured
-                </span>
+                {/* Top row: accent "Featured" label + ghost "01" index mirroring the grid cards */}
+                <div className="mb-3 flex items-center justify-between gap-2">
+                  <span
+                    className="font-display text-xs font-semibold uppercase tracking-[0.35em]"
+                    style={{ color: "var(--color-accent)" }}
+                  >
+                    01 — Featured
+                  </span>
+                  <span
+                    className="font-display text-2xl font-extrabold tabular-nums"
+                    style={{ color: "var(--color-border-hover)" }}
+                  >
+                    01
+                  </span>
+                </div>
                 <h3
                   className="font-display mt-2 text-4xl font-extrabold tracking-[-0.02em]"
                   style={{ color: "var(--color-foreground)" }}
@@ -229,8 +246,19 @@ export function Projects() {
           <motion.div
             key={project.name}
             variants={fadeUp}
-            className="group relative flex flex-col overflow-hidden rounded-2xl transition-transform duration-300 hover:-translate-y-1"
+            className="group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-1.5"
             style={{ border: "1px solid var(--color-border)" }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLDivElement).style.borderColor =
+                "var(--color-border-hover)";
+              (e.currentTarget as HTMLDivElement).style.boxShadow =
+                "0 8px 40px -8px var(--color-accent-glow)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLDivElement).style.borderColor =
+                "var(--color-border)";
+              (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
+            }}
           >
             <div
               className="relative h-52 overflow-hidden sm:h-56"
