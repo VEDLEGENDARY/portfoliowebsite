@@ -52,7 +52,7 @@ export function CardTilt3D({
   const glareBackground = useTransform(
     [glareX, glareY],
     ([gx, gy]: string[]) =>
-      `radial-gradient(circle at ${gx} ${gy}, rgba(255,255,255,0.09) 0%, transparent 65%)`,
+      `radial-gradient(circle at ${gx} ${gy}, rgba(255,255,255,0.048) 0%, rgba(255,255,255,0.012) 45%, transparent 90%)`,
   );
 
   const handleMove = (e: React.MouseEvent) => {

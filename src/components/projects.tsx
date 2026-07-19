@@ -95,17 +95,17 @@ function ProjectCard({ project }: { project: Project }) {
           className="group relative flex h-full flex-col overflow-hidden rounded-2xl glass-card"
           intensity={8}
         >
-          {/* Image */}
+          {/* Image — full-bleed cover, bg matches card so no halo */}
           <div
             className="relative h-52 overflow-hidden sm:h-56"
-            style={{ backgroundColor: "var(--color-surface-raised)" }}
+            style={{ backgroundColor: "rgba(17,17,17,0.6)" }}
           >
             <Image
               src={project.image}
               alt={`${project.name} screenshot`}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="project-img"
+              className="object-cover"
             />
           </div>
 
@@ -255,14 +255,14 @@ export function Projects() {
           <div className="grid min-[900px]:grid-cols-2">
             <div
               className="relative min-h-[280px] overflow-hidden min-[900px]:min-h-[460px]"
-              style={{ backgroundColor: "var(--color-surface)" }}
+              style={{ backgroundColor: "rgba(17,17,17,0.6)" }}
             >
               <Image
                 src="/nexdrop.png"
                 alt="NexDrop — satellite imagery ROI scoring app"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="project-img"
+                className="object-cover"
               />
             </div>
 
