@@ -117,12 +117,14 @@ export function Cursor() {
         style={{
           borderWidth: 2,
           borderStyle: "solid",
-          borderColor: isDarkBg ? "var(--color-accent)" : "#000",
+          borderColor: isDarkBg ? "var(--color-accent)" : "#000000",
           backgroundColor: hovering
             ? isDarkBg
               ? "var(--color-accent-subtle)"
               : "rgba(0, 0, 0, 0.08)"
             : "transparent",
+          mixBlendMode: isDarkBg ? "normal" : "difference",
+          filter: isDarkBg ? "none" : "invert(1) grayscale(1) brightness(0)",
         }}
         animate={{
           width: pressed ? size * 0.7 : size,
