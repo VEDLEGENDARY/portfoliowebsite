@@ -15,6 +15,7 @@ const highlights = [
 
 const socials = [
   { label: "GitHub", href: "https://github.com/VEDLEGENDARY", icon: Code2 },
+  { label: "LinkedIn", href: "https://linkedin.com/in/ved-patel-1ab48b274", icon: ExternalLink },
   { label: "Email", href: "mailto:ved.sp@outlook.com", icon: Mail },
 ];
 
@@ -143,69 +144,87 @@ export function Contact() {
         className="mt-10 flex flex-col items-center justify-between gap-5 sm:flex-row"
         aria-label="Site footer"
       >
-        {/* Brand */}
-        <div className="flex items-center gap-2.5">
-          <div
-            className="flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-black"
+        {/* Brand — styled like a nav button */}
+        <MagneticButton strength={0.2}>
+          <a
+            href="#"
+            data-cursor-grow
+            className="inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-sm font-bold transition-colors duration-200"
             style={{
-              backgroundColor: "var(--color-accent)",
-              color: "var(--color-accent-text)",
+              border: "2px solid rgba(255,255,255,0.2)",
+              color: "#f0f0f0",
+              backgroundColor: "transparent",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.45)";
+              e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.06)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+              e.currentTarget.style.backgroundColor = "transparent";
             }}
           >
-            VP
-          </div>
-          <span
-            className="text-sm font-semibold"
-            style={{ color: "var(--color-foreground)" }}
-          >
-            Ved Patel
-          </span>
-        </div>
-
-        {/* Socials */}
-        <div className="flex items-center gap-5">
-          {socials.map(({ label, href, icon: Icon }) => (
-            <a
-              key={label}
-              data-cursor-grow
-              href={href}
-              target={href.startsWith("mailto") ? undefined : "_blank"}
-              rel={href.startsWith("mailto") ? undefined : "noreferrer"}
-              className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors duration-200"
-              style={{ color: "var(--color-foreground)" }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.color = "var(--color-accent)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = "var(--color-foreground)")
-              }
+            <div
+              className="flex h-6 w-6 items-center justify-center rounded-full text-[9px] font-black"
+              style={{
+                backgroundColor: "var(--color-accent)",
+                color: "var(--color-accent-text)",
+              }}
             >
-              <Icon className="h-4 w-4" />
-              {label}
-            </a>
-          ))}
-          <a
-            data-cursor-grow
-            href="https://www.linkedin.com/in/vedpatel2006/"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors duration-200"
-            style={{ color: "var(--color-foreground)" }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.color = "var(--color-accent)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.color = "var(--color-foreground)")
-            }
-          >
-            <ExternalLink className="h-4 w-4" />
-            LinkedIn
+              VP
+            </div>
+            <span>Ved Patel</span>
           </a>
+        </MagneticButton>
+
+        {/* Socials — pill button style */}
+        <div className="flex flex-wrap items-center justify-center gap-2.5">
+          {socials.map(({ label, href, icon: Icon }) => (
+            <MagneticButton key={label} strength={0.2}>
+              <a
+                data-cursor-grow
+                href={href}
+                target={href.startsWith("mailto") ? undefined : "_blank"}
+                rel={href.startsWith("mailto") ? undefined : "noreferrer"}
+                className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-colors duration-200"
+                style={{
+                  border: "2px solid rgba(255,255,255,0.2)",
+                  color: "#f0f0f0",
+                  backgroundColor: "transparent",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
+                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.06)";
+                  e.currentTarget.style.color = "#ffffff";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = "#f0f0f0";
+                }}
+              >
+                <Icon className="h-3.5 w-3.5" />
+                {label}
+              </a>
+            </MagneticButton>
+          ))}
         </div>
 
-        <p className="text-sm" style={{ color: "var(--color-faint)" }}>
-          © {new Date().getFullYear()} Ved Patel
-        </p>
+        {/* Copyright + email */}
+        <div className="flex flex-col items-center gap-1 sm:items-end">
+          <a
+            href="mailto:ved.sp@outlook.com"
+            className="text-xs font-medium transition-colors duration-200"
+            style={{ color: "rgba(240,240,240,0.55)" }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#f0f0f0")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(240,240,240,0.55)")}
+          >
+            ved.sp@outlook.com
+          </a>
+          <p className="text-xs" style={{ color: "rgba(240,240,240,0.35)" }}>
+            &copy; {new Date().getFullYear()} Ved Patel
+          </p>
+        </div>
       </motion.footer>
     </section>
   );

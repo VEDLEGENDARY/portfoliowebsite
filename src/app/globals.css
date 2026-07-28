@@ -301,7 +301,7 @@ html.is-loading body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  animation: vp-shine 6s ease-in-out infinite;
+  animation: vp-shine 10s ease-in-out infinite;
 }
 @keyframes vp-shine {
   0%,
@@ -349,8 +349,11 @@ html.is-loading body {
 }
 
 .glass-card {
-  background: transparent;
-  border: none;
+  background: var(--color-surface);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .glass-strong {
@@ -367,9 +370,11 @@ html[data-theme="light"] .glass {
 }
 
 html[data-theme="light"] .glass-card {
-  background: transparent;
-  /* Dark gray 1px border on all glass-card elements in light mode */
-  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: var(--color-surface);
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 /* The inner rotating div inside CardTilt3D also gets the light-mode border */
@@ -385,18 +390,29 @@ html[data-theme="light"] .glass-strong {
 /* ── Navbar: medium frosted blur, grainy texture ── */
 /* NOTE: no `position` here — it must not override the Tailwind `fixed` utility */
 
+/* Ensure backdrop-filter renders on the element itself, not a pseudo-element */
+.glass-nav {
+  isolation: isolate;
+  will-change: backdrop-filter, background-color;
+  /* bottom border for visual separation once scrolled */
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease, background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
 /* At the very top of the page — no blur, barely visible */
 .glass-nav--top {
-  background: rgba(18, 18, 18, 0);
+  background: rgba(8, 8, 8, 0);
   backdrop-filter: blur(0px) saturate(100%);
   -webkit-backdrop-filter: blur(0px) saturate(100%);
+  border-bottom-color: transparent;
 }
 
 /* Once the user has scrolled — full blur kicks in */
 .glass-nav--scrolled {
-  background: rgba(18, 18, 18, 0.55);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  background: rgba(8, 8, 8, 0.60);
+  backdrop-filter: blur(32px) saturate(200%) brightness(0.95);
+  -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(0.95);
+  border-bottom-color: rgba(255, 255, 255, 0.07);
 }
 
 html[data-theme="light"] .glass-nav--top {
@@ -421,9 +437,10 @@ html[data-theme="light"] .glass-nav--top {
 }
 
 html[data-theme="light"] .glass-nav--scrolled {
-  background: rgba(235, 235, 230, 0.58);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  background: rgba(235, 235, 230, 0.72);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border-bottom-color: rgba(0, 0, 0, 0.07);
 }
 
 html[data-theme="light"] .glass-nav::before {

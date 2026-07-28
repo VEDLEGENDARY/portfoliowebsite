@@ -242,7 +242,6 @@ export function Background() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease }}
           className="glass-card rounded-2xl p-6 sm:p-8 lg:col-start-2 lg:row-start-1"
-          style={{ border: "none" }}
         >
           <div className="mb-5 flex items-start gap-4">
             <div
@@ -311,11 +310,10 @@ export function Background() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, delay: 0.1, ease }}
           className="glass-card rounded-2xl p-6 sm:p-8 lg:col-start-2 lg:row-start-2"
-          style={{ border: "1px solid rgba(255, 255, 255, 0.12)" }}
         >
           <p
             className="mb-5 text-xs font-semibold uppercase tracking-[0.35em]"
-            style={{ color: "var(--color-subtle)" }}
+            style={{ color: "var(--color-foreground-secondary)" }}
           >
             Tech stack
           </p>
