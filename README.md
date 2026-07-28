@@ -2,9 +2,9 @@
 
 <br />
 
-```
-vedp.dev
+<a href="https://vedp.dev"><strong>vedp.dev</strong></a>
 
+```
 ██╗   ██╗███████╗██████╗ ██████╗     ██████╗ ███████╗██╗   ██╗
 ██║   ██║██╔════╝██╔══██╗██╔══██╗    ██╔══██╗██╔════╝██║   ██║
 ██║   ██║█████╗  ██║  ██║██████╔╝    ██║  ██║█████╗  ██║   ██║
@@ -13,7 +13,7 @@ vedp.dev
   ╚═══╝  ╚══════╝╚═════╝ ╚═╝    ╚═╝  ╚═════╝ ╚══════╝  ╚═══╝  
 ```
 
-### *"I build intelligent, resilient, elegant, scalable software."*
+<em>"I build intelligent, resilient, elegant, scalable software."</em>
 
 <br />
 
@@ -23,15 +23,20 @@ vedp.dev
 [![License](https://img.shields.io/badge/license-All_Rights_Reserved-888888?style=for-the-badge&labelColor=080808)]()
 
 <br />
+
+**Contact** &nbsp;[ved.sp@outlook.com](mailto:ved.sp@outlook.com)  ·  **LinkedIn** &nbsp;[ved-patel](https://linkedin.com/in/ved-patel-1ab48b274)  ·  **GitHub** &nbsp;[VEDLEGENDARY](https://github.com/VEDLEGENDARY)
+
 <br />
 
-**Contact** · [ved.sp@outlook.com](mailto:ved.sp@outlook.com) &nbsp;|&nbsp; **Connect** · [LinkedIn](https://linkedin.com/in/ved-patel-1ab48b274) &nbsp;|&nbsp; **Code** · [GitHub](https://github.com/VEDLEGENDARY)
+[Overview](#01--overview) · [Motion System](#02--core-physics--motion-system) · [Design System](#03--design-system) · [Architecture](#04--architecture--directory-tree) · [Projects](#05--featured-projects) · [Experience](#06--experience--education) · [Tech Stack](#07--tech-stack) · [Local Dev](#08--local-development)
 
 </div>
 
 <br />
 
 ---
+
+<br />
 
 <div align="center">
 
@@ -47,34 +52,42 @@ A motion-first, physics-driven personal portfolio built with **Next.js 16** and 
 
 ---
 
+<br />
+
 <div align="center">
 
 ## 02 — Core Physics & Motion System
 
 </div>
 
-### `01` CardTilt3D — Physics Engine
+**`01`  CardTilt3D — Physics Engine**
 
 The flagship interaction. Every card tracks continuous mouse coordinates and applies spring-interpolated 3D rotation (`rotateX`, `rotateY`) with smooth depth scaling on hover.
 
 | Parameter | Value |
-|---|---|
+|:--|:--|
 | Perspective | `1000px` 3D viewport |
 | Spring Config | `stiffness: 300` · `damping: 25` · `mass: 0.5` |
 | Hardware Accel. | `will-change: transform` + `transformStyle: preserve-3d` (no `overflow: hidden` on tilt layers) |
 
-### `02` MagneticButton
+```
+Cursor Enter  →  scale: 1.03 (spring-boost)
+Cursor Move   →  rotateX / rotateY derived from relative offset [-intensity, +intensity]
+Cursor Leave  →  spring physics damp smoothly back to rest (0deg, 0deg, scale 1.0)
+```
+
+**`02`  MagneticButton**
 
 Interactive CTAs use proximity-attraction physics — buttons draw toward the cursor as it enters their radius, for tactile, weighted feedback.
 
-### `03` HighlightText — Auto-Renderer
+**`03`  HighlightText — Auto-Renderer**
 
 A regex-driven keyword highlighter. Detects technical terms (`LLM`, `REST APIs`, `CI/CD`, `Python`, `PostgreSQL`, etc.) on the fly and wraps them in accent styling with interactive glow states.
 
-### `04` Scroll-Aware Frosted Navbar
+**`04`  Scroll-Aware Frosted Navbar**
 
 | State | Behavior |
-|---|---|
+|:--|:--|
 | At top (`y = 0`) | Fully transparent, `0px` blur — preserves the sharp background noise grid |
 | Scrolled (`y > 8px`) | Transitions to `rgba(8, 8, 8, 0.75)` with `20px` backdrop blur, tuned to avoid conflicting stacking-context isolation |
 
@@ -82,28 +95,28 @@ A regex-driven keyword highlighter. Detects technical terms (`LLM`, `REST APIs`,
 
 ---
 
+<br />
+
 <div align="center">
 
 ## 03 — Design System
 
-### Color Palette
-
-</div>
-
-<div align="center">
+**Color Palette**
 
 | Preview | Token | Hex | Role |
-|:---:|---|---|---|
+|:---:|:--|:--|:--|
 | ![#080808](https://img.shields.io/badge/-%20%20%20%20%20%20-080808?style=flat-square) | **Canvas** | `#080808` | Main dark background |
 | ![#111111](https://img.shields.io/badge/-%20%20%20%20%20%20-111111?style=flat-square) | **Surface** | `#111111` | Elevated card surfaces |
 | ![#F0F0F0](https://img.shields.io/badge/-%20%20%20%20%20%20-F0F0F0?style=flat-square) | **Primary** | `#F0F0F0` | Headline & primary text |
 | ![#888888](https://img.shields.io/badge/-%20%20%20%20%20%20-888888?style=flat-square) | **Secondary** | `#888888` | Muted subtitles & labels |
 | ![#B9FF66](https://img.shields.io/badge/-%20%20%20%20%20%20-B9FF66?style=flat-square) | **Electric Lime** | `#B9FF66` | Accent & focus highlights |
 
-### Typography
+<br />
+
+**Typography**
 
 | Role | Family | Weights | Details |
-|---|---|---|---|
+|:--|:--|:--|:--|
 | Display / Headlines | `Bricolage Grotesque` | `800` Extrabold | Optical sizing enabled, tight tracking (`-0.03em`) |
 | Body / Interface | `Inter` | `400` · `500` · `600` | High-legibility UI scaling |
 
@@ -112,6 +125,8 @@ A regex-driven keyword highlighter. Detects technical terms (`LLM`, `REST APIs`,
 <br />
 
 ---
+
+<br />
 
 <div align="center">
 
@@ -159,17 +174,21 @@ portfoliowebsite/
 
 ---
 
+<br />
+
 <div align="center">
 
 ## 05 — Featured Projects
 
-*Add project cards here — screenshot, stack badges, and a one-line pitch for each shipped project (e.g. NexDrop).*
+<em>Add project cards here — screenshot, stack badges, and a one-line pitch for each shipped project (e.g. NexDrop).</em>
 
 </div>
 
 <br />
 
 ---
+
+<br />
 
 <div align="center">
 
@@ -202,13 +221,11 @@ EDUCATION
 
 ---
 
+<br />
+
 <div align="center">
 
 ## 07 — Tech Stack
-
-</div>
-
-<div align="center">
 
 **Languages**
 
@@ -218,6 +235,8 @@ EDUCATION
 ![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Swift](https://img.shields.io/badge/Swift-FA7343?style=for-the-badge&logo=swift&logoColor=white)
 
+<br />
+
 **Frontend & Mobile**
 
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
@@ -225,10 +244,14 @@ EDUCATION
 ![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
+<br />
+
 **Backend & Databases**
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+
+<br />
 
 **AI, Machine Learning & DevOps**
 
@@ -242,15 +265,15 @@ EDUCATION
 
 ---
 
+<br />
+
 <div align="center">
 
 ## 08 — Local Development
 
-</div>
+**Prerequisites**  ·  Node.js `v20.0.0`+  ·  `pnpm` (recommended), `npm`, or `yarn`
 
-**Prerequisites**
-- Node.js `v20.0.0` or higher
-- Package manager: `pnpm` (recommended), `npm`, or `yarn`
+</div>
 
 ```bash
 # 1. Clone repository
@@ -276,6 +299,8 @@ pnpm start
 
 ---
 
+<br />
+
 <div align="center">
 
 ```
@@ -285,6 +310,10 @@ pnpm start
 ╚═══════════════════════════════════════╝
 ```
 
-[ved.sp@outlook.com](mailto:ved.sp@outlook.com) &nbsp;·&nbsp; [linkedin.com/in/ved-patel-1ab48b274](https://linkedin.com/in/ved-patel-1ab48b274) &nbsp;·&nbsp; [github.com/VEDLEGENDARY](https://github.com/VEDLEGENDARY)
+[ved.sp@outlook.com](mailto:ved.sp@outlook.com)  ·  [linkedin.com/in/ved-patel-1ab48b274](https://linkedin.com/in/ved-patel-1ab48b274)  ·  [github.com/VEDLEGENDARY](https://github.com/VEDLEGENDARY)
+
+<br />
+
+[↑ Back to top](#)
 
 </div>
