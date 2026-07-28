@@ -5,6 +5,7 @@ import { GraduationCap, Briefcase, Trophy, ArrowUpRight } from "lucide-react";
 import { Chip } from "@/components/chip";
 import { HighlightText } from "@/components/highlight-text";
 import { CardTilt3D } from "@/components/card-tilt";
+import { MagneticButton } from "./magnetic-button";
 
 const skills = [
   "Python",
@@ -139,15 +140,18 @@ export function Background() {
             Experience
           </h2>
         </div>
-        <a
-          href="/VedP_Resume.pdf"
-          target="_blank"
-          rel="noreferrer"
-          className="resume-btn inline-flex items-center gap-2 self-start px-5 py-2.5 text-sm font-semibold sm:self-auto"
-        >
-          Full resume
-          <ArrowUpRight className="h-4 w-4" />
-        </a>
+        <MagneticButton strength={0.25}>
+          <a
+            data-cursor-grow
+            href="/VedP_Resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="resume-btn inline-flex items-center gap-1.5 rounded-full px-6 py-4 text-s font-semibold transition-all duration-200"
+          >
+            Full resume
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
+        </MagneticButton>
       </motion.div>
 
       {/*

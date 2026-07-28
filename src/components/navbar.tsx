@@ -16,14 +16,34 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      // Check window.scrollY AND documentElement.scrollTop in case html/body has layout styling
+      const scrollPos = window.scrollY || document.documentElement.scrollTop || 0;
+      setScrolled(scrollPos > 8);
+    };
+
+    // Trigger check immediately on mount
+    onScroll();
+
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <header
-      className={`glass-nav fixed left-0 right-0 top-0 z-40 transition-[backdrop-filter,background-color] duration-300 ${scrolled ? "glass-nav--scrolled" : "glass-nav--top"}`}
+      className="fixed left-0 right-0 top-0 z-50 transition-all duration-300"
+      style={{
+        /* AT TOP: Transparent background & 0px blur (Grainy noise & grid stay crisp) */
+        /* WHEN SCROLLED: Dark translucent background + strong blur for passing text */
+        backgroundColor: scrolled
+          ? "rgba(8, 8, 8, 0.72)"
+          : "rgba(8, 8, 8, 0)",
+        backdropFilter: scrolled ? "blur(20px) saturate(180%)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(20px) saturate(180%)" : "none",
+        borderBottom: scrolled
+          ? "1px solid rgba(255, 255, 255, 0.08)"
+          : "1px solid transparent",
+      }}
     >
       <nav
         className="flex items-center justify-between px-5 py-3.5 sm:px-10 lg:px-16"
