@@ -22,9 +22,6 @@
 [![License](https://img.shields.io/badge/license-All_Rights_Reserved-888888?style=for-the-badge&labelColor=080808)]()
 
 <br />
-
-<img src="https://img.shields.io/badge/-●%20●%20●-080808?style=flat-square" width="90" alt="divider" />
-
 <br />
 
 **Contact** · [ved.sp@outlook.com](mailto:ved.sp@outlook.com) &nbsp;|&nbsp; **Connect** · [LinkedIn](https://linkedin.com/in/ved-patel-1ab48b274) &nbsp;|&nbsp; **Code** · [GitHub](https://github.com/VEDLEGENDARY)
