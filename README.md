@@ -62,12 +62,6 @@ The flagship interaction. Every card tracks continuous mouse coordinates and app
 | Spring Config | `stiffness: 300` · `damping: 25` · `mass: 0.5` |
 | Hardware Accel. | `will-change: transform` + `transformStyle: preserve-3d` (no `overflow: hidden` on tilt layers) |
 
-```
-Cursor Enter → scale: 1.03 (spring-boost)
-Cursor Move  → rotateX / rotateY derived from relative offset [-intensity, +intensity]
-Cursor Leave → spring physics damp smoothly back to rest (0deg, 0deg, scale 1.0)
-```
-
 ### `02` MagneticButton
 
 Interactive CTAs use proximity-attraction physics — buttons draw toward the cursor as it enters their radius, for tactile, weighted feedback.
