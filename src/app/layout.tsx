@@ -17,14 +17,36 @@ const bricolage = Bricolage_Grotesque({
   display: "swap",
 });
 
+// Inline SVG matching your logo styling (rounded corners, accent background, bold VP text)
+const faviconSvg = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="8" fill="#9de84d" />
+  <text 
+    x="50%" 
+    y="55%" 
+    dominant-baseline="middle" 
+    text-anchor="middle" 
+    fill="#000000" 
+    font-family="system-ui, -apple-system, sans-serif" 
+    font-weight="medium" 
+    font-size="18"
+  >VP</text>
+</svg>
+`.trim();
+
+const faviconDataUrl = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
+
 export const metadata: Metadata = {
-  title: "Ved Patel — Software Engineer",
+  title: "Ved Patel",
   description:
-    "Software engineer building AI systems, computer vision pipelines, and production fintech APIs. MLH winner. TSA National #1.",
+    "Motivated Software Engineer and Full Stack Developer building Artificial Intelligent systems, Computer Vision systems, Automated Pipelines, and Production RESTful APIs in Fintech. Ready to learn and grow.",
+  icons: {
+    icon: faviconDataUrl,
+  },
   openGraph: {
     title: "Ved Patel — Software Engineer",
     description:
-      "AI systems, computer vision, and production fintech APIs — shipped to real users.",
+      "SWE, Full Stack, AI Systems, Automation, much more...",
     type: "website",
   },
 };
@@ -44,7 +66,10 @@ export default function RootLayout({
       style={{ backgroundColor: "var(--color-background)", color: "var(--color-foreground)" }}
       suppressHydrationWarning
     >
-      <body className="min-h-full font-sans bg-[var(--color-background)] text-[var(--color-foreground)]">
+      <body 
+        className="min-h-full font-sans bg-[var(--color-background)] text-[var(--color-foreground)]"
+        suppressHydrationWarning
+      >
         <LenisProvider>
           <ThemeProvider>
             {children}

@@ -57,7 +57,7 @@ export function Navbar() {
             className="flex items-center gap-2.5 focus:outline-none"
           >
             <div
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-[11px] font-black transition-transform duration-200 hover:scale-105"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-[17px] font-medium transition-transform duration-200 hover:scale-105"
               style={{
                 backgroundColor: "var(--color-accent)",
                 color: "var(--color-accent-text)",
