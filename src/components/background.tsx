@@ -56,9 +56,9 @@ const experience: ExperienceEntry[] = [
     period: "Jun 2025 – Feb 2026",
     location: "Gurugram, IN",
     bullets: [
-      "Built ~10 REST APIs in Node.js and Python handling legal and transactional data for 500+ accounts.",
-      "Automated a daily pipeline syncing 6,000+ fund entries — cut 20+ hours of manual work per week.",
-      "Shipped 12 investment calculators into Kotlin (Android) and Swift (iOS) apps, a day ahead of schedule.",
+      "Built 10+ RESTful APIs in Node.js and Python handling legal and transactional data for 500+ accounts.",
+      "Automated a daily pipeline syncing 6,000+ fund entries — cutting 20+ hours of manual work per week.",
+      "Shipped 12 investment calculators into Kotlin (Android) and Swift (iOS) apps.",
     ],
   },
   {
@@ -68,7 +68,7 @@ const experience: ExperienceEntry[] = [
     period: "2023 – 2024",
     location: "Remote",
     bullets: [
-      "Taught SAT Math, VEX Robotics, and CS — students averaged a +50 point score gain.",
+      "Taught SAT Math, VEX Robotics, and Computer Science — students averaged a +50 point score gain on SAT.",
       "Ran interactive Python workshops that lifted participation across every session.",
       "Held ~90% student retention with structured, project-based lessons.",
     ],

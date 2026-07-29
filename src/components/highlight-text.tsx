@@ -9,7 +9,7 @@ const KEYWORDS = [
   "computer vision",
   "machine learning",
   "full-stack",
-  "REST APIs",
+  "~10 REST APIs",
   "REST API",
   "CI/CD",
   "scalable",
@@ -17,6 +17,22 @@ const KEYWORDS = [
   "automation",
   "LLMs",
   "LLM",
+  "5.0 rating",
+  "Ranked #1 nationally",
+  "API",
+  "daily-synced",
+  "automated",
+  "Shipped",
+  "Node.js",
+  "python",
+  "~90% student retention",
+  "CS",
+  "Robotics",
+  "+50",
+  "26th",
+  "1st Place",
+  "Programmer"
+
 ];
 
 const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
